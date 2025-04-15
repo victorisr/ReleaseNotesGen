@@ -1,0 +1,44 @@
+# .NET {SDK-VERSION} -{HEADER-DATE}
+
+The .NET {SDK-VERSION} release is available for download. This SDK includes the  released .NET {RUNTIME-VERSION} Runtime and is in support of Visual Studio 17.12 release. The latest {ID-VERSION} release is always listed at [.NET {ID-VERSION} Releases](../README.md).
+
+## Downloads
+
+|           | SDK Installer                        | SDK Binaries                 | Runtime Installer                                        | Runtime Binaries                                 | ASP.NET Core Runtime           |Windows Desktop Runtime          |
+| --------- | :------------------------------------------:     | :----------------------:                 | :---------------------------:                            | :-------------------------:                      | :-----------------:            | :-----------------:            |
+| Windows   | [x86][dotnet-sdk-win-x86.exe] \| [x64][dotnet-sdk-win-x64.exe] \| [Arm64][dotnet-sdk-win-arm64.exe] | [x86][dotnet-sdk-win-x86.zip] \| [x64][dotnet-sdk-win-x64.zip] \|  [Arm64][dotnet-sdk-win-arm64.zip] | [x86][dotnet-runtime-win-x86.exe] \| [x64][dotnet-runtime-win-x64.exe] \| [Arm64][dotnet-runtime-win-arm64.exe] | [x86][dotnet-runtime-win-x86.zip] \| [x64][dotnet-runtime-win-x64.zip] \| [Arm64][dotnet-runtime-win-arm64.zip] | [x86][aspnetcore-runtime-win-x86.exe] \| [x64][aspnetcore-runtime-win-x64.exe] \| [Hosting Bundle][dotnet-hosting-win.exe] | [x86][windowsdesktop-runtime-win-x86.exe] \| [x64][windowsdesktop-runtime-win-x64.exe] \| [Arm64][windowsdesktop-runtime-win-arm64.exe] |
+| macOS     | [x64][dotnet-sdk-osx-x64.pkg] \| [ARM64][dotnet-sdk-osx-arm64.pkg] | [x64][dotnet-sdk-osx-x64.tar.gz] \| [ARM64][dotnet-sdk-osx-arm64.tar.gz]  | [x64][dotnet-runtime-osx-x64.pkg] \| [ARM64][dotnet-runtime-osx-arm64.pkg] | [x64][dotnet-runtime-osx-x64.tar.gz] \| [ARM64][dotnet-runtime-osx-arm64.tar.gz]| [x64][aspnetcore-runtime-osx-x64.tar.gz] \| [ARM64][aspnetcore-runtime-osx-arm64.tar.gz] | - |
+| Linux     |  [Snap and Package Manager](../install-linux.md)  | [x64][dotnet-sdk-linux-x64.tar.gz] \| [Arm][dotnet-sdk-linux-arm.tar.gz]  \| [Arm64][dotnet-sdk-linux-arm64.tar.gz] \| [Arm32 Alpine][dotnet-sdk-linux-musl-arm.tar.gz]  \| [x64 Alpine][dotnet-sdk-linux-musl-x64.tar.gz] | [Packages (x64)][linux-packages] | [x64][dotnet-runtime-linux-x64.tar.gz] \| [Arm][dotnet-runtime-linux-arm.tar.gz] \| [Arm64][dotnet-runtime-linux-arm64.tar.gz] \| [Arm32 Alpine][dotnet-runtime-linux-musl-arm.tar.gz] \| [Arm64 Alpine][dotnet-runtime-linux-musl-arm64.tar.gz] \| [x64 Alpine][dotnet-runtime-linux-musl-x64.tar.gz]  | [x64][aspnetcore-runtime-linux-x64.tar.gz]  \| [Arm][aspnetcore-runtime-linux-arm.tar.gz] \| [Arm64][aspnetcore-runtime-linux-arm64.tar.gz] \| [x64 Alpine][aspnetcore-runtime-linux-musl-x64.tar.gz] | - |
+|  | [Checksums][checksums-sdk]                             | [Checksums][checksums-sdk]                                      | [Checksums][checksums-runtime]                             | [Checksums][checksums-runtime]  | [Checksums][checksums-runtime]  | [Checksums][checksums-runtime] |
+
+1. Includes the .NET Runtime and ASP.NET Core Runtime
+2. For hosting stand-alone apps on Windows Servers. Includes the ASP.NET Core Module for IIS and can be installed separately on servers without installing .NET Runtime.
+
+The .NET SDK includes a matching updated .NET Runtime. Downloading the Runtime or ASP.NET Core packages is not needed when installing the SDK.
+
+You can check your .NET SDK version by running the following command. The example version shown is for this release.
+
+```console
+$ dotnet --version
+{SDK-VERSION}
+```
+
+Visit [.NET Documentation](https://learn.microsoft.com/dotnet/) to learn about .NET, for building many different types of applications.
+
+## Visual Studio Compatibility
+
+You need [Visual Studio 17.12](https://visualstudio.microsoft.com) or later to use .NET {ID-VERSION} on Windows. While not officially supported, we’ve also enabled rudimentary support for .NET {ID-VERSION} in Visual Studio for Mac. Users have to enable a preview feature in Preferences to enable the IDE to discover and use the .NET {ID-VERSION} SDK for creating, loading, building, and debugging projects.
+The [C# extension](https://code.visualstudio.com/docs/languages/dotnet) for [Visual Studio Code](https://code.visualstudio.com/) supports .NET {ID-VERSION} and C# 12.
+
+[checksums-runtime]: https://builds.dotnet.microsoft.com/dotnet/checksums/{RUNTIME-VERSION}-sha.txt
+[checksums-sdk]: https://builds.dotnet.microsoft.com/dotnet/checksums/{RUNTIME-VERSION}-sha.txt
+
+[linux-packages]: ../install-linux.md
+
+SECTION-RUNTIME
+
+SECTION-WINDOWSDESKTOP
+
+SECTION-ASP
+
+SECTION-VERSIONSDK
