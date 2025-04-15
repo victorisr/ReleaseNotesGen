@@ -1,0 +1,51 @@
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.exe
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.deps.json
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.runtimeconfig.json
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.pdb
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfoInputs.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfo.cs
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.CoreCompileInputs.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\refint\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.pdb
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.genruntimeconfig.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ref\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.AssemblyReference.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseN.CFB59FD1.Up2Date
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.exe
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.deps.json
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.runtimeconfig.json
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.pdb
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.AssemblyReference.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfoInputs.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfo.cs
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.CoreCompileInputs.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseN.CFB59FD1.Up2Date
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\refint\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.pdb
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.genruntimeconfig.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0402\ReleaseNotesUpdater\obj\Debug\net9.0\ref\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.exe
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.deps.json
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.runtimeconfig.json
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\bin\Debug\net9.0\ReleaseNotesUpdater.pdb
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.AssemblyReference.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfoInputs.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfo.cs
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.CoreCompileInputs.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseN.CFB59FD1.Up2Date
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\refint\ReleaseNotesUpdater.dll
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.pdb
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ReleaseNotesUpdater.genruntimeconfig.cache
+C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesUpdater - 0409\ReleaseNotesUpdater\obj\Debug\net9.0\ref\ReleaseNotesUpdater.dll
