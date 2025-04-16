@@ -23,7 +23,7 @@ namespace ReleaseNotesUpdater
                 // Define Azure Pipeline details
                 string organization = "dnceng";
                 string project = "internal";
-                string personalAccessToken = "D9fgkLfjUBkHRk1icIlCkUnPQ0Tqlea0jupKiNmaOMY5zAmPUK3IJQQJ99BDACAAAAAAArohAAASAZDO1VFU"; // Replace with your PAT
+                string personalAccessToken = "insert_Your_Personal_Access_Token_Here"; // Replace with your PAT
                 string artifactName = "release-manifests"; // Replace with your artifact name
 
                 // Define a list of runtime IDs with their corresponding build IDs
