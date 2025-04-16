@@ -4,6 +4,9 @@
 
 SECTION-RELEASE
 
+* [Binaries and installers](https://dotnet.microsoft.com/download/dotnet)
+* [Installation docs](https://learn.microsoft.com/dotnet/core/install/)
+
 You can find release notes for all releases in the [release-notes](.) directory, in markdown and [JSON formats](./schemas/README.md). This content is [licensed](./license-information.md) for broad use.
 
 ## Monthly patch release notes
@@ -20,7 +23,6 @@ Release notes include:
 Example markdown files:
 
 SECTION-MARKDOWNFILES
-
 Example JSON files:
 
 * [Major releases index](./releases-index.json)

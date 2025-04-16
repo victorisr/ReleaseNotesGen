@@ -54,8 +54,8 @@ namespace ReleaseNotesUpdater
                     // Create instances of the updater classes
                     var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
                     var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
-                /*
                     var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
+                /*
                     var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
                 
 
@@ -69,8 +69,8 @@ namespace ReleaseNotesUpdater
                     // Update the files
                     readMeUpdater.UpdateFiles();
                     releasesUpdater.UpdateFiles();
-                /*       
                     rnReadMeUpdater.UpdateFiles();
+                /*       
                     cveFileUpdater.UpdateFiles();
                 
 
