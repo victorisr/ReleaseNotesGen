@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IoSDhcK5guQ=",
+  "dgSpecHash": "JpmN1E6ypmI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\victorisr\\OneDrive - Microsoft\\Desktop\\ReleaseNotesUpdater - 0409\\ReleaseNotesUpdater - 4_15\\ReleaseNotesUpdater.csproj",
+  "projectFilePath": "C:\\ReleaseNotesGen\\ReleaseNotesUpdater.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\victorisr\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],

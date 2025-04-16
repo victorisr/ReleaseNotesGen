@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\victorisr\\OneDrive - Microsoft\\Desktop\\ReleaseNotesUpdater - 0409\\ReleaseNotesUpdater - 4_15\\ReleaseNotesUpdater.csproj": {}
+    "C:\\ReleaseNotesGen\\ReleaseNotesUpdater.csproj": {}
   },
   "projects": {
-    "C:\\Users\\victorisr\\OneDrive - Microsoft\\Desktop\\ReleaseNotesUpdater - 0409\\ReleaseNotesUpdater - 4_15\\ReleaseNotesUpdater.csproj": {
+    "C:\\ReleaseNotesGen\\ReleaseNotesUpdater.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\victorisr\\OneDrive - Microsoft\\Desktop\\ReleaseNotesUpdater - 0409\\ReleaseNotesUpdater - 4_15\\ReleaseNotesUpdater.csproj",
+        "projectUniqueName": "C:\\ReleaseNotesGen\\ReleaseNotesUpdater.csproj",
         "projectName": "ReleaseNotesUpdater",
-        "projectPath": "C:\\Users\\victorisr\\OneDrive - Microsoft\\Desktop\\ReleaseNotesUpdater - 0409\\ReleaseNotesUpdater - 4_15\\ReleaseNotesUpdater.csproj",
+        "projectPath": "C:\\ReleaseNotesGen\\ReleaseNotesUpdater.csproj",
         "packagesPath": "C:\\Users\\victorisr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\victorisr\\OneDrive - Microsoft\\Desktop\\ReleaseNotesUpdater - 0409\\ReleaseNotesUpdater - 4_15\\obj\\",
+        "outputPath": "C:\\ReleaseNotesGen\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\victorisr\\AppData\\Roaming\\NuGet\\NuGet.Config"

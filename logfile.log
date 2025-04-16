@@ -64,3 +64,27 @@ An error occurred: Response status code does not indicate success: 401 (Unauthor
 Timestamp: 4/2/2025 6:45:27 PM
 An error occurred: Response status code does not indicate success: 401 (Unauthorized).
 Timestamp: 4/2/2025 6:45:27 PM
+4/15/2025 3:45:40 PM: An error occurred while generating the markdown table: The JSON value could not be converted to System.String. Path: $.releases | LineNumber: 10 | BytePositionInLine: 15.
+4/15/2025 3:45:41 PM: An error occurred while generating the markdown table: The JSON value could not be converted to System.String. Path: $.releases | LineNumber: 10 | BytePositionInLine: 15.
+4/15/2025 3:52:24 PM: An error occurred while generating the markdown table: The JSON value could not be converted to System.String. Path: $.releases | LineNumber: 10 | BytePositionInLine: 15.
+4/15/2025 3:52:24 PM: An error occurred while generating the markdown table: The JSON value could not be converted to System.String. Path: $.releases | LineNumber: 10 | BytePositionInLine: 15.
+4/15/2025 3:53:22 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 3:53:22 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 4:09:36 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 4:09:36 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 4:10:25 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 4:10:25 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 4:19:51 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 4:19:51 PM: An error occurred while generating the markdown table: Release Notes folder not found at 'C:\ReleaseNoteGeneratorCore\release-notes'.
+4/15/2025 5:18:13 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/10.0/10.0.0-preview.3/10.0.0-preview.3.md' does not exist for link.
+4/15/2025 5:18:14 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/2.0/2.0.9/2.0.9.md' does not exist for link.
+4/15/2025 5:18:14 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/10.0/10.0.0-preview.3/10.0.0-preview.3.md' does not exist for link.
+4/15/2025 5:18:14 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/2.0/2.0.9/2.0.9.md' does not exist for link.
+4/15/2025 5:26:25 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/10.0/preview/preview3/10.0.0-preview.3.md' does not exist for link.
+4/15/2025 5:26:25 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/2.0/2.0.9/2.0.9.md' does not exist for link.
+4/15/2025 5:26:25 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/10.0/preview/preview3/10.0.0-preview.3.md' does not exist for link.
+4/15/2025 5:26:25 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/2.0/2.0.9/2.0.9.md' does not exist for link.
+4/15/2025 5:31:12 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/10.0/preview/preview3/10.0.0-preview.3.md' does not exist for link.
+4/15/2025 5:31:12 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/2.0/2.0.9/2.0.9.md' does not exist for link.
+4/15/2025 5:31:13 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/10.0/preview/preview3/10.0.0-preview.3.md' does not exist for link.
+4/15/2025 5:31:13 PM: Expected file 'C:\ReleaseNoteGeneratorCore\core\release-notes/2.0/2.0.9/2.0.9.md' does not exist for link.
