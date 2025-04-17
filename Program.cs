@@ -13,11 +13,8 @@ namespace ReleaseNotesUpdater
                 // Define the template directory and log file location
                 string templateDirectory = "templates/";
                 string logFileLocation = "logfile.log";
-                string downloadPath = @"C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesArtifacts"; // Path to the downloaded artifacts to
+                string downloadPath = @"C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesArtifacts"; // Path to the downloaded Pipeline artifacts to
                 string outputDirectory = @"C:\Users\victorisr\OneDrive - Microsoft\Desktop"; // Directory where the modified file will be saved to
-                string linuxFileName = "install-linux"; // Name of the new file to be created for Linux
-                string macosFileName = "install-macos"; // Name of the new file to be created for macOS
-                string windowsFileName = "install-windows"; // Name of the new file to be created for Windows
                 string coreDirectory = @"C:\ReleaseNoteGeneratorCore"; // User-specified path to the Core Local Repo directory
 
                 // Define Azure Pipeline details
@@ -55,13 +52,12 @@ namespace ReleaseNotesUpdater
                     var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
                     var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
                     var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
+                    var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
+                    var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
+                    var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
                 /*
                     var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
                 
-
-                    var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, linuxFileName);
-                    var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, macosFileName);
-                    var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, windowsFileName);
                     var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
                     var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
                 */
@@ -70,13 +66,12 @@ namespace ReleaseNotesUpdater
                     readMeUpdater.UpdateFiles();
                     releasesUpdater.UpdateFiles();
                     rnReadMeUpdater.UpdateFiles();
-                /*       
-                    cveFileUpdater.UpdateFiles();
-                
-
                     installLinuxUpdater.UpdateFiles();
                     installMacosUpdater.UpdateFiles();
                     installWindowsUpdater.UpdateFiles();
+                /*       
+                    cveFileUpdater.UpdateFiles();
+                
                     runtimeFileUpdater.UpdateFiles();
                     sdkFileUpdater.UpdateFiles();
                 */

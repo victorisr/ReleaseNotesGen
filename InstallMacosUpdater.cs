@@ -16,17 +16,16 @@ namespace ReleaseNotesUpdater
         // Path to the directory where the new files will be created
         private readonly string outputPath;
 
-        // Name of the new file to be created
-        private readonly string newFileName;
+        // Name of the new file to be created (declared within the class)
+        private readonly string newFileName = "3install-macos";
 
-        // Constructor to initialize the updater with relevant directories, log file location, runtime IDs, download path, output path, and new file name
-        public InstallMacosUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath, string newFileName)
+        // Constructor to initialize the updater with relevant directories, log file location, runtime IDs, download path, and output path
+        public InstallMacosUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath)
             : base(templateDirectory, logFileLocation)
         {
             this.runtimeIds = runtimeIds;
             this.downloadPath = downloadPath;
             this.outputPath = outputPath;
-            this.newFileName = newFileName;
         }
 
         // Method to find the JSON file in the runtime ID folders
@@ -85,8 +84,17 @@ namespace ReleaseNotesUpdater
 
                                     // Ensure the directory for the new file exists
                                     CreateDirectoryIfNotExists(outputPath);
-                                    // Modify the template file with data from the configuration and write to the new file
-                                    ModifyTemplateFile(installMacosTemplate, newInstallMacosFile, runtimeId, configData["channel-version"]?.ToString(), release, configData["latest-sdk"]?.ToString());
+
+                                    // Check if the file already exists to avoid duplication
+                                    if (!File.Exists(newInstallMacosFile))
+                                    {
+                                        // Modify the template file with data from the configuration and write to the new file
+                                        ModifyTemplateFile(installMacosTemplate, newInstallMacosFile, runtimeId, configData["channel-version"]?.ToString(), release, configData["latest-sdk"]?.ToString());
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"File already exists: {newInstallMacosFile}. Skipping creation.");
+                                    }
                                 }
                             }
                             else
