@@ -19,42 +19,17 @@ namespace ReleaseNotesUpdater
         // Name of the new file to be created (declared within the class)
         private readonly string newFileName = "3install-linux";
 
-        // Constructor to initialize the updater with relevant directories, log file location, runtime IDs, download path, and output path
-        public InstallLinuxUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath)
+        // Instance of JsonFileHandler for JSON file operations
+        private readonly JsonFileHandler _jsonFileHandler;
+
+        // Constructor to initialize the updater with relevant directories, log file location, runtime IDs, download path, output path, and JsonFileHandler
+        public InstallLinuxUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath, JsonFileHandler jsonFileHandler)
             : base(templateDirectory, logFileLocation)
         {
             this.runtimeIds = runtimeIds;
             this.downloadPath = downloadPath;
             this.outputPath = outputPath;
-        }
-
-        // Method to find the JSON file in the runtime ID folders
-        private string? FindJsonFile(string runtimeId)
-        {
-            string jsonFileName = $"releases-json-CDN-{runtimeId}.json";
-            string runtimeFolderPath = Path.Combine(downloadPath, $"release-manifests_{runtimeId}", "release-manifests");
-
-            if (Directory.Exists(runtimeFolderPath))
-            {
-                string[] files = Directory.GetFiles(runtimeFolderPath, jsonFileName, SearchOption.AllDirectories);
-                if (files.Length > 0)
-                {
-                    return files[0]; // Return the first matching file
-                }
-            }
-
-            return null; // Return null if no matching file is found
-        }
-
-        // Method to load configuration data from the JSON file
-        private dynamic LoadConfigData(string jsonFilePath)
-        {
-            using (StreamReader r = new StreamReader(jsonFilePath))
-            {
-                string json = r.ReadToEnd();
-                // Deserialize JSON data into dynamic object
-                return JsonConvert.DeserializeObject<dynamic>(json);
-            }
+            _jsonFileHandler = jsonFileHandler;
         }
 
         // Method to update files based on the loaded configuration data
@@ -62,11 +37,11 @@ namespace ReleaseNotesUpdater
         {
             foreach (var runtimeId in runtimeIds)
             {
-                string? jsonFilePath = FindJsonFile(runtimeId);
+                string? jsonFilePath = _jsonFileHandler.FindJsonFile(runtimeId, $"releases-json-CDN-{runtimeId}.json");
 
                 if (jsonFilePath != null)
                 {
-                    var configData = LoadConfigData(jsonFilePath);
+                    var configData = _jsonFileHandler.DeserializeJsonFile<dynamic>(jsonFilePath);
 
                     // Check if the releases section exists in the configuration data
                     if (configData.releases != null)
