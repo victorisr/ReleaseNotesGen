@@ -55,11 +55,11 @@ namespace ReleaseNotesUpdater
                     var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
                     var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
                     var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
+                    var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
+                    var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);  
+                
                 /*
                     var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
-                
-                    var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
-                    var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory);
                 */
 
                     // Update the files
@@ -69,11 +69,10 @@ namespace ReleaseNotesUpdater
                     installLinuxUpdater.UpdateFiles();
                     installMacosUpdater.UpdateFiles();
                     installWindowsUpdater.UpdateFiles();
-                /*       
-                    cveFileUpdater.UpdateFiles();
-                
                     runtimeFileUpdater.UpdateFiles();
                     sdkFileUpdater.UpdateFiles();
+                /*       
+                    cveFileUpdater.UpdateFiles();
                 */
 
                     Console.WriteLine($"Successfully updated all files for runtime ID {runtimeId}.");
