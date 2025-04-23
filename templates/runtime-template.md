@@ -2,7 +2,7 @@
 
 The .NET {RUNTIME-VERSION} and .NET SDK {LATEST-SDK} releases are available for download. The latest {ID-VERSION} release is always listed at [.NET {ID-VERSION} Releases](../README.md).
 
-{ID-VERSION} SDKs that are also included in {RUNTIME-VERSION} runtimes:
+{ID-VERSION} SDKs that include {RUNTIME-VERSION} runtimes:
 SECTION-ADDEDSDK
 
 ## Downloads
