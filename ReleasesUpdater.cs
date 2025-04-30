@@ -102,7 +102,7 @@ namespace ReleaseNotesUpdater
                     .Replace("SECTION-UNSUPPORTED", unsupportedTable + "\n\n" + unsupportedLinks);
 
                 // Define the output path for the updated file
-                string outputFilePath = Path.Combine(_outputDirectory, "releases.md");
+                string outputFilePath = Path.Combine(_outputDirectory, "1releases.md");
 
                 // Ensure the output directory exists
                 Directory.CreateDirectory(_outputDirectory);
