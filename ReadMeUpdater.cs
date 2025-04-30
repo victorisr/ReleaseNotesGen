@@ -16,13 +16,15 @@ namespace ReleaseNotesUpdater
         private readonly string _coreDirectory;
         private readonly Dictionary<string, string> _launchDates;
         private readonly Dictionary<string, string> _announcementLinks;
+        private readonly JsonFileHandler _jsonFileHandler;
 
-        public ReadMeUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory)
+        public ReadMeUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler)
         {
             _templateDirectory = templateDirectory;
             _logFileLocation = logFileLocation;
             _outputDirectory = outputDirectory;
             _coreDirectory = coreDirectory;
+            _jsonFileHandler = jsonFileHandler;
 
             // Initialize dictionaries
             _launchDates = new Dictionary<string, string>
@@ -136,13 +138,11 @@ namespace ReleaseNotesUpdater
                     string releasesFilePath = Path.Combine(channelFolder, "releases.json");
                     if (File.Exists(releasesFilePath))
                     {
-                        string jsonContent = File.ReadAllText(releasesFilePath);
-
                         // Deserialize safely
-                        ReleaseNotes? releaseNotes = null;
+                        CoreReleasesConfiguration? coreReleaseNotes = null;
                         try
                         {
-                            releaseNotes = JsonSerializer.Deserialize<ReleaseNotes>(jsonContent);
+                            coreReleaseNotes = _jsonFileHandler.DeserializeCoreReleasesConfiguration(releasesFilePath);
                         }
                         catch (JsonException ex)
                         {
@@ -150,12 +150,12 @@ namespace ReleaseNotesUpdater
                             continue;
                         }
 
-                        if (releaseNotes != null)
+                        if (coreReleaseNotes != null)
                         {
-                            string latestRelease = releaseNotes.LatestRelease ?? "TBA";
-                            string supportPhase = ToTitleCase(releaseNotes.SupportPhase ?? "TBA");
-                            string releaseType = (releaseNotes.ReleaseType ?? "TBA").ToUpper();
-                            string eolDate = FormatDate(releaseNotes.EolDate);
+                            string latestRelease = coreReleaseNotes.LatestRelease ?? "TBA";
+                            string supportPhase = ToTitleCase(coreReleaseNotes.SupportPhase ?? "TBA");
+                            string releaseType = (coreReleaseNotes.ReleaseType ?? "TBA").ToUpper();
+                            string eolDate = FormatDate(coreReleaseNotes.EolDate);
 
                             // Skip channel versions that are in EOL phase
                             if (supportPhase.Equals("EOL", StringComparison.OrdinalIgnoreCase))

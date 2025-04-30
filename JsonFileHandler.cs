@@ -58,5 +58,10 @@ namespace ReleaseNotesUpdater
         {
             return DeserializeJsonFile<ReleaseNotes>(jsonFilePath);
         }
+
+        public CoreReleasesConfiguration? DeserializeCoreReleasesConfiguration(string jsonFilePath)
+        {
+            return DeserializeJsonFile<CoreReleasesConfiguration>(jsonFilePath);
+        }
     }
 }
