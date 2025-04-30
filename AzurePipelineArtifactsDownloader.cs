@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using System.Text.Json;
 
 namespace ReleaseNotesUpdater
 {
@@ -50,16 +50,29 @@ namespace ReleaseNotesUpdater
                     response.EnsureSuccessStatusCode();
                 }
 
-                JObject jsonObject = JObject.Parse(responseBody);
-
+                // Parse the JSON response using System.Text.Json
+                using JsonDocument doc = JsonDocument.Parse(responseBody);
+                JsonElement root = doc.RootElement;
+                JsonElement valueArray = root.GetProperty("value");
+                
                 // Find the requested artifact
-                var artifact = jsonObject["value"]?.FirstOrDefault(a => a["name"]?.ToString() == _artifactName);
-                if (artifact == null)
+                string? downloadUrl = null;
+                foreach (JsonElement artifact in valueArray.EnumerateArray())
+                {
+                    if (artifact.TryGetProperty("name", out JsonElement nameElement) && 
+                        nameElement.GetString() == _artifactName &&
+                        artifact.TryGetProperty("resource", out JsonElement resourceElement) &&
+                        resourceElement.TryGetProperty("downloadUrl", out JsonElement urlElement))
+                    {
+                        downloadUrl = urlElement.GetString();
+                        break;
+                    }
+                }
+
+                if (downloadUrl == null)
                 {
                     throw new Exception($"Artifact '{_artifactName}' not found.");
                 }
-
-                string downloadUrl = artifact["resource"]["downloadUrl"].ToString();
 
                 // Download the artifact
                 HttpResponseMessage downloadResponse = await client.GetAsync(downloadUrl);

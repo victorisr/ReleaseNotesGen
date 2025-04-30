@@ -44,9 +44,9 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
-            "Newtonsoft.Json": {
+            "System.Text.Json": {
               "target": "Package",
-              "version": "[13.0.3, )"
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

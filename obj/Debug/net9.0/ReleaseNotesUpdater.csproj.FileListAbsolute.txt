@@ -54,14 +54,11 @@ C:\ReleaseNotesGen\bin\Debug\net9.0\ReleaseNotesUpdater.deps.json
 C:\ReleaseNotesGen\bin\Debug\net9.0\ReleaseNotesUpdater.runtimeconfig.json
 C:\ReleaseNotesGen\bin\Debug\net9.0\ReleaseNotesUpdater.dll
 C:\ReleaseNotesGen\bin\Debug\net9.0\ReleaseNotesUpdater.pdb
-C:\ReleaseNotesGen\bin\Debug\net9.0\Newtonsoft.Json.dll
-C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.AssemblyReference.cache
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.GeneratedMSBuildEditorConfig.editorconfig
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfoInputs.cache
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.AssemblyInfo.cs
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.CoreCompileInputs.cache
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.sourcelink.json
-C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseN.CFB59FD1.Up2Date
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.dll
 C:\ReleaseNotesGen\obj\Debug\net9.0\refint\ReleaseNotesUpdater.dll
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.pdb

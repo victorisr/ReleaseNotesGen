@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace ReleaseNotesUpdater.Models
 {
@@ -9,31 +9,31 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class ReleasesConfiguration
     {
-        [JsonProperty("channel-version")]
+        [JsonPropertyName("channel-version")]
         public string ChannelVersion { get; set; }
 
-        [JsonProperty("latest-release")]
+        [JsonPropertyName("latest-release")]
         public string LatestRelease { get; set; }
 
-        [JsonProperty("latest-release-date")]
+        [JsonPropertyName("latest-release-date")]
         public string LatestReleaseDate { get; set; }
 
-        [JsonProperty("latest-runtime")]
+        [JsonPropertyName("latest-runtime")]
         public string LatestRuntime { get; set; }
 
-        [JsonProperty("latest-sdk")]
+        [JsonPropertyName("latest-sdk")]
         public string LatestSdk { get; set; }
 
-        [JsonProperty("support-phase")]
+        [JsonPropertyName("support-phase")]
         public string SupportPhase { get; set; }
 
-        [JsonProperty("release-type")]
+        [JsonPropertyName("release-type")]
         public string ReleaseType { get; set; }
 
-        [JsonProperty("lifecycle-policy")]
+        [JsonPropertyName("lifecycle-policy")]
         public string LifecyclePolicy { get; set; }
 
-        [JsonProperty("releases")]
+        [JsonPropertyName("releases")]
         public List<Release> Releases { get; set; }
     }
 
@@ -42,37 +42,37 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class Release
     {
-        [JsonProperty("release-date")]
+        [JsonPropertyName("release-date")]
         public string ReleaseDate { get; set; }
 
-        [JsonProperty("release-version")]
+        [JsonPropertyName("release-version")]
         public string ReleaseVersion { get; set; }
 
-        [JsonProperty("security")]
+        [JsonPropertyName("security")]
         public bool Security { get; set; }
 
-        [JsonProperty("cve-list")]
+        [JsonPropertyName("cve-list")]
         public List<CveItem> CveList { get; set; }
 
-        [JsonProperty("release-notes")]
+        [JsonPropertyName("release-notes")]
         public string ReleaseNotes { get; set; }
 
-        [JsonProperty("runtime")]
+        [JsonPropertyName("runtime")]
         public Runtime Runtime { get; set; }
         
-        [JsonProperty("sdk")]
+        [JsonPropertyName("sdk")]
         public Sdk Sdk { get; set; }
         
-        [JsonProperty("aspnetcore-runtime")]
+        [JsonPropertyName("aspnetcore-runtime")]
         public AspNetCoreRuntime AspNetCoreRuntime { get; set; }
         
-        [JsonProperty("windowsdesktop")]
+        [JsonPropertyName("windowsdesktop")]
         public WindowsDesktop WindowsDesktop { get; set; }
         
-        [JsonProperty("sdks")]
+        [JsonPropertyName("sdks")]
         public List<Sdk> Sdks { get; set; }
         
-        [JsonProperty("packages")]
+        [JsonPropertyName("packages")]
         public List<Package> Packages { get; set; }
     }
 
@@ -81,7 +81,7 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class CveItem
     {
-        [JsonProperty("cve-url")]
+        [JsonPropertyName("cve-url")]
         public string CveUrl { get; set; }
     }
 
@@ -90,19 +90,19 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class Runtime
     {
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
 
-        [JsonProperty("version-display")]
+        [JsonPropertyName("version-display")]
         public string VersionDisplay { get; set; }
 
-        [JsonProperty("vs-version")]
+        [JsonPropertyName("vs-version")]
         public string VsVersion { get; set; }
 
-        [JsonProperty("vs-mac-version")]
+        [JsonPropertyName("vs-mac-version")]
         public string VsMacVersion { get; set; }
         
-        [JsonProperty("files")]
+        [JsonPropertyName("files")]
         public List<FileInfo> Files { get; set; }
     }
 
@@ -111,37 +111,37 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class Sdk
     {
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
 
-        [JsonProperty("version-display")]
+        [JsonPropertyName("version-display")]
         public string VersionDisplay { get; set; }
 
-        [JsonProperty("runtime-version")]
+        [JsonPropertyName("runtime-version")]
         public string RuntimeVersion { get; set; }
 
-        [JsonProperty("vs-version")]
+        [JsonPropertyName("vs-version")]
         public string VsVersion { get; set; }
 
-        [JsonProperty("vs-mac-version")]
+        [JsonPropertyName("vs-mac-version")]
         public string VsMacVersion { get; set; }
 
-        [JsonProperty("vs-support")]
+        [JsonPropertyName("vs-support")]
         public string VsSupport { get; set; }
 
-        [JsonProperty("vs-mac-support")]
+        [JsonPropertyName("vs-mac-support")]
         public string VsMacSupport { get; set; }
 
-        [JsonProperty("csharp-version")]
+        [JsonPropertyName("csharp-version")]
         public string CsharpVersion { get; set; }
 
-        [JsonProperty("fsharp-version")]
+        [JsonPropertyName("fsharp-version")]
         public string FsharpVersion { get; set; }
 
-        [JsonProperty("vb-version")]
+        [JsonPropertyName("vb-version")]
         public string VbVersion { get; set; }
         
-        [JsonProperty("files")]
+        [JsonPropertyName("files")]
         public List<FileInfo> Files { get; set; }
     }
 
@@ -150,19 +150,19 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class AspNetCoreRuntime
     {
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
 
-        [JsonProperty("version-display")]
+        [JsonPropertyName("version-display")]
         public string VersionDisplay { get; set; }
 
-        [JsonProperty("version-aspnetcoremodule")]
+        [JsonPropertyName("version-aspnetcoremodule")]
         public List<string> VersionAspNetCoreModule { get; set; }
 
-        [JsonProperty("vs-version")]
+        [JsonPropertyName("vs-version")]
         public string VsVersion { get; set; }
         
-        [JsonProperty("files")]
+        [JsonPropertyName("files")]
         public List<FileInfo> Files { get; set; }
     }
 
@@ -171,13 +171,13 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class WindowsDesktop
     {
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
 
-        [JsonProperty("version-display")]
+        [JsonPropertyName("version-display")]
         public string VersionDisplay { get; set; }
         
-        [JsonProperty("files")]
+        [JsonPropertyName("files")]
         public List<FileInfo> Files { get; set; }
     }
 
@@ -186,19 +186,19 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class FileInfo
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("rid")]
+        [JsonPropertyName("rid")]
         public string Rid { get; set; }
         
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
         
-        [JsonProperty("hash")]
+        [JsonPropertyName("hash")]
         public string Hash { get; set; }
 
-        [JsonProperty("akams")]
+        [JsonPropertyName("akams")]
         public string Akams { get; set; }
     }
 
@@ -207,10 +207,10 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class Package
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
         
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
     }
 
@@ -219,22 +219,22 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class ReleaseNotes
     {
-        [JsonProperty("channel-version")]
+        [JsonPropertyName("channel-version")]
         public string ChannelVersion { get; set; }
 
-        [JsonProperty("latest-release")]
+        [JsonPropertyName("latest-release")]
         public string LatestRelease { get; set; }
         
-        [JsonProperty("support-phase")]
+        [JsonPropertyName("support-phase")]
         public string SupportPhase { get; set; }
         
-        [JsonProperty("release-type")]
+        [JsonPropertyName("release-type")]
         public string ReleaseType { get; set; }
         
-        [JsonProperty("eol-date")]
+        [JsonPropertyName("eol-date")]
         public string EolDate { get; set; }
         
-        [JsonProperty("releases")]
+        [JsonPropertyName("releases")]
         public List<ReleaseNote> Releases { get; set; }
     }
 
@@ -243,16 +243,16 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class ReleaseNote
     {
-        [JsonProperty("release-date")]
+        [JsonPropertyName("release-date")]
         public string ReleaseDate { get; set; }
         
-        [JsonProperty("release-version")]
+        [JsonPropertyName("release-version")]
         public string ReleaseVersion { get; set; }
         
-        [JsonProperty("security")]
+        [JsonPropertyName("security")]
         public bool Security { get; set; }
         
-        [JsonProperty("cve-list")]
+        [JsonPropertyName("cve-list")]
         public List<string> CveList { get; set; }
     }
 }

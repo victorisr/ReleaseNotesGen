@@ -1,6 +1,7 @@
 using System;
 using System.IO;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater
@@ -8,10 +9,17 @@ namespace ReleaseNotesUpdater
     public class JsonFileHandler
     {
         private readonly string _downloadPath;
+        private readonly JsonSerializerOptions _jsonOptions;
 
         public JsonFileHandler(string downloadPath)
         {
             _downloadPath = downloadPath;
+            _jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                ReadCommentHandling = JsonCommentHandling.Skip
+            };
         }
 
         public string? FindJsonFile(string runtimeId, string jsonFileNamePattern)
@@ -38,7 +46,7 @@ namespace ReleaseNotesUpdater
             }
 
             string jsonContent = File.ReadAllText(jsonFilePath);
-            return JsonConvert.DeserializeObject<T>(jsonContent);
+            return JsonSerializer.Deserialize<T>(jsonContent, _jsonOptions);
         }
 
         public ReleasesConfiguration? DeserializeReleasesConfiguration(string jsonFilePath)
