@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace ReleaseNotesUpdater.Models
 {
@@ -13,14 +12,26 @@ namespace ReleaseNotesUpdater.Models
         [JsonProperty("channel-version")]
         public string ChannelVersion { get; set; }
 
+        [JsonProperty("latest-release")]
+        public string LatestRelease { get; set; }
+
+        [JsonProperty("latest-release-date")]
+        public string LatestReleaseDate { get; set; }
+
         [JsonProperty("latest-runtime")]
         public string LatestRuntime { get; set; }
 
         [JsonProperty("latest-sdk")]
         public string LatestSdk { get; set; }
 
-        [JsonProperty("latest-release-date")]
-        public string LatestReleaseDate { get; set; }
+        [JsonProperty("support-phase")]
+        public string SupportPhase { get; set; }
+
+        [JsonProperty("release-type")]
+        public string ReleaseType { get; set; }
+
+        [JsonProperty("lifecycle-policy")]
+        public string LifecyclePolicy { get; set; }
 
         [JsonProperty("releases")]
         public List<Release> Releases { get; set; }
@@ -31,6 +42,21 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class Release
     {
+        [JsonProperty("release-date")]
+        public string ReleaseDate { get; set; }
+
+        [JsonProperty("release-version")]
+        public string ReleaseVersion { get; set; }
+
+        [JsonProperty("security")]
+        public bool Security { get; set; }
+
+        [JsonProperty("cve-list")]
+        public List<CveItem> CveList { get; set; }
+
+        [JsonProperty("release-notes")]
+        public string ReleaseNotes { get; set; }
+
         [JsonProperty("runtime")]
         public Runtime Runtime { get; set; }
         
@@ -51,12 +77,30 @@ namespace ReleaseNotesUpdater.Models
     }
 
     /// <summary>
+    /// Represents a CVE item
+    /// </summary>
+    public class CveItem
+    {
+        [JsonProperty("cve-url")]
+        public string CveUrl { get; set; }
+    }
+
+    /// <summary>
     /// Represents the runtime component of a release
     /// </summary>
     public class Runtime
     {
         [JsonProperty("version")]
         public string Version { get; set; }
+
+        [JsonProperty("version-display")]
+        public string VersionDisplay { get; set; }
+
+        [JsonProperty("vs-version")]
+        public string VsVersion { get; set; }
+
+        [JsonProperty("vs-mac-version")]
+        public string VsMacVersion { get; set; }
         
         [JsonProperty("files")]
         public List<FileInfo> Files { get; set; }
@@ -69,6 +113,33 @@ namespace ReleaseNotesUpdater.Models
     {
         [JsonProperty("version")]
         public string Version { get; set; }
+
+        [JsonProperty("version-display")]
+        public string VersionDisplay { get; set; }
+
+        [JsonProperty("runtime-version")]
+        public string RuntimeVersion { get; set; }
+
+        [JsonProperty("vs-version")]
+        public string VsVersion { get; set; }
+
+        [JsonProperty("vs-mac-version")]
+        public string VsMacVersion { get; set; }
+
+        [JsonProperty("vs-support")]
+        public string VsSupport { get; set; }
+
+        [JsonProperty("vs-mac-support")]
+        public string VsMacSupport { get; set; }
+
+        [JsonProperty("csharp-version")]
+        public string CsharpVersion { get; set; }
+
+        [JsonProperty("fsharp-version")]
+        public string FsharpVersion { get; set; }
+
+        [JsonProperty("vb-version")]
+        public string VbVersion { get; set; }
         
         [JsonProperty("files")]
         public List<FileInfo> Files { get; set; }
@@ -81,6 +152,15 @@ namespace ReleaseNotesUpdater.Models
     {
         [JsonProperty("version")]
         public string Version { get; set; }
+
+        [JsonProperty("version-display")]
+        public string VersionDisplay { get; set; }
+
+        [JsonProperty("version-aspnetcoremodule")]
+        public List<string> VersionAspNetCoreModule { get; set; }
+
+        [JsonProperty("vs-version")]
+        public string VsVersion { get; set; }
         
         [JsonProperty("files")]
         public List<FileInfo> Files { get; set; }
@@ -93,6 +173,9 @@ namespace ReleaseNotesUpdater.Models
     {
         [JsonProperty("version")]
         public string Version { get; set; }
+
+        [JsonProperty("version-display")]
+        public string VersionDisplay { get; set; }
         
         [JsonProperty("files")]
         public List<FileInfo> Files { get; set; }
@@ -105,12 +188,18 @@ namespace ReleaseNotesUpdater.Models
     {
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("rid")]
+        public string Rid { get; set; }
         
         [JsonProperty("url")]
         public string Url { get; set; }
         
         [JsonProperty("hash")]
         public string Hash { get; set; }
+
+        [JsonProperty("akams")]
+        public string Akams { get; set; }
     }
 
     /// <summary>
@@ -130,6 +219,9 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class ReleaseNotes
     {
+        [JsonProperty("channel-version")]
+        public string ChannelVersion { get; set; }
+
         [JsonProperty("latest-release")]
         public string LatestRelease { get; set; }
         
