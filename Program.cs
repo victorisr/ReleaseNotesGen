@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ReleaseNotesUpdater.CoreDirectoryUpdaters;
 
 namespace ReleaseNotesUpdater
 {
@@ -37,6 +38,10 @@ namespace ReleaseNotesUpdater
                     runtimeIds.Add(pair.runtimeId);
                 }
 
+                // Create an instance of JsonFileHandler
+                var jsonFileHandler = new JsonFileHandler(downloadPath);
+
+                // Process each runtime separately for downloading
                 foreach (var pair in runtimeBuildPairs)
                 {
                     string runtimeId = pair.runtimeId;
@@ -47,39 +52,50 @@ namespace ReleaseNotesUpdater
                     var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId);
                     await artifactsDownloader.DownloadArtifactsAsync();
                 */
-
-                    // Create an instance of JsonFileHandler
-                    var jsonFileHandler = new JsonFileHandler(downloadPath);
-
-                    // Create instances of the updater classes
-                    var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
-                    var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
-                    var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
-                    var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                    var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                    var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                    var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                    var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);  
-                
-                /*
-                    var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
-                */
-
-                    // Update the files
-                    readMeUpdater.UpdateFiles();
-                    releasesUpdater.UpdateFiles();
-                    rnReadMeUpdater.UpdateFiles();
-                    installLinuxUpdater.UpdateFiles();
-                    installMacosUpdater.UpdateFiles();
-                    installWindowsUpdater.UpdateFiles();
-                    runtimeFileUpdater.UpdateFiles();
-                    sdkFileUpdater.UpdateFiles();
-                /*       
-                    cveFileUpdater.UpdateFiles();
-                */
-
-                    Console.WriteLine($"Successfully updated all files for runtime ID {runtimeId}.");
                 }
+
+                // Update core directory JSON files AFTER downloading artifacts but BEFORE updater classes
+                // Now with outputDirectory parameter to save files to the output directory
+                Console.WriteLine("Generating core directory JSON files...");
+                var coreDirectoryUpdater = new CoreDirectoryJsonUpdater(
+                    coreDirectory, 
+                    outputDirectory,
+                    runtimeIds, 
+                    downloadPath, 
+                    logFileLocation,
+                    jsonFileHandler);
+                
+                coreDirectoryUpdater.UpdateAllCoreDirectoryJsonFiles();
+                Console.WriteLine("Core directory JSON files generated successfully.");
+
+                // Create instances of the updater classes
+                var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
+                var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
+                var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
+                var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
+                var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
+                var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
+                var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
+                var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);  
+            
+            /*
+                var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
+            */
+
+                // Update the files
+                readMeUpdater.UpdateFiles();
+                releasesUpdater.UpdateFiles();
+                rnReadMeUpdater.UpdateFiles();
+                installLinuxUpdater.UpdateFiles();
+                installMacosUpdater.UpdateFiles();
+                installWindowsUpdater.UpdateFiles();
+                runtimeFileUpdater.UpdateFiles();
+                sdkFileUpdater.UpdateFiles();
+            /*       
+                cveFileUpdater.UpdateFiles();
+            */
+
+                Console.WriteLine("All files updated successfully.");
             }
             catch (Exception ex)
             {
