@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater
 {
@@ -38,6 +39,16 @@ namespace ReleaseNotesUpdater
 
             string jsonContent = File.ReadAllText(jsonFilePath);
             return JsonConvert.DeserializeObject<T>(jsonContent);
+        }
+
+        public ReleasesConfiguration? DeserializeReleasesConfiguration(string jsonFilePath)
+        {
+            return DeserializeJsonFile<ReleasesConfiguration>(jsonFilePath);
+        }
+
+        public ReleaseNotes? DeserializeReleaseNotes(string jsonFilePath)
+        {
+            return DeserializeJsonFile<ReleaseNotes>(jsonFilePath);
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater
 {
@@ -41,18 +42,18 @@ namespace ReleaseNotesUpdater
 
                 if (jsonFilePath != null)
                 {
-                    var configData = _jsonFileHandler.DeserializeJsonFile<dynamic>(jsonFilePath);
+                    var configData = _jsonFileHandler.DeserializeReleasesConfiguration(jsonFilePath);
 
                     // Check if the releases section exists in the configuration data
-                    if (configData.releases != null)
+                    if (configData?.Releases != null)
                     {
-                        foreach (var release in configData.releases)
+                        foreach (var release in configData.Releases)
                         {
                             // Check if release and necessary properties are not null
-                            if (release != null && release.runtime != null && release.runtime.version != null)
+                            if (release != null && release.Runtime != null && release.Runtime.Version != null)
                             {
                                 // Find the release that matches the current version
-                                if (release.runtime.version == runtimeId)
+                                if (release.Runtime.Version == runtimeId)
                                 {
                                     string installMacosTemplate = Path.Combine(TemplateDirectory, "install-macos-template.md");
                                     string newInstallMacosFile = Path.Combine(outputPath, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
@@ -64,7 +65,7 @@ namespace ReleaseNotesUpdater
                                     if (!File.Exists(newInstallMacosFile))
                                     {
                                         // Modify the template file with data from the configuration and write to the new file
-                                        ModifyTemplateFile(installMacosTemplate, newInstallMacosFile, runtimeId, configData["channel-version"]?.ToString(), release, configData["latest-sdk"]?.ToString());
+                                        ModifyTemplateFile(installMacosTemplate, newInstallMacosFile, runtimeId, configData.ChannelVersion, release, configData.LatestSdk);
                                     }
                                     else
                                     {
@@ -94,7 +95,7 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to modify the template file with actual data and write to the output path
-        private void ModifyTemplateFile(string templatePath, string outputPath, string version, string? channelVersion, dynamic release, string? latestSdk)
+        private void ModifyTemplateFile(string templatePath, string outputPath, string version, string? channelVersion, Release release, string? latestSdk)
         {
             // Read the content of the template file
             string templateContent = File.ReadAllText(templatePath);
@@ -105,12 +106,15 @@ namespace ReleaseNotesUpdater
 
             // Find the URL for "dotnet-sdk-osx-x64.tar.gz"
             string sdkUrl = "";
-            foreach (var sdkFile in release.sdk.files)
+            if (release.Sdk != null && release.Sdk.Files != null)
             {
-                if (sdkFile.name == "dotnet-sdk-osx-x64.tar.gz")
+                foreach (var sdkFile in release.Sdk.Files)
                 {
-                    sdkUrl = sdkFile.url;
-                    break;
+                    if (sdkFile.Name == "dotnet-sdk-osx-x64.tar.gz")
+                    {
+                        sdkUrl = sdkFile.Url;
+                        break;
+                    }
                 }
             }
             Console.WriteLine($"Extracted SDK URL: {sdkUrl} for runtime ID: {version}"); // Debug log

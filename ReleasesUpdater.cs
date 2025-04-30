@@ -4,6 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Globalization;
+using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater
 {
@@ -101,7 +102,7 @@ namespace ReleaseNotesUpdater
                     .Replace("SECTION-UNSUPPORTED", unsupportedTable + "\n\n" + unsupportedLinks);
 
                 // Define the output path for the updated file
-                string outputFilePath = Path.Combine(_outputDirectory, "1releases.md");
+                string outputFilePath = Path.Combine(_outputDirectory, "releases.md");
 
                 // Ensure the output directory exists
                 Directory.CreateDirectory(_outputDirectory);
@@ -162,11 +163,11 @@ namespace ReleaseNotesUpdater
                     if (File.Exists(releasesFilePath))
                     {
                         string jsonContent = File.ReadAllText(releasesFilePath);
-                        Dictionary<string, object>? releaseData = null;
+                        ReleaseNotes? releaseNotes = null;
 
                         try
                         {
-                            releaseData = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonContent);
+                            releaseNotes = JsonSerializer.Deserialize<ReleaseNotes>(jsonContent);
                         }
                         catch (JsonException ex)
                         {
@@ -174,12 +175,12 @@ namespace ReleaseNotesUpdater
                             continue;
                         }
 
-                        if (releaseData != null)
+                        if (releaseNotes != null)
                         {
-                            string latestRelease = releaseData.ContainsKey("latest-release") ? releaseData["latest-release"]?.ToString() ?? "TBA" : "TBA";
-                            string supportPhase = releaseData.ContainsKey("support-phase") ? ToTitleCase(releaseData["support-phase"]?.ToString() ?? "TBA") : "TBA";
-                            string releaseType = releaseData.ContainsKey("release-type") ? releaseData["release-type"]?.ToString()?.ToUpper() ?? "TBA" : "TBA";
-                            string eolDate = releaseData.ContainsKey("eol-date") ? FormatDate(releaseData["eol-date"]?.ToString()) : "TBA";
+                            string latestRelease = releaseNotes.LatestRelease ?? "TBA";
+                            string supportPhase = ToTitleCase(releaseNotes.SupportPhase ?? "TBA");
+                            string releaseType = (releaseNotes.ReleaseType ?? "TBA").ToUpper();
+                            string eolDate = FormatDate(releaseNotes.EolDate);
 
                             // Check support phase against the "supported" parameter
                             bool isSupported = !supportPhase.Equals("EOL", StringComparison.OrdinalIgnoreCase);

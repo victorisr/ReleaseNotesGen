@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater
 {
@@ -40,24 +41,24 @@ namespace ReleaseNotesUpdater
 
                 if (jsonFilePath != null)
                 {
-                    var configData = _jsonFileHandler.DeserializeJsonFile<dynamic>(jsonFilePath);
+                    var configData = _jsonFileHandler.DeserializeReleasesConfiguration(jsonFilePath);
 
                     // Check if the releases section exists in the configuration data
-                    if (configData.releases != null)
+                    if (configData?.Releases != null)
                     {
-                        foreach (var release in configData.releases)
+                        foreach (var release in configData.Releases)
                         {
                             // Check if release and necessary properties are not null
-                            if (release != null && release.runtime != null && release.runtime.version != null)
+                            if (release != null && release.Runtime != null && release.Runtime.Version != null)
                             {
                                 // Find the release that matches the current version
-                                if (release.runtime.version == runtimeId)
+                                if (release.Runtime.Version == runtimeId)
                                 {
                                     // For each version in the sdks section, create a new file if it's not the latest-sdk
-                                    foreach (var sdk in release.sdks)
+                                    foreach (var sdk in release.Sdks)
                                     {
-                                        string sdkVersion = sdk.version.ToString();
-                                        if (sdkVersion != configData["latest-sdk"].ToString())
+                                        string sdkVersion = sdk.Version;
+                                        if (sdkVersion != configData.LatestSdk)
                                         {
                                             string sdkTemplate = Path.Combine(TemplateDirectory, "sdk-template.md");
                                             string newSdkFile = Path.Combine(outputPath, $"{sdkVersion}.md");
@@ -92,16 +93,16 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to modify the template file with actual data and write to the output path
-        private void ModifyTemplateFile(string templatePath, string outputPath, string sdkVersion, dynamic configData, dynamic sdk)
+        private void ModifyTemplateFile(string templatePath, string outputPath, string sdkVersion, ReleasesConfiguration configData, Sdk sdk)
         {
             // Read the content of the template file
             string templateContent = File.ReadAllText(templatePath);
 
             // Extract key values from the config data
-            string runtimeVersion = configData["latest-runtime"]?.ToString();
-            string latestSdk = configData["latest-sdk"]?.ToString();
-            string channelVersion = configData["channel-version"]?.ToString();
-            string latestReleaseDate = configData["latest-release-date"]?.ToString();
+            string runtimeVersion = configData.LatestRuntime;
+            string latestSdk = configData.LatestSdk;
+            string channelVersion = configData.ChannelVersion;
+            string latestReleaseDate = configData.LatestReleaseDate;
 
             // Format the latest release date
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
@@ -131,33 +132,31 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to replace section placeholders with markdown-style tables
-        private string ReplaceSectionPlaceholders(string content, dynamic configData, dynamic sdk)
+        private string ReplaceSectionPlaceholders(string content, ReleasesConfiguration configData, Sdk sdk)
         {
             content = content.Replace("SECTION-RUNTIME", ReplaceRuntimeSection(configData, sdk));
             content = content.Replace("SECTION-WINDOWSDESKTOP", ReplaceWindowsDesktopSection(configData, sdk));
             content = content.Replace("SECTION-ASP", ReplaceAspSection(configData, sdk));
-            content = content.Replace("SECTION-VERSIONSDK", ReplaceVersionSdkSection(sdk["version"]?.ToString(), sdk["files"] as JArray));
+            content = content.Replace("SECTION-VERSIONSDK", ReplaceVersionSdkSection(sdk.Version, sdk.Files));
             return content;
         }
 
         // Method to replace SECTION-RUNTIME placeholder
-        private string ReplaceRuntimeSection(dynamic configData, dynamic sdk)
+        private string ReplaceRuntimeSection(ReleasesConfiguration configData, Sdk sdk)
         {
-            var runtimeSection = configData["releases"][0]["runtime"];
+            var runtimeSection = configData.Releases?[0].Runtime;
             if (runtimeSection == null)
             {
                 Console.WriteLine("SECTION-RUNTIME: No data found.");
                 return "";
             }
-            var markdownList = $"[//]: # ( Runtime {configData["latest-runtime"]})\n";
-            var files = runtimeSection["files"] as JArray;
+            var markdownList = $"[//]: # ( Runtime {configData.LatestRuntime})\n";
+            var files = runtimeSection.Files;
             if (files != null)
             {
-                foreach (var item in files)
+                foreach (var file in files)
                 {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
                 }
             }
             else
@@ -168,23 +167,21 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to replace SECTION-WINDOWSDESKTOP placeholder
-        private string ReplaceWindowsDesktopSection(dynamic configData, dynamic sdk)
+        private string ReplaceWindowsDesktopSection(ReleasesConfiguration configData, Sdk sdk)
         {
-            var windowsDesktopSection = configData["releases"][0]["windowsdesktop"];
+            var windowsDesktopSection = configData.Releases?[0].WindowsDesktop;
             if (windowsDesktopSection == null)
             {
                 Console.WriteLine("SECTION-WINDOWSDESKTOP: No data found.");
                 return "";
             }
-            var markdownList = $"[//]: # ( WindowsDesktop {configData["latest-runtime"]})\n";
-            var files = windowsDesktopSection["files"] as JArray;
+            var markdownList = $"[//]: # ( WindowsDesktop {configData.LatestRuntime})\n";
+            var files = windowsDesktopSection.Files;
             if (files != null)
             {
-                foreach (var item in files)
+                foreach (var file in files)
                 {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
                 }
             }
             else
@@ -195,23 +192,21 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to replace SECTION-ASP placeholder
-        private string ReplaceAspSection(dynamic configData, dynamic sdk)
+        private string ReplaceAspSection(ReleasesConfiguration configData, Sdk sdk)
         {
-            var aspSection = configData["releases"][0]["aspnetcore-runtime"];
+            var aspSection = configData.Releases?[0].AspNetCoreRuntime;
             if (aspSection == null)
             {
                 Console.WriteLine("SECTION-ASP: No data found.");
                 return "";
             }
-            var markdownList = $"[//]: # ( ASP {configData["latest-runtime"]})\n";
-            var files = aspSection["files"] as JArray;
+            var markdownList = $"[//]: # ( ASP {configData.LatestRuntime})\n";
+            var files = aspSection.Files;
             if (files != null)
             {
-                foreach (var item in files)
+                foreach (var file in files)
                 {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
                 }
             }
             else
@@ -222,18 +217,13 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to replace SECTION-VERSIONSDK placeholder
-        private string ReplaceVersionSdkSection(string sdkVersion, JArray? sectionData)
+        private string ReplaceVersionSdkSection(string sdkVersion, List<Models.FileInfo> files)
         {
-            if (sectionData == null) return "";
+            if (files == null) return "";
             var markdownList = $"[//]: # ( SDK {sdkVersion})\n";
-            if (sectionData != null)
+            foreach (var file in files)
             {
-                foreach (var item in sectionData)
-                {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
-                }
+                markdownList += $"[{file.Name}]: {file.Url}\n";
             }
             return markdownList;
         }

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater
 {
@@ -40,18 +41,18 @@ namespace ReleaseNotesUpdater
 
                 if (jsonFilePath != null)
                 {
-                    var configData = _jsonFileHandler.DeserializeJsonFile<dynamic>(jsonFilePath);
+                    var configData = _jsonFileHandler.DeserializeReleasesConfiguration(jsonFilePath);
 
                     // Check if the releases section exists in the configuration data
-                    if (configData.releases != null)
+                    if (configData?.Releases != null)
                     {
-                        foreach (var release in configData.releases)
+                        foreach (var release in configData.Releases)
                         {
                             // Check if release and necessary properties are not null
-                            if (release != null && release.runtime != null && release.runtime.version != null)
+                            if (release != null && release.Runtime != null && release.Runtime.Version != null)
                             {
                                 // Find the release that matches the current version
-                                if (release.runtime.version == runtimeId)
+                                if (release.Runtime.Version == runtimeId)
                                 {
                                     string runtimeTemplate = Path.Combine(TemplateDirectory, "runtime-template.md");
                                     string newRuntimeFile = Path.Combine(outputPath, $"{runtimeId}.md");
@@ -84,16 +85,16 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to modify the template file with actual data and write to the output path
-        private void ModifyTemplateFile(string templatePath, string outputPath, string version, dynamic configData, dynamic release)
+        private void ModifyTemplateFile(string templatePath, string outputPath, string version, ReleasesConfiguration configData, Release release)
         {
             // Read the content of the template file
             string templateContent = File.ReadAllText(templatePath);
 
             // Extract key values from the config data
-            string runtimeVersion = configData["latest-runtime"]?.ToString();
-            string latestSdk = configData["latest-sdk"]?.ToString();
-            string channelVersion = configData["channel-version"]?.ToString();
-            string latestReleaseDate = configData["latest-release-date"]?.ToString();
+            string runtimeVersion = configData.LatestRuntime;
+            string latestSdk = configData.LatestSdk;
+            string channelVersion = configData.ChannelVersion;
+            string latestReleaseDate = configData.LatestReleaseDate;
 
             // Format the latest release date
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
@@ -125,26 +126,26 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to replace section placeholders with markdown-style tables
-        private string ReplaceSectionPlaceholders(string content, dynamic configData, dynamic release)
+        private string ReplaceSectionPlaceholders(string content, ReleasesConfiguration configData, Release release)
         {
-            content = content.Replace("SECTION-ADDEDSDK", ReplaceAddedSdkSection(configData, release["sdks"] as JArray, configData["latest-sdk"]?.ToString()));
-            content = content.Replace("SECTION-SDKS", ReplaceSdksSection(configData, release["sdks"] as JArray, configData["latest-sdk"]?.ToString(), configData["latest-runtime"]?.ToString()));
-            content = content.Replace("SECTION-RUNTIME", ReplaceRuntimeSection(configData["latest-runtime"]?.ToString(), release["runtime"] as JObject));
-            content = content.Replace("SECTION-WINDOWSDESKTOP", ReplaceWindowsDesktopSection(configData["latest-runtime"]?.ToString(), release["windowsdesktop"] as JObject));
-            content = content.Replace("SECTION-ASP", ReplaceAspSection(configData["latest-runtime"]?.ToString(), release["aspnetcore-runtime"] as JObject));
-            content = content.Replace("SECTION-LATESTSDK", ReplaceLatestSdkSection(configData["latest-sdk"]?.ToString(), release["sdk"] as JObject));
-            content = content.Replace("SECTION-PACKAGES", ReplacePackagesSection(release["packages"] as JArray));
+            content = content.Replace("SECTION-ADDEDSDK", ReplaceAddedSdkSection(configData, release.Sdks, configData.LatestSdk));
+            content = content.Replace("SECTION-SDKS", ReplaceSdksSection(configData, release.Sdks, configData.LatestSdk, configData.LatestRuntime));
+            content = content.Replace("SECTION-RUNTIME", ReplaceRuntimeSection(configData.LatestRuntime, release.Runtime));
+            content = content.Replace("SECTION-WINDOWSDESKTOP", ReplaceWindowsDesktopSection(configData.LatestRuntime, release.WindowsDesktop));
+            content = content.Replace("SECTION-ASP", ReplaceAspSection(configData.LatestRuntime, release.AspNetCoreRuntime));
+            content = content.Replace("SECTION-LATESTSDK", ReplaceLatestSdkSection(configData.LatestSdk, release.Sdk));
+            content = content.Replace("SECTION-PACKAGES", ReplacePackagesSection(release.Packages));
             return content;
         }
 
         // Method to replace SECTION-ADDEDSDK placeholder
-        private string ReplaceAddedSdkSection(dynamic configData, JArray? sectionData, string latestSdk)
+        private string ReplaceAddedSdkSection(ReleasesConfiguration configData, List<Sdk> sdks, string latestSdk)
         {
-            if (sectionData == null) return "";
+            if (sdks == null) return "";
             var markdownList = "\n";
-            foreach (var item in sectionData)
+            foreach (var sdk in sdks)
             {
-                var version = item["version"]?.ToString() ?? "";
+                var version = sdk.Version;
                 if (version != latestSdk)
                 {
                     markdownList += $"* [{version}][{version}]\n";
@@ -154,13 +155,13 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to replace SECTION-SDKS placeholder
-        private string ReplaceSdksSection(dynamic configData, JArray? sectionData, string latestSdk, string runtimeVersion)
+        private string ReplaceSdksSection(ReleasesConfiguration configData, List<Sdk> sdks, string latestSdk, string runtimeVersion)
         {
-            if (sectionData == null) return "";
+            if (sdks == null) return "";
             var markdownList = "\n";
-            foreach (var item in sectionData)
+            foreach (var sdk in sdks)
             {
-                var version = item["version"]?.ToString() ?? "";
+                var version = sdk.Version;
                 if (version == latestSdk)
                 {
                     markdownList += $"[{latestSdk}]: {runtimeVersion}.md\n";
@@ -174,85 +175,77 @@ namespace ReleaseNotesUpdater
         }
 
         // Method to replace SECTION-RUNTIME placeholder
-        private string ReplaceRuntimeSection(string latestRuntime, JObject? sectionData)
+        private string ReplaceRuntimeSection(string latestRuntime, Runtime runtime)
         {
-            if (sectionData == null) return "";
+            if (runtime == null) return "";
             var markdownList = $"[//]: # ( Runtime {latestRuntime})\n";
-            var files = sectionData["files"] as JArray;
+            var files = runtime.Files;
             if (files != null)
             {
-                foreach (var item in files)
+                foreach (var file in files)
                 {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
                 }
             }
             return markdownList;
         }
 
         // Method to replace SECTION-WINDOWSDESKTOP placeholder
-        private string ReplaceWindowsDesktopSection(string latestRuntime, JObject? sectionData)
+        private string ReplaceWindowsDesktopSection(string latestRuntime, WindowsDesktop windowsDesktop)
         {
-            if (sectionData == null) return "";
+            if (windowsDesktop == null) return "";
             var markdownList = $"[//]: # ( WindowsDesktop {latestRuntime})\n";
-            var files = sectionData["files"] as JArray;
+            var files = windowsDesktop.Files;
             if (files != null)
             {
-                foreach (var item in files)
+                foreach (var file in files)
                 {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
                 }
             }
             return markdownList;
         }
 
         // Method to replace SECTION-ASP placeholder
-        private string ReplaceAspSection(string latestRuntime, JObject? sectionData)
+        private string ReplaceAspSection(string latestRuntime, AspNetCoreRuntime aspNetCoreRuntime)
         {
-            if (sectionData == null) return "";
+            if (aspNetCoreRuntime == null) return "";
             var markdownList = $"[//]: # ( ASP {latestRuntime})\n";
-            var files = sectionData["files"] as JArray;
+            var files = aspNetCoreRuntime.Files;
             if (files != null)
             {
-                foreach (var item in files)
+                foreach (var file in files)
                 {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
                 }
             }
             return markdownList;
         }
 
         // Method to replace SECTION-LATESTSDK placeholder
-        private string ReplaceLatestSdkSection(string latestSdk, JObject? sectionData)
+        private string ReplaceLatestSdkSection(string latestSdk, Sdk sdk)
         {
-            if (sectionData == null) return "";
+            if (sdk == null) return "";
             var markdownList = $"[//]: # ( SDK {latestSdk})\n";
-            var files = sectionData["files"] as JArray;
+            var files = sdk.Files;
             if (files != null)
             {
-                foreach (var item in files)
+                foreach (var file in files)
                 {
-                    var name = item["name"]?.ToString() ?? "";
-                    var url = item["url"]?.ToString() ?? "";
-                    markdownList += $"[{name}]: {url}\n";
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
                 }
             }
             return markdownList;
         }
 
         // Method to replace SECTION-PACKAGES placeholder
-        private string ReplacePackagesSection(JArray? sectionData)
+        private string ReplacePackagesSection(List<Package> packages)
         {
-            if (sectionData == null) return "";
-            var table = $"## Packages\n\n| Name | URL |\n| ---- | --- |\n";
-            foreach (var item in sectionData)
+            if (packages == null) return "";
+            var table = $"## Packages\n\n| Name | Version |\n| ---- | ------- |\n";
+            foreach (var package in packages)
             {
-                table += $"| {item["name"]?.ToString() ?? ""} | {item["url"]?.ToString() ?? ""} |\n";
+                table += $"| {package.Name} | {package.Version} |\n";
             }
             return table;
         }
