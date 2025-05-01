@@ -6,9 +6,9 @@ using System.Text.Json;
 using System.Globalization;
 using ReleaseNotesUpdater.Models;
 
-namespace ReleaseNotesUpdater
+namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 {
-    public class RNReadMeUpdater
+    public class ReleasesUpdater
     {
         private readonly string _templateDirectory;
         private readonly string _logFileLocation;
@@ -16,9 +16,10 @@ namespace ReleaseNotesUpdater
         private readonly string _coreDirectory;
         private readonly Dictionary<string, string> _launchDates;
         private readonly Dictionary<string, string> _announcementLinks;
+        private readonly Dictionary<string, string> _eolAnnouncementLinks;
         private readonly JsonFileHandler _jsonFileHandler;
 
-        public RNReadMeUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler)
+        public ReleasesUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler)
         {
             _templateDirectory = templateDirectory;
             _logFileLocation = logFileLocation;
@@ -26,7 +27,7 @@ namespace ReleaseNotesUpdater
             _coreDirectory = coreDirectory;
             _jsonFileHandler = jsonFileHandler;
 
-            // Initialize dictionaries
+            // Initialize launch dates for channel versions
             _launchDates = new Dictionary<string, string>
             {
                 { "10.0", "November 11, 2025" },
@@ -44,6 +45,7 @@ namespace ReleaseNotesUpdater
                 { "1.0", "June 27th, 2016" }
             };
 
+            // Initialize announcement links for channel versions
             _announcementLinks = new Dictionary<string, string>
             {
                 { "9.0", "https://devblogs.microsoft.com/dotnet/announcing-dotnet-9/" },
@@ -59,6 +61,21 @@ namespace ReleaseNotesUpdater
                 { "1.1", "https://devblogs.microsoft.com/dotnet/announcing-net-core-1-1/" },
                 { "1.0", "https://devblogs.microsoft.com/dotnet/announcing-net-core-1-0/" }
             };
+
+            // Initialize EOL announcement links for channel versions
+            _eolAnnouncementLinks = new Dictionary<string, string>
+            {
+                { "7.0", "https://devblogs.microsoft.com/dotnet/dotnet-7-end-of-support/" },
+                { "6.0", "https://devblogs.microsoft.com/dotnet/dotnet-6-end-of-support/" },
+                { "5.0", "https://devblogs.microsoft.com/dotnet/dotnet-5-end-of-support-update/" },
+                { "3.1", "https://devblogs.microsoft.com/dotnet/net-core-3-1-will-reach-end-of-support-on-december-13-2022/" },
+                { "3.0", "https://devblogs.microsoft.com/dotnet/net-core-3-0-end-of-life/" },
+                { "2.2", "https://devblogs.microsoft.com/dotnet/net-core-2-2-will-reach-end-of-life-on-december-23-2019/" },
+                { "2.1", "https://devblogs.microsoft.com/dotnet/net-core-2-1-will-reach-end-of-support-on-august-21-2021/" },
+                { "2.0", "https://devblogs.microsoft.com/dotnet/net-core-2-0-will-reach-end-of-life-on-september-1-2018/" },
+                { "1.1", "https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/" },
+                { "1.0", "https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/" }
+            };
         }
 
         public void UpdateFiles()
@@ -68,7 +85,7 @@ namespace ReleaseNotesUpdater
                 Console.WriteLine($"[DEBUG] Core Directory: {_coreDirectory}");
                 Console.WriteLine($"[DEBUG] Output Directory: {_outputDirectory}");
 
-                string templatePath = Path.Combine(_templateDirectory, "rn-readme-template.md");
+                string templatePath = Path.Combine(_templateDirectory, "releases-template.md");
 
                 if (!File.Exists(templatePath))
                 {
@@ -77,43 +94,48 @@ namespace ReleaseNotesUpdater
 
                 string templateContent = File.ReadAllText(templatePath);
 
-                // Generate the markdown table, dynamic links, and list of markdown files
-                string markdownTable = GenerateMarkdownTable(out string dynamicLinks, out string markdownFilesList);
-
-                // Add the "[policies]" link at the end of the dynamic links
-                dynamicLinks += "\n[policies]: release-policies.md";
+                // Generate the markdown tables
+                string supportedTable = GenerateMarkdownTable(supported: true, out string supportedLinks);
+                string unsupportedTable = GenerateMarkdownTable(supported: false, out string unsupportedLinks);
 
                 // Replace the placeholders in the template
                 string updatedContent = templateContent
-                    .Replace("SECTION-RELEASE", $"{markdownTable}\n{dynamicLinks}")
-                    .Replace("SECTION-MARKDOWNFILES", markdownFilesList);
+                    .Replace("SECTION-SUPPORTED", supportedTable + "\n\n" + supportedLinks)
+                    .Replace("SECTION-UNSUPPORTED", unsupportedTable + "\n\n" + unsupportedLinks);
 
                 // Define the output path for the updated file
-                string outputFilePath = Path.Combine(_outputDirectory, "2README.md");
+                string outputFilePath = Path.Combine(_outputDirectory, "1releases.md");
 
                 // Ensure the output directory exists
                 Directory.CreateDirectory(_outputDirectory);
 
                 // Write the updated content to the output file
-                File.WriteAllText(outputFilePath, updatedContent, Encoding.UTF8);
+                File.WriteAllText(outputFilePath, updatedContent.TrimEnd(), Encoding.UTF8);
 
-                Console.WriteLine($"README file has been successfully updated and saved to: {outputFilePath}");
+                Console.WriteLine($"Releases file has been successfully updated and saved to: {outputFilePath}");
             }
             catch (Exception ex)
             {
-                LogError($"An error occurred while updating the README file: {ex.Message}");
+                LogError($"An error occurred while updating the releases file: {ex.Message}");
             }
         }
 
-        private string GenerateMarkdownTable(out string dynamicLinks, out string markdownFilesList)
+        private string GenerateMarkdownTable(bool supported, out string dynamicLinks)
         {
             // Define the table structure
             StringBuilder tableBuilder = new StringBuilder();
             StringBuilder linksBuilder = new StringBuilder();
-            StringBuilder markdownFilesBuilder = new StringBuilder();
 
-            tableBuilder.AppendLine("|  Version  | Release Date | Release type | Support phase | Latest Patch Version | End of Support |");
-            tableBuilder.AppendLine("| :-- | :-- | :-- | :-- | :-- | :-- |");
+            if (supported)
+            {
+                tableBuilder.AppendLine("|  Version  | Release Date | Release type | Support phase | Latest Patch Version | End of Support |");
+                tableBuilder.AppendLine("| :-- | :-- | :-- | :-- | :-- | :-- |");
+            }
+            else
+            {
+                tableBuilder.AppendLine("|  Version  | Release Date | Release type | Latest Patch Version | End of Support |");
+                tableBuilder.AppendLine("| :-- | :-- | :-- | :-- | :-- |");
+            }
 
             try
             {
@@ -142,8 +164,8 @@ namespace ReleaseNotesUpdater
                     string releasesFilePath = Path.Combine(channelFolder, "releases.json");
                     if (File.Exists(releasesFilePath))
                     {
-                        // Deserialize safely
                         CoreReleasesConfiguration? coreReleaseNotes = null;
+
                         try
                         {
                             coreReleaseNotes = _jsonFileHandler.DeserializeCoreReleasesConfiguration(releasesFilePath);
@@ -161,14 +183,9 @@ namespace ReleaseNotesUpdater
                             string releaseType = (coreReleaseNotes.ReleaseType ?? "TBA").ToUpper();
                             string eolDate = FormatDate(coreReleaseNotes.EolDate);
 
-                            // Skip channel versions that are in EOL phase
-                            if (supportPhase.Equals("EOL", StringComparison.OrdinalIgnoreCase))
-                            {
-                                continue;
-                            }
-
-                            // Skip preview versions for markdown file list
-                            if (latestRelease.Contains("preview", StringComparison.OrdinalIgnoreCase))
+                            // Check support phase against the "supported" parameter
+                            bool isSupported = !supportPhase.Equals("EOL", StringComparison.OrdinalIgnoreCase);
+                            if (supported != isSupported)
                             {
                                 continue;
                             }
@@ -182,41 +199,25 @@ namespace ReleaseNotesUpdater
                                 ? launchDate
                                 : $"[{launchDate}]({announcementLink})";
 
-                            tableBuilder.AppendLine($"| [.NET {channelVersion}](release-notes/{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDate} |");
+                            // Generate the EOL date column with the EOL announcement link if available
+                            string eolAnnouncementLink = GetEolAnnouncementLink(channelVersion);
+                            string eolDateColumn = string.IsNullOrEmpty(eolAnnouncementLink)
+                                ? eolDate
+                                : $"[{eolDate}]({eolAnnouncementLink})";
 
+                            if (supported)
+                            {
+                                tableBuilder.AppendLine($"| [.NET {channelVersion}](release-notes/{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
+                            }
+                            else
+                            {
+                                tableBuilder.AppendLine($"| [.NET {channelVersion}](release-notes/{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
+                            }
+
+                            // Add the dynamic link for the latest release
                             if (!string.IsNullOrEmpty(latestRelease))
                             {
-                                // Build the markdown file list
-                                markdownFilesBuilder.AppendLine($"* [{channelVersion}/{latestRelease}/{latestRelease}.md](./{channelVersion}/{latestRelease}/{latestRelease}.md)");
-
-                                // Add the dynamic link for the latest release
-                                string linkPath;
-                                if (latestRelease.Contains("preview"))
-                                {
-                                    // Handle preview releases
-                                    string[] previewParts = latestRelease.Split('-');
-                                    if (previewParts.Length == 2 && previewParts[1].StartsWith("preview"))
-                                    {
-                                        string previewNumber = previewParts[1].Replace("preview.", "preview");
-                                        linkPath = $"release-notes/{channelVersion}/preview/{previewNumber}/{latestRelease}.md";
-                                    }
-                                    else
-                                    {
-                                        LogError($"Unexpected preview release format: {latestRelease}");
-                                        continue;
-                                    }
-                                }
-                                else if (channelVersion.Contains("."))
-                                {
-                                    // Handle final releases with no preview
-                                    linkPath = $"release-notes/{channelVersion}/{latestRelease}.md";
-                                }
-                                else
-                                {
-                                    // Handle other versions (default logic)
-                                    linkPath = $"release-notes/{channelVersion}/{latestRelease}/{latestRelease}.md";
-                                }
-
+                                string linkPath = GenerateLinkPath(channelVersion, latestRelease);
                                 linksBuilder.AppendLine($"[{latestRelease}]: {linkPath}");
                             }
                         }
@@ -228,9 +229,37 @@ namespace ReleaseNotesUpdater
                 LogError($"An error occurred while generating the markdown table: {ex.Message}");
             }
 
-            markdownFilesList = markdownFilesBuilder.ToString();
-            dynamicLinks = linksBuilder.ToString();
-            return tableBuilder.ToString();
+            dynamicLinks = "\n" + linksBuilder.ToString().TrimEnd(); // Add a single newline after the table and trim trailing empty lines in links
+            return tableBuilder.ToString().TrimEnd(); // Remove trailing empty lines in the table
+        }
+
+        private string GenerateLinkPath(string channelVersion, string latestRelease)
+        {
+            if (latestRelease.Contains("preview"))
+            {
+                // Handle preview releases
+                string[] previewParts = latestRelease.Split('-');
+                if (previewParts.Length == 2 && previewParts[1].StartsWith("preview"))
+                {
+                    string previewNumber = previewParts[1].Replace("preview.", "preview");
+                    return $"release-notes/{channelVersion}/preview/{previewNumber}/{latestRelease}.md";
+                }
+                else
+                {
+                    LogError($"Unexpected preview release format: {latestRelease}");
+                    return string.Empty;
+                }
+            }
+            else if (channelVersion.Contains("."))
+            {
+                // Handle final releases with no preview
+                return $"release-notes/{channelVersion}/{latestRelease}.md";
+            }
+            else
+            {
+                // Handle other versions (default logic)
+                return $"release-notes/{channelVersion}/{latestRelease}/{latestRelease}.md";
+            }
         }
 
         private string GetLaunchDate(string channelVersion)
@@ -241,6 +270,11 @@ namespace ReleaseNotesUpdater
         private string GetAnnouncementLink(string channelVersion)
         {
             return _announcementLinks.TryGetValue(channelVersion, out string? link) ? link : string.Empty;
+        }
+
+        private string GetEolAnnouncementLink(string channelVersion)
+        {
+            return _eolAnnouncementLinks.TryGetValue(channelVersion, out string? link) ? link : string.Empty;
         }
 
         private string FormatDate(string? date)

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ReleaseNotesUpdater.CoreDirJsonUpdaters;
 using ReleaseNotesUpdater.InstallersMarkdownUpdaters;
 using ReleaseNotesUpdater.VersionsMarkdownUpdater;
+using ReleaseNotesUpdater.ReleasesReadMeUpdaters;
 
 namespace ReleaseNotesUpdater
 {
@@ -78,7 +79,8 @@ namespace ReleaseNotesUpdater
                 var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);  
+                var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
+                var versionReadMeUpdater = new VersionReadMeUpdater(templateDirectory, logFileLocation);
             
             /*
                 var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
@@ -93,6 +95,7 @@ namespace ReleaseNotesUpdater
                 installWindowsUpdater.UpdateFiles();
                 runtimeFileUpdater.UpdateFiles();
                 sdkFileUpdater.UpdateFiles();
+                versionReadMeUpdater.UpdateFiles();
             /*       
                 cveFileUpdater.UpdateFiles();
             */

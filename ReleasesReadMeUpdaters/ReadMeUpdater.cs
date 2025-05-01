@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Globalization;
 using ReleaseNotesUpdater.Models;
 
-namespace ReleaseNotesUpdater
+namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 {
     public class ReadMeUpdater
     {

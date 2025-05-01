@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace ReleaseNotesUpdater
+namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 {
     public class VersionReadMeUpdater : FileUpdater
     {
