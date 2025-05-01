@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.Json;
 using ReleaseNotesUpdater.Models;
 
-namespace ReleaseNotesUpdater
+namespace ReleaseNotesUpdater.InstallerUpdaters
 {
     public class InstallLinuxUpdater : FileUpdater
     {

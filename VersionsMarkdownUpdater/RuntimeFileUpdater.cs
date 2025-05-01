@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using ReleaseNotesUpdater.Models;
 
-namespace ReleaseNotesUpdater
+namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
 {
     public class RuntimeFileUpdater : FileUpdater
     {

@@ -4,9 +4,9 @@ using System.IO;
 using System.Text.Json;
 using ReleaseNotesUpdater.Models;
 
-namespace ReleaseNotesUpdater
+namespace ReleaseNotesUpdater.InstallerUpdaters
 {
-    public class InstallWindowsUpdater : FileUpdater
+    public class InstallMacosUpdater : FileUpdater
     {
         // List to store runtime IDs
         private readonly List<string> runtimeIds;
@@ -18,13 +18,13 @@ namespace ReleaseNotesUpdater
         private readonly string outputPath;
 
         // Name of the new file to be created (declared within the class)
-        private readonly string newFileName = "3install-windows";
+        private readonly string newFileName = "3install-macos";
 
-        // Instance of JsonFileHandler for JSON file handling
+        // Instance of JsonFileHandler for JSON file location and deserialization
         private readonly JsonFileHandler _jsonFileHandler;
 
         // Constructor to initialize the updater with relevant directories, log file location, runtime IDs, download path, output path, and JsonFileHandler
-        public InstallWindowsUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath, JsonFileHandler jsonFileHandler)
+        public InstallMacosUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath, JsonFileHandler jsonFileHandler)
             : base(templateDirectory, logFileLocation)
         {
             this.runtimeIds = runtimeIds;
@@ -55,21 +55,21 @@ namespace ReleaseNotesUpdater
                                 // Find the release that matches the current version
                                 if (release.Runtime.Version == runtimeId)
                                 {
-                                    string installWindowsTemplate = Path.Combine(TemplateDirectory, "install-windows-template.md");
-                                    string newInstallWindowsFile = Path.Combine(outputPath, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
+                                    string installMacosTemplate = Path.Combine(TemplateDirectory, "install-macos-template.md");
+                                    string newInstallMacosFile = Path.Combine(outputPath, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
 
                                     // Ensure the directory for the new file exists
                                     CreateDirectoryIfNotExists(outputPath);
 
                                     // Check if the file already exists to avoid duplication
-                                    if (!File.Exists(newInstallWindowsFile))
+                                    if (!File.Exists(newInstallMacosFile))
                                     {
                                         // Modify the template file with data from the configuration and write to the new file
-                                        ModifyTemplateFile(installWindowsTemplate, newInstallWindowsFile, runtimeId, configData.ChannelVersion, release, configData.LatestSdk);
+                                        ModifyTemplateFile(installMacosTemplate, newInstallMacosFile, runtimeId, configData.ChannelVersion, release, configData.LatestSdk);
                                     }
                                     else
                                     {
-                                        Console.WriteLine($"File already exists: {newInstallWindowsFile}. Skipping creation.");
+                                        Console.WriteLine($"File already exists: {newInstallMacosFile}. Skipping creation.");
                                     }
                                 }
                             }
@@ -104,13 +104,13 @@ namespace ReleaseNotesUpdater
             Console.WriteLine($"Extracted channel version: {channelVersion} for runtime ID: {version}"); // Debug log
             Console.WriteLine($"Extracted latest SDK: {latestSdk} for runtime ID: {version}"); // Debug log
 
-            // Find the URL for "dotnet-sdk-win-x64.exe"
+            // Find the URL for "dotnet-sdk-osx-x64.tar.gz"
             string sdkUrl = "";
             if (release.Sdk != null && release.Sdk.Files != null)
             {
                 foreach (var sdkFile in release.Sdk.Files)
                 {
-                    if (sdkFile.Name == "dotnet-sdk-win-x64.exe")
+                    if (sdkFile.Name == "dotnet-sdk-osx-x64.tar.gz")
                     {
                         sdkUrl = sdkFile.Url;
                         break;
@@ -122,14 +122,14 @@ namespace ReleaseNotesUpdater
             // Replace placeholders in the template with actual data
             string modifiedContent = templateContent
                 .Replace("{ID-VERSION}", channelVersion ?? "")
-                .Replace("{WIN-SDK-URL}", sdkUrl)
+                .Replace("{MACOS-SDK-URL}", sdkUrl)
                 .Replace("{LATEST-SDK}", latestSdk ?? "");
 
             // Write the modified content to the output path
             File.WriteAllText(outputPath, modifiedContent);
 
             // Confirm file creation
-            Console.WriteLine($"New install-windows file created at: {outputPath}");
+            Console.WriteLine($"New install-macos file created at: {outputPath}");
         }
 
         // Helper method to create directory if it does not exist
