@@ -80,7 +80,13 @@ namespace ReleaseNotesUpdater
                 var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                var versionReadMeUpdater = new VersionReadMeUpdater(templateDirectory, logFileLocation);
+                var versionReadMeUpdater = new VersionReadMeUpdater(
+                    templateDirectory, 
+                    logFileLocation, 
+                    coreDirectory, 
+                    outputDirectory, 
+                    runtimeIds, 
+                    jsonFileHandler);
             
             /*
                 var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
