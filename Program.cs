@@ -87,10 +87,14 @@ namespace ReleaseNotesUpdater
                     outputDirectory, 
                     runtimeIds, 
                     jsonFileHandler);
-            
-            /*
-                var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory);
-            */
+                
+                var cveFileUpdater = new CveFileUpdater(
+                    templateDirectory, 
+                    logFileLocation, 
+                    coreDirectory, 
+                    outputDirectory, 
+                    runtimeIds, 
+                    jsonFileHandler);
 
                 // Update the files
                 readMeUpdater.UpdateFiles();
@@ -102,9 +106,7 @@ namespace ReleaseNotesUpdater
                 runtimeFileUpdater.UpdateFiles();
                 sdkFileUpdater.UpdateFiles();
                 versionReadMeUpdater.UpdateFiles();
-            /*       
                 cveFileUpdater.UpdateFiles();
-            */
 
                 Console.WriteLine("All files updated successfully.");
             }

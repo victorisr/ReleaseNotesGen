@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ReleaseNotesUpdater")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79a1fb4f70c8c4940f2f6975e422f41723ef6f0b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78e830832d2583aa1ccb03758f4aea31f3e3f9a5")]
 [assembly: System.Reflection.AssemblyProductAttribute("ReleaseNotesUpdater")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ReleaseNotesUpdater")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
