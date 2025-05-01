@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater.CoreDirectoryUpdaters
@@ -40,7 +41,7 @@ namespace ReleaseNotesUpdater.CoreDirectoryUpdaters
                 CreateDirectoryIfNotExists(OutputDirectory);
 
                 // Load existing release index from core directory as reference, if available
-                dynamic releaseIndex;
+                JsonNode? releaseIndexRoot = null;
                 string coreReleaseIndexPath = Path.Combine(CoreDirectory, "core", "release-notes", "releases-index.json");
                 
                 if (File.Exists(coreReleaseIndexPath))
@@ -48,27 +49,21 @@ namespace ReleaseNotesUpdater.CoreDirectoryUpdaters
                     try
                     {
                         string json = File.ReadAllText(coreReleaseIndexPath);
-                        releaseIndex = JsonSerializer.Deserialize<dynamic>(json);
+                        releaseIndexRoot = JsonNode.Parse(json);
                         LogMessage("Successfully loaded existing releases-index.json from core directory as reference");
                     }
                     catch (Exception ex)
                     {
                         LogError($"Error loading existing releases-index.json from core directory: {ex.Message}");
                         // Create new index if loading fails
-                        releaseIndex = new
-                        {
-                            releases = new List<object>()
-                        };
+                        releaseIndexRoot = CreateNewReleasesIndex();
                         LogMessage("Created new releases-index.json structure");
                     }
                 }
                 else
                 {
                     // Create new if file doesn't exist
-                    releaseIndex = new
-                    {
-                        releases = new List<object>()
-                    };
+                    releaseIndexRoot = CreateNewReleasesIndex();
                     LogMessage("Created new releases-index.json structure");
                 }
 
@@ -84,12 +79,12 @@ namespace ReleaseNotesUpdater.CoreDirectoryUpdaters
                         _runtimeIds.Add(runtimeId);
                         
                         // Update release index for this runtime ID
-                        UpdateReleaseIndexForRuntime(runtimeId, releaseIndex);
+                        UpdateReleaseIndexForRuntime(runtimeId, releaseIndexRoot);
                     }
                 }
 
                 // Write the updated release index to the output directory
-                string updatedJson = JsonSerializer.Serialize(releaseIndex, JsonOptions);
+                string updatedJson = JsonSerializer.Serialize(releaseIndexRoot, JsonOptions);
                 File.WriteAllText(releaseIndexPath, updatedJson);
                 LogMessage("Successfully created releases-index.json in output directory");
             }
@@ -101,9 +96,20 @@ namespace ReleaseNotesUpdater.CoreDirectoryUpdaters
         }
 
         /// <summary>
+        /// Creates a new releases-index.json structure
+        /// </summary>
+        private JsonNode CreateNewReleasesIndex()
+        {
+            var jsonObject = new JsonObject();
+            jsonObject.Add("$schema", "https://json.schemastore.org/dotnet-releases-index.json");
+            jsonObject.Add("releases-index", new JsonArray());
+            return jsonObject;
+        }
+
+        /// <summary>
         /// Updates the release index for a specific runtime
         /// </summary>
-        private void UpdateReleaseIndexForRuntime(string runtimeId, dynamic releaseIndex)
+        private void UpdateReleaseIndexForRuntime(string runtimeId, JsonNode releaseIndexRoot)
         {
             try
             {
@@ -127,9 +133,16 @@ namespace ReleaseNotesUpdater.CoreDirectoryUpdaters
                 string channelVersion = ExtractChannelVersion(runtimeId);
 
                 // Update or add the channel version in the release index
-                UpdateReleaseIndexEntry(releaseIndex, configData, channelVersion);
+                bool updated = UpdateReleaseIndexEntry(releaseIndexRoot, configData, channelVersion, runtimeId);
                 
-                LogMessage($"Updated releases index data for runtime ID: {runtimeId}, channel: {channelVersion}");
+                if (updated)
+                {
+                    LogMessage($"Updated releases index data for runtime ID: {runtimeId}, channel: {channelVersion}");
+                }
+                else
+                {
+                    LogMessage($"Added new releases index entry for runtime ID: {runtimeId}, channel: {channelVersion}");
+                }
             }
             catch (Exception ex)
             {
@@ -141,29 +154,89 @@ namespace ReleaseNotesUpdater.CoreDirectoryUpdaters
         /// <summary>
         /// Updates an entry in the release index
         /// </summary>
-        private void UpdateReleaseIndexEntry(dynamic releaseIndex, ReleasesConfiguration configData, string channelVersion)
+        private bool UpdateReleaseIndexEntry(JsonNode releaseIndexRoot, ReleasesConfiguration configData, string channelVersion, string runtimeId)
         {
-            // In a real implementation, you would analyze the releaseIndex object (which is dynamic)
-            // and update or add an entry for this channel version with data from configData
-            // Here's a simplified example structure:
-            
-            var newEntry = new 
+            if (releaseIndexRoot == null || configData == null)
             {
-                channel_version = channelVersion,
-                latest_release = configData.LatestRelease,
-                latest_release_date = configData.LatestReleaseDate,
-                latest_runtime = configData.LatestRuntime,
-                latest_sdk = configData.LatestSdk,
-                support_phase = configData.SupportPhase,
-                release_type = configData.ReleaseType,
-                lifecycle_policy = configData.LifecyclePolicy
-                // Add other necessary fields
-            };
-            
-            // Note: This is a simplified implementation and would need to be enhanced
-            // to properly update the dynamic object based on your specific index format
-            
-            LogMessage($"Updated release index entry for channel version: {channelVersion}");
+                LogError("Invalid release index or configuration data");
+                return false;
+            }
+
+            var indexArray = releaseIndexRoot["releases-index"]?.AsArray();
+            if (indexArray == null)
+            {
+                LogError("Invalid releases-index structure");
+                return false;
+            }
+
+            // Find the entry with the matching channel-version
+            JsonNode? existingEntry = null;
+            int existingEntryIndex = -1;
+
+            for (int i = 0; i < indexArray.Count; i++)
+            {
+                var entry = indexArray[i];
+                if (entry != null && entry["channel-version"]?.GetValue<string>() == channelVersion)
+                {
+                    existingEntry = entry;
+                    existingEntryIndex = i;
+                    break;
+                }
+            }
+
+            // Get security value from the first release (latest release)
+            bool security = false;
+            if (configData.Releases != null && configData.Releases.Count > 0)
+            {
+                security = configData.Releases[0].Security;
+            }
+
+            // Determine if this is a new entry or an update to an existing one
+            if (existingEntry == null)
+            {
+                // Create a new entry
+                var newEntry = new JsonObject
+                {
+                    ["channel-version"] = channelVersion,
+                    ["latest-release"] = configData.LatestRelease,
+                    ["latest-release-date"] = configData.LatestReleaseDate,
+                    ["security"] = security,
+                    ["latest-runtime"] = configData.LatestRuntime,
+                    ["latest-sdk"] = configData.LatestSdk,
+                    ["product"] = ".NET", // Default to current product name
+                    ["support-phase"] = configData.SupportPhase,
+                    ["release-type"] = configData.ReleaseType
+                };
+
+                // Add URLs for releases.json and supported-os.json
+                newEntry.Add("releases.json", $"https://builds.dotnet.microsoft.com/dotnet/release-metadata/{channelVersion}/releases.json");
+                newEntry.Add("supported-os.json", $"https://builds.dotnet.microsoft.com/dotnet/release-metadata/{channelVersion}/supported-os.json");
+
+                // Add new entry to the array
+                indexArray.Add(newEntry);
+                
+                // Return false to indicate a new entry was added
+                return false;
+            }
+            else
+            {
+                // Update existing entry with the latest values
+                existingEntry["latest-release"] = configData.LatestRelease;
+                existingEntry["latest-release-date"] = configData.LatestReleaseDate;
+                existingEntry["security"] = security;
+                existingEntry["latest-runtime"] = configData.LatestRuntime;
+                existingEntry["latest-sdk"] = configData.LatestSdk;
+                existingEntry["support-phase"] = configData.SupportPhase;
+                
+                // Only update release-type if it's defined in the config
+                if (!string.IsNullOrEmpty(configData.ReleaseType))
+                {
+                    existingEntry["release-type"] = configData.ReleaseType;
+                }
+                
+                // Return true to indicate an existing entry was updated
+                return true;
+            }
         }
     }
 }

@@ -345,3 +345,41 @@ Timestamp: 4/2/2025 6:45:27 PM
 4/30/2025 4:16:44 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0.15release.json
 4/30/2025 4:16:44 PM: Successfully created 8.0.15release.json in output directory
 4/30/2025 4:16:44 PM: Core Directory JSON file updates completed successfully.
+4/30/2025 4:58:17 PM: Starting Core Directory JSON file updates...
+4/30/2025 4:58:17 PM: Creating releases-index.json at: C:\Users\victorisr\OneDrive - Microsoft\Desktop\releases-index.json
+4/30/2025 4:58:17 PM: Successfully loaded existing releases-index.json from core directory as reference
+4/30/2025 4:58:17 PM: Updated releases index data for runtime ID: 8.0.15, channel: 8.0
+4/30/2025 4:58:17 PM: Updated releases index data for runtime ID: 9.0.4, channel: 9.0
+4/30/2025 4:58:17 PM: Successfully created releases-index.json in output directory
+4/30/2025 4:58:17 PM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+4/30/2025 4:58:17 PM: Updated existing release 9.0.4 in channel releases
+4/30/2025 4:58:17 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0-releases.json
+4/30/2025 4:58:17 PM: Successfully created 9.0-releases.json in output directory
+4/30/2025 4:58:17 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0.4release.json
+4/30/2025 4:58:17 PM: Successfully created 9.0.4release.json in output directory
+4/30/2025 4:58:17 PM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+4/30/2025 4:58:17 PM: Added new release 8.0.15 to channel releases
+4/30/2025 4:58:17 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0-releases.json
+4/30/2025 4:58:17 PM: Successfully created 8.0-releases.json in output directory
+4/30/2025 4:58:17 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0.15release.json
+4/30/2025 4:58:17 PM: Successfully created 8.0.15release.json in output directory
+4/30/2025 4:58:17 PM: Core Directory JSON file updates completed successfully.
+4/30/2025 5:04:14 PM: Starting Core Directory JSON file updates...
+4/30/2025 5:04:14 PM: Creating releases-index.json at: C:\Users\victorisr\OneDrive - Microsoft\Desktop\releases-index.json
+4/30/2025 5:04:14 PM: Successfully loaded existing releases-index.json from core directory as reference
+4/30/2025 5:04:14 PM: Updated releases index data for runtime ID: 8.0.15, channel: 8.0
+4/30/2025 5:04:14 PM: Updated releases index data for runtime ID: 9.0.4, channel: 9.0
+4/30/2025 5:04:14 PM: Successfully created releases-index.json in output directory
+4/30/2025 5:04:14 PM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+4/30/2025 5:04:14 PM: Updated existing release 9.0.4 in channel releases
+4/30/2025 5:04:14 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0-releases.json
+4/30/2025 5:04:14 PM: Successfully created 9.0-releases.json in output directory
+4/30/2025 5:04:14 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0.4release.json
+4/30/2025 5:04:14 PM: Successfully created 9.0.4release.json in output directory
+4/30/2025 5:04:14 PM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+4/30/2025 5:04:14 PM: Added new release 8.0.15 to channel releases
+4/30/2025 5:04:14 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0-releases.json
+4/30/2025 5:04:14 PM: Successfully created 8.0-releases.json in output directory
+4/30/2025 5:04:14 PM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0.15release.json
+4/30/2025 5:04:14 PM: Successfully created 8.0.15release.json in output directory
+4/30/2025 5:04:14 PM: Core Directory JSON file updates completed successfully.
