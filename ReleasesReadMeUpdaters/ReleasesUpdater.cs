@@ -205,13 +205,27 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                                 ? eolDate
                                 : $"[{eolDate}]({eolAnnouncementLink})";
 
-                            if (supported)
+                            // Determine if this is a legacy .NET Core version (1.0-3.1)
+                            bool isLegacyNetCore = IsLegacyNetCoreVersion(channelVersion);
+                            
+                            // Format the version display differently based on supported status and version
+                            string versionDisplay;
+                            if (!supported && isLegacyNetCore)
                             {
-                                tableBuilder.AppendLine($"| [.NET {channelVersion}](release-notes/{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
+                                versionDisplay = $"[.NET Core {channelVersion}](release-notes/{channelVersion}/README.md)";
                             }
                             else
                             {
-                                tableBuilder.AppendLine($"| [.NET {channelVersion}](release-notes/{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
+                                versionDisplay = $"[.NET {channelVersion}](release-notes/{channelVersion}/README.md)";
+                            }
+
+                            if (supported)
+                            {
+                                tableBuilder.AppendLine($"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
+                            }
+                            else
+                            {
+                                tableBuilder.AppendLine($"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
                             }
 
                             // Add the dynamic link for the latest release
@@ -231,6 +245,13 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 
             dynamicLinks = "\n" + linksBuilder.ToString().TrimEnd(); // Add a single newline after the table and trim trailing empty lines in links
             return tableBuilder.ToString().TrimEnd(); // Remove trailing empty lines in the table
+        }
+
+        // Helper method to determine if a version is a legacy .NET Core version (1.0-3.1)
+        private bool IsLegacyNetCoreVersion(string version)
+        {
+            string[] legacyVersions = { "1.0", "1.1", "2.0", "2.1", "2.2", "3.0", "3.1" };
+            return Array.Exists(legacyVersions, v => v == version);
         }
 
         private string GenerateLinkPath(string channelVersion, string latestRelease)
