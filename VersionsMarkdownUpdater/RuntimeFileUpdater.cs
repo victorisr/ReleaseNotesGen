@@ -122,9 +122,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
 
             // Confirm file creation
             Console.WriteLine($"New runtime file created at: {outputPath}");
-        }
-
-        // Method to replace section placeholders with markdown-style tables
+        }        // Method to replace section placeholders with markdown-style tables
         private string ReplaceSectionPlaceholders(string content, ReleasesConfiguration configData, Release release)
         {
             content = content.Replace("SECTION-ADDEDSDK", ReplaceAddedSdkSection(configData, release.Sdks, configData.LatestSdk));
@@ -134,8 +132,9 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             content = content.Replace("SECTION-ASP", ReplaceAspSection(configData.LatestRuntime, release.AspNetCoreRuntime));
             content = content.Replace("SECTION-LATESTSDK", ReplaceLatestSdkSection(configData.LatestSdk, release.Sdk));
             content = content.Replace("SECTION-PACKAGES", ReplacePackagesSection(release.Packages));
+            content = content.Replace("SECTION-MSRC", ReplaceMsrcSecuritySection(release));
             return content;
-        }        // Method to replace SECTION-ADDEDSDK placeholder
+        }// Method to replace SECTION-ADDEDSDK placeholder
         private string ReplaceAddedSdkSection(ReleasesConfiguration configData, List<Sdk> sdks, string latestSdk)
         {
             if (sdks == null) return "";
@@ -241,9 +240,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 }
             }
             return markdownList;
-        }
-
-        // Method to replace SECTION-PACKAGES placeholder
+        }        // Method to replace SECTION-PACKAGES placeholder
         private string ReplacePackagesSection(List<Package> packages)
         {
             if (packages == null) return "";
@@ -253,6 +250,39 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 table += $"| {package.Name} | {package.Version} |\n";
             }
             return table;
+        }
+
+        // Method to replace SECTION-MSRC placeholder with security information
+        private string ReplaceMsrcSecuritySection(Release release)
+        {
+            // If the release has the Security flag set to true, display security notice
+            if (release.Security)
+            {
+                string securityText = "### Security\n\n";
+                securityText += "This release includes security fixes and non-security fixes. Details on security fixes below can be found in the [Microsoft Security Advisory](https://github.com/dotnet/announcements/issues?q=is%3Aissue%20state%3Aopen%20%20Microsoft%20Security%20Advisory)";
+                
+                // Add CVE information if available
+                if (release.CveList != null && release.CveList.Count > 0)
+                {
+                    securityText += ":\n\n";
+                    foreach (var cve in release.CveList)
+                    {
+                        if (!string.IsNullOrEmpty(cve.CveUrl))
+                        {
+                            securityText += $"* [{cve.CveUrl}]({cve.CveUrl})\n";
+                        }
+                    }
+                }
+                else
+                {
+                    securityText += ".";
+                }
+                
+                return securityText;
+            }
+            
+            // If no security issues, return an empty string
+            return "";
         }
 
         // Helper method to create directory if it does not exist
