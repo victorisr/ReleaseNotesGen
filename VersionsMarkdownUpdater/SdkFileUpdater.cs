@@ -97,13 +97,16 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private void ModifyTemplateFile(string templatePath, string outputPath, string sdkVersion, ReleasesConfiguration configData, Sdk sdk)
         {
             // Read the content of the template file
-            string templateContent = File.ReadAllText(templatePath);
-
-            // Extract key values from the config data
+            string templateContent = File.ReadAllText(templatePath);            // Extract key values from the config data
             string runtimeVersion = configData.LatestRuntime;
             string latestSdk = configData.LatestSdk;
             string channelVersion = configData.ChannelVersion;
             string latestReleaseDate = configData.LatestReleaseDate;
+            
+            // Get the VS version from the runtime (not sdk) 
+            // Find the release with the matching runtime version to extract VS version
+            Release? release = FindReleaseByRuntimeVersion(configData.Releases, runtimeVersion);
+            string vsVersion = GetMinimumVisualStudioVersion(release);
 
             // Format the latest release date
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
@@ -113,6 +116,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             Console.WriteLine($"Extracted latest SDK: {latestSdk} for SDK version: {sdkVersion}"); // Debug log
             Console.WriteLine($"Extracted channel version: {channelVersion} for SDK version: {sdkVersion}"); // Debug log
             Console.WriteLine($"Extracted latest release date: {formattedDate} for SDK version: {sdkVersion}"); // Debug log
+            Console.WriteLine($"Extracted VS version: {vsVersion} for SDK version: {sdkVersion}"); // Debug log
 
             // Replace placeholders in the template with actual data
             string modifiedContent = templateContent
@@ -120,7 +124,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 .Replace("{LATEST-SDK}", latestSdk ?? "")
                 .Replace("{ID-VERSION}", channelVersion ?? "")
                 .Replace("{SDK-VERSION}", sdkVersion ?? "")
-                .Replace("{HEADER-DATE}", formattedDate ?? "");
+                .Replace("{HEADER-DATE}", formattedDate ?? "")
+                .Replace("{VS-VERSION}", vsVersion);
 
             // Replace section placeholders with markdown-style tables
             modifiedContent = ReplaceSectionPlaceholders(modifiedContent, configData, sdk);
@@ -282,5 +287,57 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 Directory.CreateDirectory(path);
             }
         }
+
+    // Find a release that matches the given runtime version
+    private Release? FindReleaseByRuntimeVersion(List<Release> releases, string runtimeVersion)
+    {
+        if (releases == null || string.IsNullOrEmpty(runtimeVersion))
+        {
+            return null;
+        }
+
+        foreach (var release in releases)
+        {
+            if (release?.Runtime?.Version == runtimeVersion)
+            {
+                return release;
+            }
+        }
+
+        return null;
+    }
+
+    // Extract the minimum Visual Studio version (major.minor) from a release
+    private string GetMinimumVisualStudioVersion(Release? release)
+    {
+        if (release?.Runtime?.VsVersion == null)
+        {
+            return "17.0"; // Default fallback if no version is specified
+        }
+        
+        string vsVersionFull = release.Runtime.VsVersion;
+        
+        // Extract just the major.minor part (e.g., "17.8" from "17.8.21")
+        int secondDotIndex = vsVersionFull.IndexOf('.', vsVersionFull.IndexOf('.') + 1);
+        
+        if (secondDotIndex > 0)
+        {
+            // There's at least a second dot, so trim after it
+            return vsVersionFull.Substring(0, secondDotIndex);
+        }
+        else
+        {
+            // No second dot, check if there's at least one dot
+            int firstDotIndex = vsVersionFull.IndexOf('.');
+            if (firstDotIndex > 0)
+            {
+                // Return as is since it's already in major.minor format
+                return vsVersionFull;
+            }
+            
+            // Just return whatever is there if format is unexpected
+            return vsVersionFull;
+        }
+    }
     }
 }
