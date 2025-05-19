@@ -136,13 +136,18 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             content = content.Replace("SECTION-LATESTSDK", ReplaceLatestSdkSection(configData.LatestSdk, release.Sdk));
             content = content.Replace("SECTION-PACKAGES", ReplacePackagesSection(release.Packages));
             return content;
-        }
-
-        // Method to replace SECTION-ADDEDSDK placeholder
+        }        // Method to replace SECTION-ADDEDSDK placeholder
         private string ReplaceAddedSdkSection(ReleasesConfiguration configData, List<Sdk> sdks, string latestSdk)
         {
             if (sdks == null) return "";
+            
+            // Start with a newline
             var markdownList = "\n";
+            
+            // Add the latest SDK as the first item
+            markdownList += $"* [{latestSdk}][{latestSdk}]\n";
+            
+            // Add all other SDKs
             foreach (var sdk in sdks)
             {
                 var version = sdk.Version;
@@ -151,6 +156,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     markdownList += $"* [{version}][{version}]\n";
                 }
             }
+            
             return markdownList;
         }
 
