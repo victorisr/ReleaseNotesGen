@@ -91,20 +91,21 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     Console.WriteLine($"JSON file not found for runtime ID: {runtimeId}");
                 }
             }
-        }
-
-        // Method to modify the template file with actual data and write to the output path
+        }        // Method to modify the template file with actual data and write to the output path
         private void ModifyTemplateFile(string templatePath, string outputPath, string sdkVersion, ReleasesConfiguration configData, Sdk sdk)
         {
             // Read the content of the template file
-            string templateContent = File.ReadAllText(templatePath);            // Extract key values from the config data
+            string templateContent = File.ReadAllText(templatePath);            
+            
+            // Extract key values from the config data
             string runtimeVersion = configData.LatestRuntime;
             string latestSdk = configData.LatestSdk;
             string channelVersion = configData.ChannelVersion;
             string latestReleaseDate = configData.LatestReleaseDate;
             
-            // Extract the VS version specifically for this SDK
+            // Extract the VS versions
             string sdkVsVersion = GetSdkVisualStudioVersion(sdk);
+            string minVsVersion = GetMinimumRuntimeVsVersion(configData);
 
             // Format the latest release date
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
@@ -114,14 +115,18 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             Console.WriteLine($"Extracted latest SDK: {latestSdk} for SDK version: {sdkVersion}"); // Debug log
             Console.WriteLine($"Extracted channel version: {channelVersion} for SDK version: {sdkVersion}"); // Debug log
             Console.WriteLine($"Extracted latest release date: {formattedDate} for SDK version: {sdkVersion}"); // Debug log
-            Console.WriteLine($"Extracted SDK VS version: {sdkVsVersion} for SDK version: {sdkVersion}"); // Debug log            // Replace placeholders in the template with actual data
+            Console.WriteLine($"Extracted SDK VS version: {sdkVsVersion} for SDK version: {sdkVersion}"); // Debug log
+            Console.WriteLine($"Extracted minimum VS version: {minVsVersion} for SDK version: {sdkVersion}"); // Debug log
+            
+            // Replace placeholders in the template with actual data
             string modifiedContent = templateContent
                 .Replace("{RUNTIME-VERSION}", runtimeVersion ?? "")
                 .Replace("{LATEST-SDK}", latestSdk ?? "")
                 .Replace("{ID-VERSION}", channelVersion ?? "")
                 .Replace("{SDK-VERSION}", sdkVersion ?? "")
                 .Replace("{HEADER-DATE}", formattedDate ?? "")
-                .Replace("{SDKVS-VERSION}", sdkVsVersion ?? "");
+                .Replace("{SDKVS-VERSION}", sdkVsVersion ?? "")
+                .Replace("{VS-VERSION}", minVsVersion ?? "");
 
             // Replace section placeholders with markdown-style tables
             modifiedContent = ReplaceSectionPlaceholders(modifiedContent, configData, sdk);
@@ -306,6 +311,72 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 // Just return whatever is there if format is unexpected
                 return vsVersionFull;
             }
+        }
+
+        // Method to get the minimum VS version from all runtime objects in the releases array
+        private string GetMinimumRuntimeVsVersion(ReleasesConfiguration configData)
+        {
+            if (configData?.Releases == null || configData.Releases.Count == 0)
+            {
+                return "17.0"; // Default fallback if no releases data
+            }
+
+            string minVersion = "999.999"; // Start with a high version to ensure any real version is lower
+            bool foundVersion = false;
+
+            foreach (var release in configData.Releases)
+            {
+                if (release?.Runtime?.VsVersion != null && !string.IsNullOrWhiteSpace(release.Runtime.VsVersion))
+                {
+                    // The vs-version field might contain multiple versions separated by commas
+                    string[] versions = release.Runtime.VsVersion.Split(',');
+                    
+                    foreach (string version in versions)
+                    {
+                        string trimmedVersion = version.Trim();
+                        if (!string.IsNullOrWhiteSpace(trimmedVersion))
+                        {
+                            // Extract just the major.minor part
+                            string majorMinorVersion = ExtractMajorMinorVersion(trimmedVersion);
+                            
+                            // Compare versions to find the minimum
+                            if (CompareVersions(majorMinorVersion, minVersion) < 0)
+                            {
+                                minVersion = majorMinorVersion;
+                                foundVersion = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // If we didn't find any versions, return the default
+            return foundVersion ? minVersion : "17.0";
+        }
+
+        // Helper method to extract major.minor from a version string
+        private string ExtractMajorMinorVersion(string fullVersion)
+        {
+            // Split by dot and take the first two segments (e.g., "17.8" from "17.8.21")
+            string[] parts = fullVersion.Split('.');
+            if (parts.Length >= 2)
+            {
+                return $"{parts[0]}.{parts[1]}";
+            }
+            
+            // If there's only one part or the format is unexpected, return as is
+            return fullVersion;
+        }        // Helper method to compare version strings
+        private int CompareVersions(string version1, string version2)
+        {
+            // Try to parse both versions as Version objects
+            if (string.IsNullOrEmpty(version1) || !Version.TryParse(version1, out Version? v1))
+                v1 = new Version(0, 0);
+            
+            if (string.IsNullOrEmpty(version2) || !Version.TryParse(version2, out Version? v2))
+                v2 = new Version(0, 0);
+            
+            return v1.CompareTo(v2);
         }
 
         // Helper method to create directory if it does not exist
