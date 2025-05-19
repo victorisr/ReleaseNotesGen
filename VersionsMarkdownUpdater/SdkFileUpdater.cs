@@ -102,10 +102,11 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             string latestSdk = configData.LatestSdk;
             string channelVersion = configData.ChannelVersion;
             string latestReleaseDate = configData.LatestReleaseDate;
-            
-            // Extract the VS versions
+              // Extract the VS versions
             string sdkVsVersion = GetSdkVisualStudioVersion(sdk);
             string minVsVersion = GetMinimumRuntimeVsVersion(configData);
+            // Extract the C# version
+            string csharpVersion = GetCSharpVersion(sdk);
 
             // Format the latest release date
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
@@ -117,8 +118,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             Console.WriteLine($"Extracted latest release date: {formattedDate} for SDK version: {sdkVersion}"); // Debug log
             Console.WriteLine($"Extracted SDK VS version: {sdkVsVersion} for SDK version: {sdkVersion}"); // Debug log
             Console.WriteLine($"Extracted minimum VS version: {minVsVersion} for SDK version: {sdkVersion}"); // Debug log
-            
-            // Replace placeholders in the template with actual data
+            Console.WriteLine($"Extracted C# version: {csharpVersion} for SDK version: {sdkVersion}"); // Debug log
+              // Replace placeholders in the template with actual data
             string modifiedContent = templateContent
                 .Replace("{RUNTIME-VERSION}", runtimeVersion ?? "")
                 .Replace("{LATEST-SDK}", latestSdk ?? "")
@@ -126,7 +127,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 .Replace("{SDK-VERSION}", sdkVersion ?? "")
                 .Replace("{HEADER-DATE}", formattedDate ?? "")
                 .Replace("{SDKVS-VERSION}", sdkVsVersion ?? "")
-                .Replace("{VS-VERSION}", minVsVersion ?? "");
+                .Replace("{VS-VERSION}", minVsVersion ?? "")
+                .Replace("{CSHARPSDK-VERSION}", csharpVersion ?? "");
 
             // Replace section placeholders with markdown-style tables
             modifiedContent = ReplaceSectionPlaceholders(modifiedContent, configData, sdk);
@@ -377,6 +379,27 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 v2 = new Version(0, 0);
             
             return v1.CompareTo(v2);
+        }        // Method to get the C# version from the SDK (major version only)
+        private string GetCSharpVersion(Sdk sdk)
+        {
+            if (sdk?.CsharpVersion == null || string.IsNullOrWhiteSpace(sdk.CsharpVersion))
+            {
+                return "12"; // Default fallback if no version is specified
+            }
+            
+            string csharpFullVersion = sdk.CsharpVersion;
+            
+            // Extract just the major part (e.g., "12" from "12.0")
+            int dotIndex = csharpFullVersion.IndexOf('.');
+            
+            if (dotIndex > 0)
+            {
+                // There's a dot, so take just the first part
+                return csharpFullVersion.Substring(0, dotIndex);
+            }
+            
+            // No dot, return as is
+            return csharpFullVersion;
         }
 
         // Helper method to create directory if it does not exist

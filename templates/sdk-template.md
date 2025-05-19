@@ -28,7 +28,7 @@ Visit [.NET Documentation](https://learn.microsoft.com/dotnet/) to learn about .
 ## Visual Studio Compatibility
 
 You need [Visual Studio {VS-VERSION}](https://visualstudio.microsoft.com) or later to use .NET {ID-VERSION} on Windows. While not officially supported, we’ve also enabled rudimentary support for .NET {ID-VERSION} in Visual Studio for Mac. Users have to enable a preview feature in Preferences to enable the IDE to discover and use the .NET {ID-VERSION} SDK for creating, loading, building, and debugging projects.
-The [C# extension](https://code.visualstudio.com/docs/languages/dotnet) for [Visual Studio Code](https://code.visualstudio.com/) supports .NET {ID-VERSION} and C# 12.
+The [C# extension](https://code.visualstudio.com/docs/languages/dotnet) for [Visual Studio Code](https://code.visualstudio.com/) supports .NET {ID-VERSION} and C# {CSHARPSDK-VERSION}.
 
 [checksums-runtime]: https://builds.dotnet.microsoft.com/dotnet/checksums/{RUNTIME-VERSION}-sha.txt
 [checksums-sdk]: https://builds.dotnet.microsoft.com/dotnet/checksums/{RUNTIME-VERSION}-sha.txt
