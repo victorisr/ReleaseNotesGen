@@ -94,11 +94,10 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             string runtimeVersion = configData.LatestRuntime;
             string latestSdk = configData.LatestSdk;
             string channelVersion = configData.ChannelVersion;
-            string latestReleaseDate = configData.LatestReleaseDate;
-
-            // Format the latest release date
+            string latestReleaseDate = configData.LatestReleaseDate;            // Format the latest release date
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
             string blogPostDate = DateTime.Parse(latestReleaseDate).ToString("MMMM-yyyy", CultureInfo.InvariantCulture).ToLower();
+            string blogDate = DateTime.Parse(latestReleaseDate).ToString("MMMM yyyy", CultureInfo.InvariantCulture);
 
             // Logging the extracted values
             Console.WriteLine($"Extracted runtime version: {runtimeVersion} for runtime ID: {version}"); // Debug log
@@ -106,14 +105,14 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             Console.WriteLine($"Extracted channel version: {channelVersion} for runtime ID: {version}"); // Debug log
             Console.WriteLine($"Extracted latest release date: {formattedDate} for runtime ID: {version}"); // Debug log
             Console.WriteLine($"Formatted blog post date: {blogPostDate} for runtime ID: {version}"); // Debug log
-
-            // Replace placeholders in the template with actual data
+            Console.WriteLine($"Formatted blog date: {blogDate} for runtime ID: {version}"); // Debug log            // Replace placeholders in the template with actual data
             string modifiedContent = templateContent
                 .Replace("{RUNTIME-VERSION}", runtimeVersion ?? "")
                 .Replace("{LATEST-SDK}", latestSdk ?? "")
                 .Replace("{ID-VERSION}", channelVersion ?? "")
                 .Replace("{HEADER-DATE}", formattedDate ?? "")
-                .Replace("{BLOGPOST-DATE}", blogPostDate ?? "");
+                .Replace("{BLOGPOST-DATE}", blogPostDate ?? "")
+                .Replace("{BLOG-DATE}", blogDate ?? "");
 
             // Replace section placeholders with markdown-style tables
             modifiedContent = ReplaceSectionPlaceholders(modifiedContent, configData, release);

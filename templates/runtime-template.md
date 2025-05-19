@@ -47,7 +47,7 @@ The following repos have been updated.
 
 ## Notable Changes
 
- [.NET {ID-VERSION} Blog][dotnet-blog]
+ [.NET {ID-VERSION} {BLOG-DATE} Blog][dotnet-blog]
 
 ## Visual Studio Compatibility
 
