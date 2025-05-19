@@ -88,9 +88,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private void ModifyTemplateFile(string templatePath, string outputPath, string version, ReleasesConfiguration configData, Release release)
         {
             // Read the content of the template file
-            string templateContent = File.ReadAllText(templatePath);
-
-            // Extract key values from the config data
+            string templateContent = File.ReadAllText(templatePath);            // Extract key values from the config data
             string runtimeVersion = configData.LatestRuntime;
             string latestSdk = configData.LatestSdk;
             string channelVersion = configData.ChannelVersion;
@@ -98,6 +96,9 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
             string blogPostDate = DateTime.Parse(latestReleaseDate).ToString("MMMM-yyyy", CultureInfo.InvariantCulture).ToLower();
             string blogDate = DateTime.Parse(latestReleaseDate).ToString("MMMM yyyy", CultureInfo.InvariantCulture);
+            
+            // Extract the minimum VS version required from the release
+            string vsVersion = GetMinimumVisualStudioVersion(release);
 
             // Logging the extracted values
             Console.WriteLine($"Extracted runtime version: {runtimeVersion} for runtime ID: {version}"); // Debug log
@@ -105,14 +106,18 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             Console.WriteLine($"Extracted channel version: {channelVersion} for runtime ID: {version}"); // Debug log
             Console.WriteLine($"Extracted latest release date: {formattedDate} for runtime ID: {version}"); // Debug log
             Console.WriteLine($"Formatted blog post date: {blogPostDate} for runtime ID: {version}"); // Debug log
-            Console.WriteLine($"Formatted blog date: {blogDate} for runtime ID: {version}"); // Debug log            // Replace placeholders in the template with actual data
+            Console.WriteLine($"Formatted blog date: {blogDate} for runtime ID: {version}"); // Debug log            
+            Console.WriteLine($"Extracted VS version: {vsVersion} for runtime ID: {version}"); // Debug log
+            
+            // Replace placeholders in the template with actual data
             string modifiedContent = templateContent
                 .Replace("{RUNTIME-VERSION}", runtimeVersion ?? "")
                 .Replace("{LATEST-SDK}", latestSdk ?? "")
                 .Replace("{ID-VERSION}", channelVersion ?? "")
                 .Replace("{HEADER-DATE}", formattedDate ?? "")
                 .Replace("{BLOGPOST-DATE}", blogPostDate ?? "")
-                .Replace("{BLOG-DATE}", blogDate ?? "");
+                .Replace("{BLOG-DATE}", blogDate ?? "")
+                .Replace("{VS-VERSION}", vsVersion);
 
             // Replace section placeholders with markdown-style tables
             modifiedContent = ReplaceSectionPlaceholders(modifiedContent, configData, release);
@@ -283,14 +288,45 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             
             // If no security issues, return an empty string
             return "";
-        }
-
-        // Helper method to create directory if it does not exist
+        }        // Helper method to create directory if it does not exist
         private new void CreateDirectoryIfNotExists(string path)
         {
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
+            }
+        }
+        
+        // Helper method to get minimum VS version from the release data
+        private string GetMinimumVisualStudioVersion(Release release)
+        {
+            if (release?.Runtime?.VsVersion == null)
+            {
+                return "17.0"; // Default fallback if no version is specified
+            }
+            
+            string vsVersionFull = release.Runtime.VsVersion;
+            
+            // Extract just the major.minor part (e.g., "17.8" from "17.8.21")
+            int secondDotIndex = vsVersionFull.IndexOf('.', vsVersionFull.IndexOf('.') + 1);
+            
+            if (secondDotIndex > 0)
+            {
+                // There's at least a second dot, so trim after it
+                return vsVersionFull.Substring(0, secondDotIndex);
+            }
+            else
+            {
+                // No second dot, check if there's at least one dot
+                int firstDotIndex = vsVersionFull.IndexOf('.');
+                if (firstDotIndex > 0)
+                {
+                    // Return as is since it's already in major.minor format
+                    return vsVersionFull;
+                }
+                
+                // Just return whatever is there if format is unexpected
+                return vsVersionFull;
             }
         }
     }
