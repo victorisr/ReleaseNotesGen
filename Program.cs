@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using ReleaseNotesUpdater.CoreDirJsonUpdaters;
 using ReleaseNotesUpdater.InstallersMarkdownUpdaters;
 using ReleaseNotesUpdater.VersionsMarkdownUpdater;
@@ -14,31 +15,48 @@ namespace ReleaseNotesUpdater
         {
             try
             {
-                // Define the template directory and log file location
-                string templateDirectory = "templates/";
-                string logFileLocation = "logfile.log";
-                string downloadPath = @"C:\Users\victorisr\OneDrive - Microsoft\Desktop\ReleaseNotesArtifacts"; // Path to the downloaded Pipeline artifacts to
-                string outputDirectory = @"C:\Users\victorisr\OneDrive - Microsoft\Desktop"; // Directory where the modified file will be saved to
-                string coreDirectory = @"C:\ReleaseNoteGeneratorCore"; // User-specified path to the Core Local Repo directory
+                // Load configuration from appsettings.json
+                IConfiguration config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false)
+                    .Build();
 
-                // Define Azure Pipeline details
-                string organization = "dnceng";
-                string project = "internal";
-                string personalAccessToken = "insert_your_personal_azure_token_here"; // Replace with your PAT
-                string artifactName = "release-manifests"; // Replace with your artifact name
+                // Get path settings
+                string? templateDirectory = config["Paths:TemplateDirectory"];
+                string? logFileLocation = config["Paths:LogFileLocation"];
+                string? downloadPath = config["Paths:DownloadPath"];
+                string? outputDirectory = config["Paths:OutputDirectory"];
+                string? coreDirectory = config["Paths:CoreDirectory"];
 
-                // Define a list of runtime IDs with their corresponding build IDs
-                var runtimeBuildPairs = new List<(string runtimeId, int buildId)>
+                // Get Azure Pipeline details
+                string? organization = config["AzurePipeline:Organization"];
+                string? project = config["AzurePipeline:Project"];
+                string? personalAccessToken = config["AzurePipeline:PersonalAccessToken"];
+                string? artifactName = config["AzurePipeline:ArtifactName"];
+
+                // Get runtime and build IDs
+                var runtimeBuildPairs = new List<(string runtimeId, int buildId)>();
+                var runtimeSection = config.GetSection("RuntimeBuildPairs");
+                foreach (var child in runtimeSection.GetChildren())
                 {
-                    ("9.0.5", 2699575), // Replace with your runtime IDs and build IDs
-                    ("8.0.16", 2699368)
-                };
-
+                    string? runtimeId = child["RuntimeId"];
+                    string? buildIdStr = child["BuildId"];
+                    if (!string.IsNullOrEmpty(runtimeId) && int.TryParse(buildIdStr, out int buildId))
+                    {
+                        runtimeBuildPairs.Add((runtimeId, buildId));
+                    }
+                }
                 // Extract runtime IDs
                 var runtimeIds = new List<string>();
                 foreach (var pair in runtimeBuildPairs)
                 {
                     runtimeIds.Add(pair.runtimeId);
+                }
+
+                // Null checks for required config values
+                if (templateDirectory == null || logFileLocation == null || downloadPath == null || outputDirectory == null || coreDirectory == null || organization == null || project == null || personalAccessToken == null || artifactName == null)
+                {
+                    throw new Exception("One or more required configuration values are missing in appsettings.json.");
                 }
 
                 // Create an instance of JsonFileHandler

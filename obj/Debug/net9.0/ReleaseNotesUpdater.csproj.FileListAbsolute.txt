@@ -64,3 +64,13 @@ C:\ReleaseNotesGen\obj\Debug\net9.0\refint\ReleaseNotesUpdater.dll
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.pdb
 C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.genruntimeconfig.cache
 C:\ReleaseNotesGen\obj\Debug\net9.0\ref\ReleaseNotesUpdater.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.Configuration.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Json.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\ReleaseNotesGen\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseNotesUpdater.csproj.AssemblyReference.cache
+C:\ReleaseNotesGen\obj\Debug\net9.0\ReleaseN.CFB59FD1.Up2Date
