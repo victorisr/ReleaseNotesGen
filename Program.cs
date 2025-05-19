@@ -24,14 +24,14 @@ namespace ReleaseNotesUpdater
                 // Define Azure Pipeline details
                 string organization = "dnceng";
                 string project = "internal";
-                string personalAccessToken = "insert_Your_Personal_Access_Token_Here"; // Replace with your PAT
+                string personalAccessToken = "insert_your_personal_azure_token_here"; // Replace with your PAT
                 string artifactName = "release-manifests"; // Replace with your artifact name
 
                 // Define a list of runtime IDs with their corresponding build IDs
                 var runtimeBuildPairs = new List<(string runtimeId, int buildId)>
                 {
-                    ("9.0.4", 2664589), // Replace with your runtime IDs and build IDs
-                    ("8.0.15", 2667669)
+                    ("9.0.5", 2699575), // Replace with your runtime IDs and build IDs
+                    ("8.0.16", 2699368)
                 };
 
                 // Extract runtime IDs
@@ -51,22 +51,16 @@ namespace ReleaseNotesUpdater
                     int buildId = pair.buildId;
 
                     // Create an instance of AzurePipelineArtifactsDownloader and download artifacts
-                /* 
-                    var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId);
-                    await artifactsDownloader.DownloadArtifactsAsync();
-                */
+               
+                  //  var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId);
+                 //   await artifactsDownloader.DownloadArtifactsAsync();
+            
                 }
 
                 // Update core directory JSON files AFTER downloading artifacts but BEFORE updater classes
                 // Now with outputDirectory parameter to save files to the output directory
                 Console.WriteLine("Generating core directory JSON files...");
-                var coreDirectoryUpdater = new CoreDirectoryJsonUpdater(
-                    coreDirectory, 
-                    outputDirectory,
-                    runtimeIds, 
-                    downloadPath, 
-                    logFileLocation,
-                    jsonFileHandler);
+                var coreDirectoryUpdater = new CoreDirectoryJsonUpdater(coreDirectory, outputDirectory, runtimeIds, downloadPath, logFileLocation,jsonFileHandler);
                 
                 coreDirectoryUpdater.UpdateAllCoreDirectoryJsonFiles();
                 Console.WriteLine("Core directory JSON files generated successfully.");
@@ -80,21 +74,8 @@ namespace ReleaseNotesUpdater
                 var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                var versionReadMeUpdater = new VersionReadMeUpdater(
-                    templateDirectory, 
-                    logFileLocation, 
-                    coreDirectory, 
-                    outputDirectory, 
-                    runtimeIds, 
-                    jsonFileHandler);
-                
-                var cveFileUpdater = new CveFileUpdater(
-                    templateDirectory, 
-                    logFileLocation, 
-                    coreDirectory, 
-                    outputDirectory, 
-                    runtimeIds, 
-                    jsonFileHandler);
+                var versionReadMeUpdater = new VersionReadMeUpdater(templateDirectory, logFileLocation, coreDirectory, outputDirectory, runtimeIds, jsonFileHandler);
+                var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, coreDirectory, outputDirectory, runtimeIds, jsonFileHandler);
 
                 // Update the files
                 readMeUpdater.UpdateFiles();
