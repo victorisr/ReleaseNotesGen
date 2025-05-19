@@ -97,9 +97,11 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             string formattedDate = DateTime.Parse(latestReleaseDate).ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
             string blogPostDate = DateTime.Parse(latestReleaseDate).ToString("MMMM-yyyy", CultureInfo.InvariantCulture).ToLower();
             string blogDate = DateTime.Parse(latestReleaseDate).ToString("MMMM yyyy", CultureInfo.InvariantCulture);
-            
-            // Extract the minimum VS version required from the release
+              // Extract the minimum VS version required from the release
             string vsVersion = GetMinimumVisualStudioVersion(release);
+            
+            // Extract the C# version
+            string csharpVersion = GetCSharpVersion(release, latestSdk);
 
             // Logging the extracted values
             Console.WriteLine($"Extracted runtime version: {runtimeVersion} for runtime ID: {version}"); // Debug log
@@ -109,8 +111,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             Console.WriteLine($"Formatted blog post date: {blogPostDate} for runtime ID: {version}"); // Debug log
             Console.WriteLine($"Formatted blog date: {blogDate} for runtime ID: {version}"); // Debug log            
             Console.WriteLine($"Extracted VS version: {vsVersion} for runtime ID: {version}"); // Debug log
-            
-            // Replace placeholders in the template with actual data
+            Console.WriteLine($"Extracted C# version: {csharpVersion} for runtime ID: {version}"); // Debug log
+              // Replace placeholders in the template with actual data
             string modifiedContent = templateContent
                 .Replace("{RUNTIME-VERSION}", runtimeVersion ?? "")
                 .Replace("{LATEST-SDK}", latestSdk ?? "")
@@ -118,7 +120,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 .Replace("{HEADER-DATE}", formattedDate ?? "")
                 .Replace("{BLOGPOST-DATE}", blogPostDate ?? "")
                 .Replace("{BLOG-DATE}", blogDate ?? "")
-                .Replace("{VS-VERSION}", vsVersion);
+                .Replace("{VS-VERSION}", vsVersion)
+                .Replace("{CSHARPSDK-VERSION}", csharpVersion);
 
             // Replace section placeholders with markdown-style tables
             modifiedContent = ReplaceSectionPlaceholders(modifiedContent, configData, release);
@@ -386,6 +389,63 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 // Just return whatever is there if format is unexpected
                 return vsVersionFull;
             }
+        }
+          // Method to get the C# version from the SDK in the release (major version only)
+        private string GetCSharpVersion(Release release, string? latestSdk = null)
+        {
+            // Default value if we can't find a C# version
+            string defaultVersion = "12";
+            
+            // First check if we have a specific SDK to look for
+            if (!string.IsNullOrEmpty(latestSdk) && release?.Sdks != null)
+            {
+                // Try to find the latest SDK in the SDKs list
+                var latestSdkObj = release.Sdks.FirstOrDefault(s => s.Version == latestSdk);
+                if (latestSdkObj != null && !string.IsNullOrWhiteSpace(latestSdkObj.CsharpVersion))
+                {
+                    return ExtractMajorVersion(latestSdkObj.CsharpVersion);
+                }
+            }
+            
+            // If not found or no latestSdk specified, try the main SDK
+            if (release?.Sdk != null && !string.IsNullOrWhiteSpace(release.Sdk.CsharpVersion))
+            {
+                return ExtractMajorVersion(release.Sdk.CsharpVersion);
+            }
+            
+            // If still not found, try to find any SDK with a C# version
+            if (release?.Sdks != null)
+            {
+                foreach (var sdk in release.Sdks)
+                {
+                    if (!string.IsNullOrWhiteSpace(sdk.CsharpVersion))
+                    {
+                        return ExtractMajorVersion(sdk.CsharpVersion);
+                    }
+                }
+            }
+            
+            // If no C# version found, return the default
+            return defaultVersion;
+        }
+        
+        // Helper method to extract major version from a version string
+        private string ExtractMajorVersion(string fullVersion)
+        {
+            if (string.IsNullOrEmpty(fullVersion))
+                return "12"; // Default fallback
+                
+            // Extract just the major part (e.g., "12" from "12.0")
+            int dotIndex = fullVersion.IndexOf('.');
+            
+            if (dotIndex > 0)
+            {
+                // There's a dot, so take just the first part
+                return fullVersion.Substring(0, dotIndex);
+            }
+            
+            // No dot, return as is
+            return fullVersion;
         }
     }
 }
