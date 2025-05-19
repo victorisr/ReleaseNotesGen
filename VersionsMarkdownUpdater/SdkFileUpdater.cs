@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
@@ -129,20 +130,51 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
 
             // Confirm file creation
             Console.WriteLine($"New SDK file created at: {outputPath}");
+        }        // Method to get all referenced link names from the content
+        private HashSet<string> FindReferencedLinks(string content)
+        {
+            var referencedLinks = new HashSet<string>();
+            
+            // Match markdown link references like [linkName] or [linkText][linkName]
+            // This regex looks for square brackets not preceded by an exclamation mark (to avoid images)
+            var regex = new Regex(@"(?<!\!)\[([^\]]+)\](?:\[([^\]]+)\]|\(.*?\)|)?");
+            var matches = regex.Matches(content);
+            
+            foreach (Match match in matches)
+            {
+                if (match.Success)
+                {
+                    // If it's a reference style link with text and reference [text][reference]
+                    if (match.Groups.Count > 2 && !string.IsNullOrEmpty(match.Groups[2].Value))
+                    {
+                        referencedLinks.Add(match.Groups[2].Value);
+                    }
+                    // If it's a basic reference style link [reference]
+                    else if (!match.Value.Contains("]("))
+                    {
+                        referencedLinks.Add(match.Groups[1].Value);
+                    }
+                }
+            }
+            
+            return referencedLinks;
         }
 
         // Method to replace section placeholders with markdown-style tables
         private string ReplaceSectionPlaceholders(string content, ReleasesConfiguration configData, Sdk sdk)
         {
-            content = content.Replace("SECTION-RUNTIME", ReplaceRuntimeSection(configData, sdk));
-            content = content.Replace("SECTION-WINDOWSDESKTOP", ReplaceWindowsDesktopSection(configData, sdk));
-            content = content.Replace("SECTION-ASP", ReplaceAspSection(configData, sdk));
-            content = content.Replace("SECTION-VERSIONSDK", ReplaceVersionSdkSection(sdk.Version, sdk.Files));
+            // Find all referenced links in the content before adding link definitions
+            var referencedLinks = FindReferencedLinks(content);
+            
+            // Replace sections with link definitions, filtering to only include used links
+            content = content.Replace("SECTION-RUNTIME", ReplaceRuntimeSection(configData, sdk, referencedLinks));
+            content = content.Replace("SECTION-WINDOWSDESKTOP", ReplaceWindowsDesktopSection(configData, sdk, referencedLinks));
+            content = content.Replace("SECTION-ASP", ReplaceAspSection(configData, sdk, referencedLinks));
+            content = content.Replace("SECTION-VERSIONSDK", ReplaceVersionSdkSection(sdk.Version, sdk.Files, referencedLinks));
+            
             return content;
-        }
-
-        // Method to replace SECTION-RUNTIME placeholder
-        private string ReplaceRuntimeSection(ReleasesConfiguration configData, Sdk sdk)
+        }        // Method to replace SECTION-RUNTIME placeholder
+        private string ReplaceRuntimeSection(ReleasesConfiguration configData, Sdk sdk, HashSet<string> referencedLinks)
         {
             var runtimeSection = configData.Releases?[0].Runtime;
             if (runtimeSection == null)
@@ -156,7 +188,11 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             {
                 foreach (var file in files)
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    // Only add if the link name is actually referenced in the content
+                    if (referencedLinks.Contains(file.Name))
+                    {
+                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                    }
                 }
             }
             else
@@ -167,7 +203,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         }
 
         // Method to replace SECTION-WINDOWSDESKTOP placeholder
-        private string ReplaceWindowsDesktopSection(ReleasesConfiguration configData, Sdk sdk)
+        private string ReplaceWindowsDesktopSection(ReleasesConfiguration configData, Sdk sdk, HashSet<string> referencedLinks)
         {
             var windowsDesktopSection = configData.Releases?[0].WindowsDesktop;
             if (windowsDesktopSection == null)
@@ -181,7 +217,11 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             {
                 foreach (var file in files)
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    // Only add if the link name is actually referenced in the content
+                    if (referencedLinks.Contains(file.Name))
+                    {
+                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                    }
                 }
             }
             else
@@ -189,10 +229,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 Console.WriteLine("SECTION-WINDOWSDESKTOP: No files found.");
             }
             return markdownList;
-        }
-
-        // Method to replace SECTION-ASP placeholder
-        private string ReplaceAspSection(ReleasesConfiguration configData, Sdk sdk)
+        }        // Method to replace SECTION-ASP placeholder
+        private string ReplaceAspSection(ReleasesConfiguration configData, Sdk sdk, HashSet<string> referencedLinks)
         {
             var aspSection = configData.Releases?[0].AspNetCoreRuntime;
             if (aspSection == null)
@@ -206,7 +244,11 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             {
                 foreach (var file in files)
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    // Only add if the link name is actually referenced in the content
+                    if (referencedLinks.Contains(file.Name))
+                    {
+                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                    }
                 }
             }
             else
@@ -217,13 +259,17 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         }
 
         // Method to replace SECTION-VERSIONSDK placeholder
-        private string ReplaceVersionSdkSection(string sdkVersion, List<Models.FileInfo> files)
+        private string ReplaceVersionSdkSection(string sdkVersion, List<Models.FileInfo> files, HashSet<string> referencedLinks)
         {
             if (files == null) return "";
             var markdownList = $"[//]: # ( SDK {sdkVersion})\n";
             foreach (var file in files)
             {
-                markdownList += $"[{file.Name}]: {file.Url}\n";
+                // Only add if the link name is actually referenced in the content
+                if (referencedLinks.Contains(file.Name))
+                {
+                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                }
             }
             return markdownList;
         }

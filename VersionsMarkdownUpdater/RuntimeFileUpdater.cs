@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
@@ -127,17 +128,54 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
 
             // Confirm file creation
             Console.WriteLine($"New runtime file created at: {outputPath}");
-        }        // Method to replace section placeholders with markdown-style tables
+        }        // Method to get all referenced link names from the content
+        private HashSet<string> FindReferencedLinks(string content)
+        {
+            var referencedLinks = new HashSet<string>();
+            
+            // Match markdown link references like [linkName] or [linkText][linkName]
+            // This regex looks for square brackets not preceded by an exclamation mark (to avoid images)
+            var regex = new Regex(@"(?<!\!)\[([^\]]+)\](?:\[([^\]]+)\]|\(.*?\)|)?");
+            var matches = regex.Matches(content);
+            
+            foreach (Match match in matches)
+            {
+                if (match.Success)
+                {
+                    // If it's a reference style link with text and reference [text][reference]
+                    if (match.Groups.Count > 2 && !string.IsNullOrEmpty(match.Groups[2].Value))
+                    {
+                        referencedLinks.Add(match.Groups[2].Value);
+                    }
+                    // If it's a basic reference style link [reference]
+                    else if (!match.Value.Contains("]("))
+                    {
+                        referencedLinks.Add(match.Groups[1].Value);
+                    }
+                }
+            }
+            
+            return referencedLinks;
+        }
+        
+        // Method to replace section placeholders with markdown-style tables
         private string ReplaceSectionPlaceholders(string content, ReleasesConfiguration configData, Release release)
         {
+            // First replace the sections that might add link references to the content
             content = content.Replace("SECTION-ADDEDSDK", ReplaceAddedSdkSection(configData, release.Sdks, configData.LatestSdk));
-            content = content.Replace("SECTION-SDKS", ReplaceSdksSection(configData, release.Sdks, configData.LatestSdk, configData.LatestRuntime));
-            content = content.Replace("SECTION-RUNTIME", ReplaceRuntimeSection(configData.LatestRuntime, release.Runtime));
-            content = content.Replace("SECTION-WINDOWSDESKTOP", ReplaceWindowsDesktopSection(configData.LatestRuntime, release.WindowsDesktop));
-            content = content.Replace("SECTION-ASP", ReplaceAspSection(configData.LatestRuntime, release.AspNetCoreRuntime));
-            content = content.Replace("SECTION-LATESTSDK", ReplaceLatestSdkSection(configData.LatestSdk, release.Sdk));
             content = content.Replace("SECTION-PACKAGES", ReplacePackagesSection(release.Packages));
             content = content.Replace("SECTION-MSRC", ReplaceMsrcSecuritySection(release));
+            
+            // Find all referenced links in the content after initial replacements
+            var referencedLinks = FindReferencedLinks(content);
+            
+            // Now replace the sections that provide link definitions, filtering to only include used links
+            content = content.Replace("SECTION-SDKS", ReplaceSdksSection(configData, release.Sdks, configData.LatestSdk, configData.LatestRuntime, referencedLinks));
+            content = content.Replace("SECTION-RUNTIME", ReplaceRuntimeSection(configData.LatestRuntime, release.Runtime, referencedLinks));
+            content = content.Replace("SECTION-WINDOWSDESKTOP", ReplaceWindowsDesktopSection(configData.LatestRuntime, release.WindowsDesktop, referencedLinks));
+            content = content.Replace("SECTION-ASP", ReplaceAspSection(configData.LatestRuntime, release.AspNetCoreRuntime, referencedLinks));
+            content = content.Replace("SECTION-LATESTSDK", ReplaceLatestSdkSection(configData.LatestSdk, release.Sdk, referencedLinks));
+            
             return content;
         }// Method to replace SECTION-ADDEDSDK placeholder
         private string ReplaceAddedSdkSection(ReleasesConfiguration configData, List<Sdk> sdks, string latestSdk)
@@ -161,10 +199,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             }
             
             return markdownList;
-        }
-
-        // Method to replace SECTION-SDKS placeholder
-        private string ReplaceSdksSection(ReleasesConfiguration configData, List<Sdk> sdks, string latestSdk, string runtimeVersion)
+        }        // Method to replace SECTION-SDKS placeholder
+        private string ReplaceSdksSection(ReleasesConfiguration configData, List<Sdk> sdks, string latestSdk, string runtimeVersion, HashSet<string> referencedLinks)
         {
             if (sdks == null) return "";
             var markdownList = "\n";
@@ -173,18 +209,26 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 var version = sdk.Version;
                 if (version == latestSdk)
                 {
-                    markdownList += $"[{latestSdk}]: {runtimeVersion}.md\n";
+                    // Only add if referenced
+                    if (referencedLinks.Contains(latestSdk))
+                    {
+                        markdownList += $"[{latestSdk}]: {runtimeVersion}.md\n";
+                    }
                 }
                 else
                 {
-                    markdownList += $"[{version}]: {version}.md\n";
+                    // Only add if referenced
+                    if (referencedLinks.Contains(version))
+                    {
+                        markdownList += $"[{version}]: {version}.md\n";
+                    }
                 }
             }
             return markdownList;
         }
 
         // Method to replace SECTION-RUNTIME placeholder
-        private string ReplaceRuntimeSection(string latestRuntime, Runtime runtime)
+        private string ReplaceRuntimeSection(string latestRuntime, Runtime runtime, HashSet<string> referencedLinks)
         {
             if (runtime == null) return "";
             var markdownList = $"[//]: # ( Runtime {latestRuntime})\n";
@@ -193,14 +237,16 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             {
                 foreach (var file in files)
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    // Only add if the link name is actually referenced in the content
+                    if (referencedLinks.Contains(file.Name))
+                    {
+                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                    }
                 }
             }
             return markdownList;
-        }
-
-        // Method to replace SECTION-WINDOWSDESKTOP placeholder
-        private string ReplaceWindowsDesktopSection(string latestRuntime, WindowsDesktop windowsDesktop)
+        }        // Method to replace SECTION-WINDOWSDESKTOP placeholder
+        private string ReplaceWindowsDesktopSection(string latestRuntime, WindowsDesktop windowsDesktop, HashSet<string> referencedLinks)
         {
             if (windowsDesktop == null) return "";
             var markdownList = $"[//]: # ( WindowsDesktop {latestRuntime})\n";
@@ -209,14 +255,18 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             {
                 foreach (var file in files)
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    // Only add if the link name is actually referenced in the content
+                    if (referencedLinks.Contains(file.Name))
+                    {
+                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                    }
                 }
             }
             return markdownList;
         }
 
         // Method to replace SECTION-ASP placeholder
-        private string ReplaceAspSection(string latestRuntime, AspNetCoreRuntime aspNetCoreRuntime)
+        private string ReplaceAspSection(string latestRuntime, AspNetCoreRuntime aspNetCoreRuntime, HashSet<string> referencedLinks)
         {
             if (aspNetCoreRuntime == null) return "";
             var markdownList = $"[//]: # ( ASP {latestRuntime})\n";
@@ -225,14 +275,18 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             {
                 foreach (var file in files)
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    // Only add if the link name is actually referenced in the content
+                    if (referencedLinks.Contains(file.Name))
+                    {
+                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                    }
                 }
             }
             return markdownList;
         }
 
         // Method to replace SECTION-LATESTSDK placeholder
-        private string ReplaceLatestSdkSection(string latestSdk, Sdk sdk)
+        private string ReplaceLatestSdkSection(string latestSdk, Sdk sdk, HashSet<string> referencedLinks)
         {
             if (sdk == null) return "";
             var markdownList = $"[//]: # ( SDK {latestSdk})\n";
@@ -241,11 +295,15 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             {
                 foreach (var file in files)
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    // Only add if the link name is actually referenced in the content
+                    if (referencedLinks.Contains(file.Name))
+                    {
+                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                    }
                 }
             }
             return markdownList;
-        }        // Method to replace SECTION-PACKAGES placeholder
+        }// Method to replace SECTION-PACKAGES placeholder
         private string ReplacePackagesSection(List<Package> packages)
         {
             if (packages == null) return "";
