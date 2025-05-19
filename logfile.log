@@ -763,3 +763,30 @@ Created CVE file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0-cve.md for
 Timestamp: 5/19/2025 6:31:37 PM
 Created CVE file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0-cve.md for version: 8.0
 Timestamp: 5/19/2025 6:31:37 PM
+5/19/2025 11:40:58 AM: Starting Core Directory JSON file updates...
+5/19/2025 11:40:58 AM: Creating releases-index.json at: C:\Users\victorisr\OneDrive - Microsoft\Desktop\releases-index.json
+5/19/2025 11:40:58 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/19/2025 11:40:58 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/19/2025 11:40:58 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/19/2025 11:40:58 AM: Successfully created releases-index.json in output directory
+5/19/2025 11:40:58 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/19/2025 11:40:58 AM: Added new release 9.0.5 to channel releases
+5/19/2025 11:40:58 AM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0-releases.json
+5/19/2025 11:40:58 AM: Successfully created 9.0-releases.json in output directory
+5/19/2025 11:40:58 AM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0.5release.json
+5/19/2025 11:40:58 AM: Successfully created 9.0.5release.json in output directory
+5/19/2025 11:40:58 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/19/2025 11:40:58 AM: Added new release 8.0.16 to channel releases
+5/19/2025 11:40:58 AM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0-releases.json
+5/19/2025 11:40:58 AM: Successfully created 8.0-releases.json in output directory
+5/19/2025 11:40:58 AM: Created JSON file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0.16release.json
+5/19/2025 11:40:58 AM: Successfully created 8.0.16release.json in output directory
+5/19/2025 11:40:58 AM: Core Directory JSON file updates completed successfully.
+Created version README file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0-README.md for version: 9.0
+Timestamp: 5/19/2025 6:40:59 PM
+Created version README file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0-README.md for version: 8.0
+Timestamp: 5/19/2025 6:40:59 PM
+Created CVE file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\9.0-cve.md for version: 9.0
+Timestamp: 5/19/2025 6:40:59 PM
+Created CVE file: C:\Users\victorisr\OneDrive - Microsoft\Desktop\8.0-cve.md for version: 8.0
+Timestamp: 5/19/2025 6:40:59 PM

@@ -148,6 +148,9 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 
                 var channelFolders = Directory.GetDirectories(releaseNotesPath);
 
+                // Create a list to collect all rows with their version for sorting
+                var versionRows = new List<(string Version, string Row, string LinkEntry)>();
+
                 // Sort the channel folders in descending order
                 Array.Sort(channelFolders, (x, y) => string.Compare(y, x, StringComparison.OrdinalIgnoreCase));
 
@@ -219,22 +222,45 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                                 versionDisplay = $"[.NET {channelVersion}](release-notes/{channelVersion}/README.md)";
                             }
 
+                            string row;
                             if (supported)
                             {
-                                tableBuilder.AppendLine($"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
+                                row = $"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDateColumn} |";
                             }
                             else
                             {
-                                tableBuilder.AppendLine($"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | [{latestRelease}][{latestRelease}] | {eolDateColumn} |");
+                                row = $"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | [{latestRelease}][{latestRelease}] | {eolDateColumn} |";
                             }
 
                             // Add the dynamic link for the latest release
+                            string linkEntry = "";
                             if (!string.IsNullOrEmpty(latestRelease))
                             {
                                 string linkPath = GenerateLinkPath(channelVersion, latestRelease);
-                                linksBuilder.AppendLine($"[{latestRelease}]: {linkPath}");
+                                linkEntry = $"[{latestRelease}]: {linkPath}";
                             }
+
+                            // Add to collection for sorting
+                            versionRows.Add((channelVersion, row, linkEntry));
                         }
+                    }
+                }
+
+                // Sort versions by numeric value (descending)
+                versionRows = versionRows.OrderByDescending(v => GetVersionSortValue(v.Version)).ToList();
+
+                // Add rows to table in sorted order
+                foreach (var versionRow in versionRows)
+                {
+                    tableBuilder.AppendLine(versionRow.Row);
+                }
+
+                // Add links in the same order
+                foreach (var versionRow in versionRows)
+                {
+                    if (!string.IsNullOrEmpty(versionRow.LinkEntry))
+                    {
+                        linksBuilder.AppendLine(versionRow.LinkEntry);
                     }
                 }
             }
@@ -245,6 +271,25 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 
             dynamicLinks = "\n" + linksBuilder.ToString().TrimEnd(); // Add a single newline after the table and trim trailing empty lines in links
             return tableBuilder.ToString().TrimEnd(); // Remove trailing empty lines in the table
+        }
+
+        // Helper method to convert version string to a numeric value for sorting
+        private double GetVersionSortValue(string version)
+        {
+            // Try to parse the version as a double
+            if (double.TryParse(version, out double result))
+            {
+                return result;
+            }
+            
+            // For complex version strings, extract first numeric part
+            var match = System.Text.RegularExpressions.Regex.Match(version, @"(\d+(\.\d+)?)");
+            if (match.Success && double.TryParse(match.Groups[1].Value, out double value))
+            {
+                return value;
+            }
+            
+            return 0; // Default value for non-numeric versions
         }
 
         // Helper method to determine if a version is a legacy .NET Core version (1.0-3.1)
