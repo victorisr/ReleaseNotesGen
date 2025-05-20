@@ -125,24 +125,36 @@ namespace ReleaseNotesUpdater
             {
                 var latestRelease = configData.Releases.FirstOrDefault(r => r.ReleaseVersion == releaseVersion);
                 if (latestRelease != null && latestRelease.CveList != null && latestRelease.CveList.Count > 0)
-                {
-                    foreach (var cve in latestRelease.CveList)
-                    {
-                        // Format each CVE entry (assuming CveUrl has the GitHub issue URL)
-                        string cveEntry = $"  - [{cve.CveUrl}]({cve.CveUrl})";
+                {                    foreach (var cve in latestRelease.CveList)
+                    {                        // Format each CVE entry in the standardized format                        // Extract CVE ID from the URL if possible, otherwise use the URL as the ID
+                        string cveId = ExtractCveIdFromUrl(cve.CveUrl);
+                        
+                        // Check if we have matching MSRC information for this CVE
+                        var msrcConfig = _msrcConfigs.FirstOrDefault(m => m.RuntimeId == runtimeId);
+                        var msrcCveInfo = msrcConfig?.Cves?.FirstOrDefault(c => c.CveId == cveId);
+                        
+                        string cveTitle = msrcCveInfo?.CveTitle ?? cveId; // Use MSRC title if available, otherwise use ID
+                          // Always use the placeholder URL with "xxx" as requested
+                        string cveUrl = "https://github.com/dotnet/announcements/issues/xxx";
+                            
+                        string cveEntry = $"  - [{cveId} | {cveTitle}]({cveUrl})";
                         cveItems.Add(cveEntry);
                     }
                 }
-            }
-
-            // Add MSRC information from config if available
-            var msrcConfig = _msrcConfigs.FirstOrDefault(m => m.RuntimeId == runtimeId);
-            if (msrcConfig != null && msrcConfig.Cves != null && msrcConfig.Cves.Count > 0)
+            }            // Add MSRC information from config if available
+            // This section adds CVEs from MSRC config that weren't already added from the release data
+            var currentMsrcConfig = _msrcConfigs.FirstOrDefault(m => m.RuntimeId == runtimeId);
+            if (currentMsrcConfig != null && currentMsrcConfig.Cves != null && currentMsrcConfig.Cves.Count > 0)
             {
-                foreach (var cve in msrcConfig.Cves)
-                {
-                    string cveEntry = $"  - {cve.CveId}: {cve.CveTitle} - {cve.CveDescription}";
-                    cveItems.Add(cveEntry);
+                foreach (var cve in currentMsrcConfig.Cves)
+                {// Check if this is a duplicate with an existing CVE entry we've already added
+                    bool isDuplicate = cveItems.Any(item => item.Contains(cve.CveId));
+                    if (!isDuplicate)
+                    {
+                        string cveUrl = GetAnnouncementUrlForCve(cve.CveId);
+                        string cveEntry = $"  - [{cve.CveId} | {cve.CveTitle}]({cveUrl})";
+                        cveItems.Add(cveEntry);
+                    }
                 }
             }
 
@@ -150,13 +162,20 @@ namespace ReleaseNotesUpdater
             if (cveItems.Count == 0)
             {
                 cveItems.Add("  - No new CVEs.");
-            }
-
-            // Build the new entry with the release version, date, and CVE items
-            string newEntry = $"- {releaseVersion} ({formattedDate})\n{string.Join("\n", cveItems)}\n";
-            
-            // Insert the new entry after the section header
+            }            // Build the new entry with the release version, date, and CVE items
+            // Format exactly as requested without the security advisories link
+            string releaseHeader = $"- {releaseVersion} ({formattedDate})";
+            string newEntry = $"{releaseHeader}\n{string.Join("\n", cveItems)}\n";
+              // Insert the new entry after the section header
             string updatedContent = sectionRegex.Replace(content, sectionHeader + newEntry);
+            
+            // Add MSRC security advisory section if available
+            string msrcAdvisorySection = GetMsrcSecurityAdvisorySection(runtimeId);
+            if (!string.IsNullOrEmpty(msrcAdvisorySection))
+            {
+                // Find a good place to add the MSRC section - typically at the end
+                updatedContent += msrcAdvisorySection;
+            }
             
             Console.WriteLine($"Added new CVE entry for release {releaseVersion} dated {formattedDate}");
             
@@ -174,9 +193,7 @@ namespace ReleaseNotesUpdater
             
             Console.WriteLine($"WARNING: Unable to extract channel version from runtime ID: {runtimeId}");
             return runtimeId; // Return original if extraction fails
-        }
-
-        private string FormatReleaseDate(string releaseDate)
+        }        private string FormatReleaseDate(string releaseDate)
         {
             // Try to parse the date from the JSON
             if (DateTime.TryParse(releaseDate, out DateTime parsedDate))
@@ -188,6 +205,72 @@ namespace ReleaseNotesUpdater
             // Return the original string if parsing fails
             Console.WriteLine($"WARNING: Unable to parse release date: {releaseDate}");
             return releaseDate;
+        }
+
+        private string ExtractCveIdFromUrl(string cveUrl)
+        {
+            // Try to extract a CVE ID (e.g., "CVE-2025-12345") from the URL
+            // Common patterns in URLs: 
+            // - Contains "CVE-YYYY-NNNNN"
+            // - Contains "cve=CVE-YYYY-NNNNN"
+            // - The last path segment may be the CVE ID
+            
+            if (string.IsNullOrEmpty(cveUrl))
+                return "CVE-Unknown";
+
+            // Try to find a CVE pattern in the URL
+            var cveRegex = new Regex(@"CVE-\d{4}-\d{4,}");
+            var match = cveRegex.Match(cveUrl);
+            
+            if (match.Success)
+                return match.Value;
+            
+            // If no CVE ID found, try to get the last path segment
+            var uri = new Uri(cveUrl);
+            string lastSegment = uri.Segments.LastOrDefault() ?? string.Empty;
+            
+            // Clean up the segment (remove trailing slash, .html, etc.)
+            lastSegment = lastSegment.TrimEnd('/').Replace(".html", string.Empty);
+            
+            if (!string.IsNullOrEmpty(lastSegment))
+                return lastSegment;
+                
+            // If all else fails, return the domain as an identifier
+            return uri.Host;
+        }
+          private string GetAnnouncementUrlForCve(string cveId)
+        {
+            // Always use "xxx" as the issue number placeholder as requested in the example
+            return "https://github.com/dotnet/announcements/issues/xxx";
+        }
+
+        // Method to provide a formatted MSRC security advisory section if available
+        private string GetMsrcSecurityAdvisorySection(string runtimeId)
+        {
+            var msrcConfig = _msrcConfigs.FirstOrDefault(m => m.RuntimeId == runtimeId);
+            if (msrcConfig == null || msrcConfig.Cves == null || msrcConfig.Cves.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            var advisorySection = new System.Text.StringBuilder();
+            advisorySection.AppendLine("\n## Microsoft Security Advisories");
+            advisorySection.AppendLine("\nThis release includes security fixes. Details can be found in the Microsoft Security Advisories listed below.\n");            foreach (var cve in msrcConfig.Cves)
+            {
+                string url = "https://github.com/dotnet/announcements/issues/xxx";
+                advisorySection.AppendLine($"### [{cve.CveId} | {cve.CveTitle}]({url})\n");
+                
+                // Format the description - ensure proper paragraph formatting and handle newlines
+                string formattedDescription = cve.CveDescription?.Replace("\n\n", "\n\n").Trim() ?? string.Empty;
+                if (!string.IsNullOrEmpty(formattedDescription))
+                {
+                    advisorySection.AppendLine(formattedDescription);
+                }
+                
+                advisorySection.AppendLine();
+            }
+
+            return advisorySection.ToString();
         }
     }
 }
