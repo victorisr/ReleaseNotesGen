@@ -9,34 +9,34 @@ namespace ReleaseNotesUpdater.Models
     public class CoreReleasesConfiguration
     {
         [JsonPropertyName("channel-version")]
-        public string ChannelVersion { get; set; }
+        public string? ChannelVersion { get; set; }
 
         [JsonPropertyName("latest-release")]
-        public string LatestRelease { get; set; }
+        public string? LatestRelease { get; set; }
 
         [JsonPropertyName("latest-release-date")]
-        public string LatestReleaseDate { get; set; }
+        public string? LatestReleaseDate { get; set; }
 
         [JsonPropertyName("latest-runtime")]
-        public string LatestRuntime { get; set; }
+        public string? LatestRuntime { get; set; }
 
         [JsonPropertyName("latest-sdk")]
-        public string LatestSdk { get; set; }
+        public string? LatestSdk { get; set; }
 
         [JsonPropertyName("support-phase")]
-        public string SupportPhase { get; set; }
+        public string? SupportPhase { get; set; }
 
         [JsonPropertyName("release-type")]
-        public string ReleaseType { get; set; }
+        public string? ReleaseType { get; set; }
 
         [JsonPropertyName("eol-date")]
-        public string EolDate { get; set; }
+        public string? EolDate { get; set; }
 
         [JsonPropertyName("lifecycle-policy")]
-        public string LifecyclePolicy { get; set; }
+        public string? LifecyclePolicy { get; set; }
 
         [JsonPropertyName("releases")]
-        public List<CoreRelease> Releases { get; set; }
+        public List<CoreRelease>? Releases { get; set; }
     }
 
     /// <summary>
@@ -45,19 +45,19 @@ namespace ReleaseNotesUpdater.Models
     public class CoreRelease
     {
         [JsonPropertyName("release-date")]
-        public string ReleaseDate { get; set; }
+        public string? ReleaseDate { get; set; }
 
         [JsonPropertyName("release-version")]
-        public string ReleaseVersion { get; set; }
+        public string? ReleaseVersion { get; set; }
 
         [JsonPropertyName("security")]
         public bool Security { get; set; }
 
         [JsonPropertyName("cve-list")]
-        public List<CoreCveItem> CveList { get; set; }
+        public List<CoreCveItem>? CveList { get; set; }
 
         [JsonPropertyName("release-notes")]
-        public string ReleaseNotes { get; set; }
+        public string? ReleaseNotes { get; set; }
     }
 
     /// <summary>
@@ -66,9 +66,9 @@ namespace ReleaseNotesUpdater.Models
     public class CoreCveItem
     {
         [JsonPropertyName("cve-id")]
-        public string CveId { get; set; }
+        public string? CveId { get; set; }
 
         [JsonPropertyName("cve-url")]
-        public string CveUrl { get; set; }
+        public string? CveUrl { get; set; }
     }
 }
