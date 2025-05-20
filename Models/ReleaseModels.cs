@@ -81,6 +81,9 @@ namespace ReleaseNotesUpdater.Models
     /// </summary>
     public class CveItem
     {
+        [JsonPropertyName("cve-id")]
+        public string? CveId { get; set; }
+
         [JsonPropertyName("cve-url")]
         public string? CveUrl { get; set; }
     }
