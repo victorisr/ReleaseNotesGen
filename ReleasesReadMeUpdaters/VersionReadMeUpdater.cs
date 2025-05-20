@@ -94,34 +94,41 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                     LogChanges($"Error processing README.md for runtime ID {runtimeId}: {ex.Message}");
                 }
             }
-        }
-
-        private string UpdateReleaseNotesTable(string content, ReleasesConfiguration configData, string runtimeId)
+        }        private string UpdateReleaseNotesTable(string content, ReleasesConfiguration configData, string runtimeId)
         {
             // Look for either "## Release notes" or "## Releases" section and the table that follows
             // This uses an alternation pattern (Release notes|Releases) to match either header format
-            Regex tableRegex = new Regex(@"(## (Release notes|Releases)\s*\n\s*\|\s*Date\s*\|\s*Release\s*\|\s*\n\s*\|\s*:--\s*\|\s*:--\s*\|\s*\n)");
+            Regex tableRegex = new Regex(@"(## (Release notes|Releases)\s*\n\s*\|\s*Date\s*\|\s*Release\s*\|\s*SDK\s*\|\s*\n\s*\|\s*:--\s*\|\s*:--\s*\|\s*:--\s*\|\s*\n)");
             
             Match match = tableRegex.Match(content);
             if (!match.Success)
             {
-                Console.WriteLine("WARNING: Could not find the Release notes/Releases table in the README file");
-                return content;
+                // Try alternative regex without SDK column for older README files
+                tableRegex = new Regex(@"(## (Release notes|Releases)\s*\n\s*\|\s*Date\s*\|\s*Release\s*\|\s*\n\s*\|\s*:--\s*\|\s*:--\s*\|\s*\n)");
+                match = tableRegex.Match(content);
+                
+                if (!match.Success)
+                {
+                    Console.WriteLine("WARNING: Could not find the Release notes/Releases table in the README file");
+                    return content;
+                }
             }
 
             string tableHeader = match.Groups[1].Value;
             string headerType = match.Groups[2].Value;
             
-            Console.WriteLine($"Found table with header '## {headerType}'");
-
-            // Format the release date
+            Console.WriteLine($"Found table with header '## {headerType}'");// Format the release date
             string releaseDate = FormatDate(configData.LatestReleaseDate);
             
             // Get the latest release and extract file path for linking
             string latestRelease = configData.LatestRelease;
+            string latestSdk = configData.LatestSdk;
+            
+            // Generate SDK column content with all SDK versions for this runtime
+            string sdkColumn = GenerateSdkColumn(configData, latestRelease, latestSdk);
 
             // Create the new row to insert
-            string newRow = $"| {releaseDate} | [{latestRelease}](./{latestRelease}/{latestRelease}.md) |\n";
+            string newRow = $"| {releaseDate} | [{latestRelease}](./{latestRelease}/{latestRelease}.md) | {sdkColumn} |\n";
             
             // Insert the new row right after the table header
             string updatedContent = tableRegex.Replace(content, tableHeader + newRow);
@@ -156,6 +163,54 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
             // Return the original string if parsing fails
             Console.WriteLine($"WARNING: Unable to parse release date: {releaseDate}");
             return releaseDate;
+        }
+
+        private string GenerateSdkColumn(ReleasesConfiguration configData, string latestRelease, string latestSdk)
+        {
+            // Initialize an empty list to store SDK links
+            List<string> sdkLinks = new List<string>();
+            
+            // Find the runtime release that matches the latest release
+            foreach (var release in configData.Releases)
+            {
+                if (release.Runtime?.Version == latestRelease)
+                {
+                    // Process all SDKs for this runtime
+                    if (release.Sdks != null)
+                    {
+                        foreach (var sdk in release.Sdks)
+                        {
+                            string version = sdk.Version;
+                            string link;
+                            
+                            // If the SDK version is the same as the latest SDK, use the latestRelease folder
+                            if (version == latestSdk)
+                            {
+                                link = $"[{version}](./{latestRelease}/{latestRelease}.md)";
+                            }
+                            else
+                            {
+                                link = $"[{version}](./{latestRelease}/{version}.md)";
+                            }
+                            
+                            sdkLinks.Add(link);
+                        }
+                    }
+                    
+                    // Break once we've found the matching release
+                    break;
+                }
+            }
+            
+            // If no SDKs were found, return an empty string
+            if (sdkLinks.Count == 0)
+            {
+                Console.WriteLine($"WARNING: No SDK versions found for runtime {latestRelease}");
+                return "";
+            }
+            
+            // Join the SDK links with commas
+            return string.Join(", ", sdkLinks);
         }
     }
 }
