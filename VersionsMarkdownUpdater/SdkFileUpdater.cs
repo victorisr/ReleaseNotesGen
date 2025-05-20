@@ -190,7 +190,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 Console.WriteLine("SECTION-RUNTIME: No data found.");
                 return "";
             }
-            var markdownList = $"[//]: # ( Runtime {configData.LatestRuntime})\n";
+            var markdownList = $"[//]: # ( Runtime {configData.LatestRuntime})";
             var files = runtimeSection.Files;
             if (files != null)
             {
@@ -199,7 +199,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if the link name is actually referenced in the content
                     if (referencedLinks.Contains(file.Name))
                     {
-                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                        markdownList += $"\n[{file.Name}]: {file.Url}";
                     }
                 }
             }
@@ -219,7 +219,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 Console.WriteLine("SECTION-WINDOWSDESKTOP: No data found.");
                 return "";
             }
-            var markdownList = $"[//]: # ( WindowsDesktop {configData.LatestRuntime})\n";
+            var markdownList = $"[//]: # ( WindowsDesktop {configData.LatestRuntime})";
             var files = windowsDesktopSection.Files;
             if (files != null)
             {
@@ -228,7 +228,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if the link name is actually referenced in the content
                     if (referencedLinks.Contains(file.Name))
                     {
-                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                        markdownList += $"\n[{file.Name}]: {file.Url}";
                     }
                 }
             }
@@ -246,7 +246,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 Console.WriteLine("SECTION-ASP: No data found.");
                 return "";
             }
-            var markdownList = $"[//]: # ( ASP {configData.LatestRuntime})\n";
+            var markdownList = $"[//]: # ( ASP {configData.LatestRuntime})";
             var files = aspSection.Files;
             if (files != null)
             {
@@ -255,7 +255,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if the link name is actually referenced in the content
                     if (referencedLinks.Contains(file.Name))
                     {
-                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                        markdownList += $"\n[{file.Name}]: {file.Url}";
                     }
                 }
             }
@@ -270,13 +270,13 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private string ReplaceVersionSdkSection(string sdkVersion, List<Models.FileInfo> files, HashSet<string> referencedLinks)
         {
             if (files == null) return "";
-            var markdownList = $"[//]: # ( SDK {sdkVersion})\n";
+            var markdownList = $"[//]: # ( SDK {sdkVersion})";
             foreach (var file in files)
             {
                 // Only add if the link name is actually referenced in the content
                 if (referencedLinks.Contains(file.Name))
                 {
-                    markdownList += $"[{file.Name}]: {file.Url}\n";
+                    markdownList += $"\n[{file.Name}]: {file.Url}";
                 }
             }
             return markdownList;

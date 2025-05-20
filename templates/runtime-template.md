@@ -68,7 +68,6 @@ SECTION-SDKS
 [linux-packages]: ../install-linux.md
 
 ## Packages updated in this release
-
 SECTION-PACKAGES
 PACKAGES TO BE INSERTED HERE
 

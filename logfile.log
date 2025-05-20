@@ -1978,3 +1978,489 @@ Created CVE file: OutputDir/9.0-cve.md for version: 9.0
 Timestamp: 5/20/2025 4:57:57 PM
 Created CVE file: OutputDir/8.0-cve.md for version: 8.0
 Timestamp: 5/20/2025 4:57:57 PM
+5/20/2025 10:40:14 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:40:14 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:40:14 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:40:14 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:40:14 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:40:14 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:40:14 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:40:14 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:40:14 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:40:14 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:40:14 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:40:14 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:40:14 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:40:14 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:40:14 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:40:14 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:40:14 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:40:14 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:40:14 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:40:15 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:40:15 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:40:15 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:40:15 PM
+5/20/2025 10:42:31 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:42:31 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:42:31 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:42:31 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:42:31 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:42:31 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:42:31 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:42:31 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:42:31 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:42:31 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:42:32 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:42:32 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:42:32 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:42:32 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:42:32 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:42:32 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:42:32 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:42:32 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:42:32 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:42:32 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:42:32 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:42:32 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:42:32 PM
+5/20/2025 10:44:16 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:44:16 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:44:16 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:44:16 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:44:16 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:44:16 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:44:16 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:44:16 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:44:16 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:44:16 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:44:16 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:44:16 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:44:16 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:44:16 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:44:16 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:44:16 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:44:16 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:44:16 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:44:16 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:44:17 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:44:17 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:44:17 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:44:17 PM
+5/20/2025 10:47:43 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:47:43 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:47:43 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:47:43 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:47:43 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:47:43 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:47:43 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:47:43 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:47:43 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:47:43 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:47:43 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:47:43 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:47:43 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:47:43 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:47:43 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:47:43 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:47:43 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:47:43 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:47:43 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:47:44 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:47:44 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:47:44 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:47:44 PM
+5/20/2025 10:48:24 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:48:24 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:48:24 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:48:24 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:48:24 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:48:24 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:48:24 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:48:24 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:48:24 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:48:24 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:48:24 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:48:24 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:48:24 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:48:24 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:48:24 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:48:24 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:48:24 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:48:24 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:48:24 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:48:25 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:48:25 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:48:25 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:48:25 PM
+5/20/2025 10:50:14 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:50:14 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:50:14 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:50:14 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:50:14 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:50:14 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:50:14 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:50:14 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:50:14 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:50:14 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:50:14 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:50:14 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:50:14 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:50:14 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:50:14 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:50:14 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:50:14 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:50:14 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:50:15 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:50:15 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:50:15 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:50:15 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:50:15 PM
+5/20/2025 10:50:48 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:50:48 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:50:48 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:50:48 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:50:48 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:50:48 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:50:48 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:50:48 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:50:48 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:50:48 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:50:48 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:50:48 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:50:48 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:50:48 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:50:48 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:50:48 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:50:48 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:50:48 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:50:48 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:50:49 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:50:49 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:50:49 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:50:49 PM
+5/20/2025 10:52:26 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:52:26 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:52:26 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:52:26 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:52:26 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:52:26 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:52:26 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:52:26 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:52:26 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:52:26 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:52:26 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:52:26 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:52:26 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:52:26 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:52:26 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:52:26 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:52:26 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:52:26 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:52:26 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:52:27 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:52:27 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:52:27 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:52:27 PM
+5/20/2025 10:53:38 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:53:38 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:53:38 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:53:38 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:53:38 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:53:38 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:53:38 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:53:38 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:53:38 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:53:38 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:53:38 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:53:38 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:53:38 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:53:38 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:53:38 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:53:38 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:53:38 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:53:38 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:53:38 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:53:38 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:53:38 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:53:38 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:53:38 PM
+5/20/2025 10:54:27 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:54:27 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:54:27 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:54:27 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:54:27 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:54:27 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:54:27 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:54:27 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:54:27 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:54:27 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:54:27 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:54:27 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:54:27 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:54:27 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:54:27 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:54:27 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:54:27 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:54:27 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:54:27 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:54:28 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:54:28 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:54:28 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:54:28 PM
+5/20/2025 10:56:20 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:56:20 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:56:20 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:56:20 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:56:20 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:56:20 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:56:20 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:56:20 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:56:20 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:56:20 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:56:20 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:56:20 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:56:20 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:56:20 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:56:20 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:56:20 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:56:20 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:56:20 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:56:20 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:56:21 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:56:21 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:56:21 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:56:21 PM
+5/20/2025 10:57:27 AM: Starting Core Directory JSON file updates...
+5/20/2025 10:57:27 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 10:57:27 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 10:57:27 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 10:57:27 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 10:57:27 AM: Successfully created releases-index.json in output directory
+5/20/2025 10:57:27 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 10:57:27 AM: Added new release 9.0.5 to channel releases
+5/20/2025 10:57:27 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 10:57:27 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 10:57:27 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 10:57:27 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 10:57:27 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 10:57:27 AM: Added new release 8.0.16 to channel releases
+5/20/2025 10:57:27 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 10:57:27 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 10:57:27 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 10:57:27 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 10:57:27 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 5:57:28 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 5:57:28 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 5:57:28 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 5:57:28 PM
+5/20/2025 11:01:30 AM: Starting Core Directory JSON file updates...
+5/20/2025 11:01:30 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 11:01:30 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 11:01:30 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 11:01:30 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 11:01:30 AM: Successfully created releases-index.json in output directory
+5/20/2025 11:01:30 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 11:01:30 AM: Added new release 9.0.5 to channel releases
+5/20/2025 11:01:30 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 11:01:30 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 11:01:30 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 11:01:30 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 11:01:30 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 11:01:30 AM: Added new release 8.0.16 to channel releases
+5/20/2025 11:01:30 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 11:01:30 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 11:01:30 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 11:01:30 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 11:01:30 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 6:01:30 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 6:01:30 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 6:01:30 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 6:01:30 PM
+5/20/2025 11:02:22 AM: Starting Core Directory JSON file updates...
+5/20/2025 11:02:22 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 11:02:22 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 11:02:22 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 11:02:22 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 11:02:22 AM: Successfully created releases-index.json in output directory
+5/20/2025 11:02:22 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 11:02:22 AM: Added new release 9.0.5 to channel releases
+5/20/2025 11:02:22 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 11:02:22 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 11:02:22 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 11:02:22 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 11:02:22 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 11:02:22 AM: Added new release 8.0.16 to channel releases
+5/20/2025 11:02:22 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 11:02:22 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 11:02:22 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 11:02:22 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 11:02:22 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 6:02:23 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 6:02:23 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 6:02:23 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 6:02:23 PM
+5/20/2025 11:03:54 AM: Starting Core Directory JSON file updates...
+5/20/2025 11:03:54 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 11:03:54 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 11:03:54 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 11:03:54 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 11:03:54 AM: Successfully created releases-index.json in output directory
+5/20/2025 11:03:54 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 11:03:54 AM: Added new release 9.0.5 to channel releases
+5/20/2025 11:03:54 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 11:03:54 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 11:03:54 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 11:03:54 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 11:03:54 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 11:03:54 AM: Added new release 8.0.16 to channel releases
+5/20/2025 11:03:54 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 11:03:54 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 11:03:54 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 11:03:54 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 11:03:54 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 6:03:55 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 6:03:55 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 6:03:55 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 6:03:55 PM
+5/20/2025 11:04:35 AM: Starting Core Directory JSON file updates...
+5/20/2025 11:04:35 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 11:04:35 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 11:04:35 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 11:04:35 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 11:04:35 AM: Successfully created releases-index.json in output directory
+5/20/2025 11:04:35 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 11:04:35 AM: Added new release 9.0.5 to channel releases
+5/20/2025 11:04:35 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 11:04:35 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 11:04:35 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 11:04:35 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 11:04:35 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 11:04:35 AM: Added new release 8.0.16 to channel releases
+5/20/2025 11:04:35 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 11:04:35 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 11:04:35 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 11:04:35 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 11:04:35 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 6:04:36 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 6:04:36 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 6:04:36 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 6:04:36 PM
+5/20/2025 11:07:15 AM: Starting Core Directory JSON file updates...
+5/20/2025 11:07:15 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 11:07:15 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 11:07:15 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 11:07:15 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 11:07:15 AM: Successfully created releases-index.json in output directory
+5/20/2025 11:07:16 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 11:07:16 AM: Added new release 9.0.5 to channel releases
+5/20/2025 11:07:16 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 11:07:16 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 11:07:16 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 11:07:16 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 11:07:16 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 11:07:16 AM: Added new release 8.0.16 to channel releases
+5/20/2025 11:07:16 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 11:07:16 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 11:07:16 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 11:07:16 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 11:07:16 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 6:07:16 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 6:07:17 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 6:07:17 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 6:07:17 PM
+5/20/2025 11:13:27 AM: Starting Core Directory JSON file updates...
+5/20/2025 11:13:27 AM: Creating releases-index.json at: OutputDir/releases-index.json
+5/20/2025 11:13:27 AM: Successfully loaded existing releases-index.json from core directory as reference
+5/20/2025 11:13:27 AM: Updated releases index data for runtime ID: 8.0.16, channel: 8.0
+5/20/2025 11:13:27 AM: Updated releases index data for runtime ID: 9.0.5, channel: 9.0
+5/20/2025 11:13:27 AM: Successfully created releases-index.json in output directory
+5/20/2025 11:13:27 AM: Successfully loaded existing releases.json from core directory for channel 9.0 as reference
+5/20/2025 11:13:27 AM: Added new release 9.0.5 to channel releases
+5/20/2025 11:13:27 AM: Created JSON file: OutputDir/9.0-releases.json
+5/20/2025 11:13:27 AM: Successfully created 9.0-releases.json in output directory
+5/20/2025 11:13:27 AM: Created JSON file: OutputDir/9.0.5release.json
+5/20/2025 11:13:27 AM: Successfully created 9.0.5release.json in output directory
+5/20/2025 11:13:27 AM: Successfully loaded existing releases.json from core directory for channel 8.0 as reference
+5/20/2025 11:13:27 AM: Added new release 8.0.16 to channel releases
+5/20/2025 11:13:27 AM: Created JSON file: OutputDir/8.0-releases.json
+5/20/2025 11:13:27 AM: Successfully created 8.0-releases.json in output directory
+5/20/2025 11:13:27 AM: Created JSON file: OutputDir/8.0.16release.json
+5/20/2025 11:13:27 AM: Successfully created 8.0.16release.json in output directory
+5/20/2025 11:13:27 AM: Core Directory JSON file updates completed successfully.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 5/20/2025 6:13:27 PM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 5/20/2025 6:13:27 PM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 5/20/2025 6:13:27 PM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 5/20/2025 6:13:27 PM

@@ -193,7 +193,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             var markdownList = "\n";
             
             // Add the latest SDK as the first item
-            markdownList += $"* [{latestSdk}][{latestSdk}]\n";
+            markdownList += $"* [{latestSdk}][{latestSdk}]";
             
             // Add all other SDKs
             foreach (var sdk in sdks)
@@ -201,7 +201,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 var version = sdk.Version;
                 if (version != latestSdk)
                 {
-                    markdownList += $"* [{version}][{version}]\n";
+                    markdownList += $"\n* [{version}][{version}]";
                 }
             }
             
@@ -219,7 +219,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if referenced
                     if (referencedLinks.Contains(latestSdk))
                     {
-                        markdownList += $"[{latestSdk}]: {runtimeVersion}.md\n";
+                        markdownList += $"[{latestSdk}]: {runtimeVersion}.md";
                     }
                 }
                 else
@@ -227,7 +227,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if referenced
                     if (referencedLinks.Contains(version))
                     {
-                        markdownList += $"[{version}]: {version}.md\n";
+                        markdownList += $"\n[{version}]: {version}.md";
                     }
                 }
             }
@@ -238,7 +238,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private string ReplaceRuntimeSection(string latestRuntime, Runtime runtime, HashSet<string> referencedLinks)
         {
             if (runtime == null) return "";
-            var markdownList = $"[//]: # ( Runtime {latestRuntime})\n";
+            var markdownList = $"[//]: # ( Runtime {latestRuntime})";
             var files = runtime.Files;
             if (files != null)
             {
@@ -247,7 +247,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if the link name is actually referenced in the content
                     if (referencedLinks.Contains(file.Name))
                     {
-                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                        markdownList += $"\n[{file.Name}]: {file.Url}";
                     }
                 }
             }
@@ -256,7 +256,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private string ReplaceWindowsDesktopSection(string latestRuntime, WindowsDesktop windowsDesktop, HashSet<string> referencedLinks)
         {
             if (windowsDesktop == null) return "";
-            var markdownList = $"[//]: # ( WindowsDesktop {latestRuntime})\n";
+            var markdownList = $"[//]: # ( WindowsDesktop {latestRuntime})";
             var files = windowsDesktop.Files;
             if (files != null)
             {
@@ -265,7 +265,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if the link name is actually referenced in the content
                     if (referencedLinks.Contains(file.Name))
                     {
-                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                        markdownList += $"\n[{file.Name}]: {file.Url}";
                     }
                 }
             }
@@ -276,7 +276,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private string ReplaceAspSection(string latestRuntime, AspNetCoreRuntime aspNetCoreRuntime, HashSet<string> referencedLinks)
         {
             if (aspNetCoreRuntime == null) return "";
-            var markdownList = $"[//]: # ( ASP {latestRuntime})\n";
+            var markdownList = $"[//]: # ( ASP {latestRuntime})";
             var files = aspNetCoreRuntime.Files;
             if (files != null)
             {
@@ -285,7 +285,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if the link name is actually referenced in the content
                     if (referencedLinks.Contains(file.Name))
                     {
-                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                        markdownList += $"\n[{file.Name}]: {file.Url}";
                     }
                 }
             }
@@ -296,7 +296,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private string ReplaceLatestSdkSection(string latestSdk, Sdk sdk, HashSet<string> referencedLinks)
         {
             if (sdk == null) return "";
-            var markdownList = $"[//]: # ( SDK {latestSdk})\n";
+            var markdownList = $"[//]: # ( SDK {latestSdk})";
             var files = sdk.Files;
             if (files != null)
             {
@@ -305,7 +305,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Only add if the link name is actually referenced in the content
                     if (referencedLinks.Contains(file.Name))
                     {
-                        markdownList += $"[{file.Name}]: {file.Url}\n";
+                        markdownList += $"\n[{file.Name}]: {file.Url}";
                     }
                 }
             }
@@ -314,10 +314,10 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
         private string ReplacePackagesSection(List<Package> packages)
         {
             if (packages == null) return "";
-            var table = $"## Packages\n\n| Name | Version |\n| ---- | ------- |\n";
+            var table = $"## Packages\n| Name | Version |\n| ---- | ------- |\n";
             foreach (var package in packages)
             {
-                table += $"| {package.Name} | {package.Version} |\n";
+                table += $"| {package.Name} | {package.Version} |";
             }
             return table;
         }        // Method to replace SECTION-MSRC placeholder with security information
@@ -341,8 +341,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                     // Second part - add each CVE entry
                     foreach (var cve in msrcConfig.Cves)
                     {
-                        securityText += $"### Microsoft Security Advisory {cve.CveId} | {cve.CveTitle}\n\n";
-                        securityText += $"{cve.CveDescription}\n\n";
+                        securityText += $"### Microsoft Security Advisory {cve.CveId} | {cve.CveTitle}";
+                        securityText += $"\n\n{cve.CveDescription}";
                     }
                 }
                 // Fall back to generic security notice if MSRC information is not available
