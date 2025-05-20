@@ -1,0 +1,176 @@
+{
+  "channel-version": "9.0",
+  "latest-release": "9.0.5",
+  "latest-release-date": "2025-05-13",
+  "latest-runtime": "9.0.5",
+  "latest-sdk": "9.0.300",
+  "support-phase": "active",
+  "release-type": "sts",
+  "eol-date": "2026-05-12",
+  "lifecycle-policy": "https://aka.ms/dotnetcoresupport",
+  "releases": [
+    {
+      "release-date": "2025-05-13",
+      "release-version": "9.0.5",
+      "security": true,
+      "cve-list": [
+        {
+          "cve-id": "",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-26646"
+        }
+      ],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/9.0.5/9.0.5.md"
+    },
+    {
+      "release-date": "2025-04-08",
+      "release-version": "9.0.4",
+      "security": true,
+      "cve-list": [
+        {
+          "cve-id": "CVE-2025-26682",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-26682"
+        }
+      ],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/9.0.4/9.0.4.md"
+    },
+    {
+      "release-date": "2025-03-11",
+      "release-version": "9.0.3",
+      "security": true,
+      "cve-list": [
+        {
+          "cve-id": "CVE-2025-24070",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-24070"
+        }
+      ],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/9.0.3/9.0.3.md"
+    },
+    {
+      "release-date": "2025-02-11",
+      "release-version": "9.0.2",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/9.0.2/9.0.2.md"
+    },
+    {
+      "release-date": "2025-01-14",
+      "release-version": "9.0.1",
+      "security": true,
+      "cve-list": [
+        {
+          "cve-id": "CVE-2025-21171",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-21171"
+        },
+        {
+          "cve-id": "CVE-2025-21172",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-21172"
+        },
+        {
+          "cve-id": "CVE-2025-21176",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-21176"
+        },
+        {
+          "cve-id": "CVE-2025-21173",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-21173"
+        }
+      ],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/9.0.1/9.0.1.md"
+    },
+    {
+      "release-date": "2024-12-03",
+      "release-version": "9.0.0",
+      "security": true,
+      "cve-list": [
+        {
+          "cve-id": "CVE-2024-43498",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-43498"
+        },
+        {
+          "cve-id": "CVE-2024-43499",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-43499"
+        }
+      ],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/9.0.0/9.0.0.md"
+    },
+    {
+      "release-date": "2024-10-08",
+      "release-version": "9.0.0-rc.2",
+      "security": true,
+      "cve-list": [
+        {
+          "cve-id": "CVE-2024-43483",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-43483"
+        },
+        {
+          "cve-id": "CVE-2024-43485",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-43485"
+        },
+        {
+          "cve-id": "CVE-2024-43484",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-43484"
+        },
+        {
+          "cve-id": "CVE-2024-38229",
+          "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-38229"
+        }
+      ],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/rc2/9.0.0-rc.2.md"
+    },
+    {
+      "release-date": "2024-09-10",
+      "release-version": "9.0.0-rc.1",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/rc1/9.0.0-rc.1.md"
+    },
+    {
+      "release-date": "2024-08-13",
+      "release-version": "9.0.0-preview.7",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview7/9.0.0-preview.7.md"
+    },
+    {
+      "release-date": "2024-07-09",
+      "release-version": "9.0.0-preview.6",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview6/9.0.0-preview.6.md"
+    },
+    {
+      "release-date": "2024-06-11",
+      "release-version": "9.0.0-preview.5",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview5/9.0.0-preview.5.md"
+    },
+    {
+      "release-date": "2024-05-21",
+      "release-version": "9.0.0-preview.4",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview4/9.0.0-preview.4.md"
+    },
+    {
+      "release-date": "2024-04-11",
+      "release-version": "9.0.0-preview.3",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview3/9.0.0-preview.3.md"
+    },
+    {
+      "release-date": "2024-03-12",
+      "release-version": "9.0.0-preview.2",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview2/9.0.0-preview.2.md"
+    },
+    {
+      "release-date": "2024-02-13",
+      "release-version": "9.0.0-preview.1",
+      "security": false,
+      "cve-list": [],
+      "release-notes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview1/9.0.0-preview.1.md"
+    }
+  ]
+}

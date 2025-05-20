@@ -100,8 +100,8 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 
                 // Replace the placeholders in the template
                 string updatedContent = templateContent
-                    .Replace("SECTION-SUPPORTED", supportedTable + "\n\n" + supportedLinks)
-                    .Replace("SECTION-UNSUPPORTED", unsupportedTable + "\n\n" + unsupportedLinks);
+                    .Replace("SECTION-SUPPORTED", supportedTable + "\n" + supportedLinks)
+                    .Replace("SECTION-UNSUPPORTED", unsupportedTable + "\n" + unsupportedLinks);
 
                 // Define the output path for the updated file
                 string outputFilePath = Path.Combine(_outputDirectory, "1releases.md");
@@ -110,7 +110,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                 Directory.CreateDirectory(_outputDirectory);
 
                 // Write the updated content to the output file
-                File.WriteAllText(outputFilePath, updatedContent.TrimEnd(), Encoding.UTF8);
+                File.WriteAllText(outputFilePath, updatedContent, Encoding.UTF8);
 
                 Console.WriteLine($"Releases file has been successfully updated and saved to: {outputFilePath}");
             }
