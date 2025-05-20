@@ -326,26 +326,31 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             // If the release has the Security flag set to true, display security notice
             if (release.Security)
             {
-                string securityText = "### Security\n\n";
-                securityText += "This release includes security fixes and non-security fixes. Details on security fixes below can be found in the [Microsoft Security Advisory](https://github.com/dotnet/announcements/issues?q=is%3Aissue%20state%3Aopen%20%20Microsoft%20Security%20Advisory)";
+                string securityText = "";
                 
                 // Check if we have MSRC information for this runtime
                 var runtimeId = release.Runtime?.Version;
                 var msrcConfig = runtimeId != null ? _msrcConfigs.FirstOrDefault(m => m.RuntimeId == runtimeId) : null;
                 
-                // First try to use MSRC CVE information if available
+                // Use MSRC CVE information if available in the requested format
                 if (msrcConfig != null && msrcConfig.Cves != null && msrcConfig.Cves.Count > 0)
                 {
-                    securityText += ":\n\n";
+                    // First part - add the introduction text only once
+                    securityText = "This release includes security and non-sercurity fixes. Details on security fixes below can be found in the [Microsoft Security Advisory](https://github.com/dotnet/announcements/issues?q=is%3Aissue%20state%3Aopen%20%20Microsoft%20Security%20Advisory):\n\n";
+                    
+                    // Second part - add each CVE entry
                     foreach (var cve in msrcConfig.Cves)
                     {
-                        securityText += $"* {cve.CveId}: {cve.CveTitle} - {cve.CveDescription}\n";
+                        securityText += $"### Microsoft Security Advisory {cve.CveId} | {cve.CveTitle}\n\n";
+                        securityText += $"{cve.CveDescription}\n\n";
                     }
                 }
-                // Fall back to release CVE list if MSRC information is not available
+                // Fall back to generic security notice if MSRC information is not available
                 else if (release.CveList != null && release.CveList.Count > 0)
                 {
-                    securityText += ":\n\n";
+                    securityText = "### Security\n\n";
+                    securityText += "This release includes security fixes. Details on security fixes below can be found in the [Microsoft Security Advisory](https://github.com/dotnet/announcements/issues?q=is%3Aissue%20state%3Aopen%20%20Microsoft%20Security%20Advisory):\n\n";
+                    
                     foreach (var cve in release.CveList)
                     {
                         if (!string.IsNullOrEmpty(cve.CveUrl))
@@ -356,7 +361,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 }
                 else
                 {
-                    securityText += ".";
+                    securityText = "### Security\n\n";
+                    securityText += "This release includes security fixes. Details can be found in the [Microsoft Security Advisory](https://github.com/dotnet/announcements/issues?q=is%3Aissue%20state%3Aopen%20%20Microsoft%20Security%20Advisory).";
                 }
                 
                 return securityText;

@@ -50,7 +50,6 @@ The following repos have been updated.
  [.NET {ID-VERSION} {BLOG-DATE} Blog][dotnet-blog]
 
  SECTION-MSRC
-MSRC DETAILS TO BE INSERTED HERE
 
 ## Visual Studio Compatibility
 
