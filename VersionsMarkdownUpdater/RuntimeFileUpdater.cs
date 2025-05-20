@@ -5,11 +5,11 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using System.Linq;
 using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
-{
-    public class RuntimeFileUpdater : FileUpdater
+{    public class RuntimeFileUpdater : FileUpdater
     {
         // List to store runtime IDs
         private readonly List<string> runtimeIds;
@@ -22,15 +22,19 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
 
         // Instance of JsonFileHandler for JSON file handling
         private readonly JsonFileHandler _jsonFileHandler;
+        
+        // MSRC security information
+        private readonly List<MsrcConfig> _msrcConfigs;
 
         // Constructor to initialize the updater with relevant directories, log file location, runtime IDs, download path, output path, and new file name
-        public RuntimeFileUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath, JsonFileHandler jsonFileHandler)
+        public RuntimeFileUpdater(string templateDirectory, string logFileLocation, List<string> runtimeIds, string downloadPath, string outputPath, JsonFileHandler jsonFileHandler, List<MsrcConfig>? msrcConfigs = null)
             : base(templateDirectory, logFileLocation)
         {
             this.runtimeIds = runtimeIds;
             this.downloadPath = downloadPath;
             this.outputPath = outputPath;
             _jsonFileHandler = jsonFileHandler;
+            _msrcConfigs = msrcConfigs ?? new List<MsrcConfig>();
         }
 
         // Method to update files based on the loaded configuration data
@@ -316,9 +320,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 table += $"| {package.Name} | {package.Version} |\n";
             }
             return table;
-        }
-
-        // Method to replace SECTION-MSRC placeholder with security information
+        }        // Method to replace SECTION-MSRC placeholder with security information
         private string ReplaceMsrcSecuritySection(Release release)
         {
             // If the release has the Security flag set to true, display security notice
@@ -327,8 +329,21 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                 string securityText = "### Security\n\n";
                 securityText += "This release includes security fixes and non-security fixes. Details on security fixes below can be found in the [Microsoft Security Advisory](https://github.com/dotnet/announcements/issues?q=is%3Aissue%20state%3Aopen%20%20Microsoft%20Security%20Advisory)";
                 
-                // Add CVE information if available
-                if (release.CveList != null && release.CveList.Count > 0)
+                // Check if we have MSRC information for this runtime
+                var runtimeId = release.Runtime?.Version;
+                var msrcConfig = runtimeId != null ? _msrcConfigs.FirstOrDefault(m => m.RuntimeId == runtimeId) : null;
+                
+                // First try to use MSRC CVE information if available
+                if (msrcConfig != null && msrcConfig.Cves != null && msrcConfig.Cves.Count > 0)
+                {
+                    securityText += ":\n\n";
+                    foreach (var cve in msrcConfig.Cves)
+                    {
+                        securityText += $"* {cve.CveId}: {cve.CveTitle} - {cve.CveDescription}\n";
+                    }
+                }
+                // Fall back to release CVE list if MSRC information is not available
+                else if (release.CveList != null && release.CveList.Count > 0)
                 {
                     securityText += ":\n\n";
                     foreach (var cve in release.CveList)
@@ -349,7 +364,7 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
             
             // If no security issues, return an empty string
             return "";
-        }        // Helper method to create directory if it does not exist
+        }// Helper method to create directory if it does not exist
         private new void CreateDirectoryIfNotExists(string path)
         {
             if (!Directory.Exists(path))

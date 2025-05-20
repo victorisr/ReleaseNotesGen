@@ -6,13 +6,13 @@ using System.Linq;
 using ReleaseNotesUpdater.Models;
 
 namespace ReleaseNotesUpdater
-{
-    public class CveFileUpdater : FileUpdater
+{    public class CveFileUpdater : FileUpdater
     {
         private readonly string _coreDirectory;
         private readonly string _outputDirectory;
         private readonly List<string> _runtimeIds;
         private readonly JsonFileHandler _jsonFileHandler;
+        private readonly List<MsrcConfig> _msrcConfigs;
 
         public CveFileUpdater(
             string templateDirectory, 
@@ -20,13 +20,15 @@ namespace ReleaseNotesUpdater
             string coreDirectory,
             string outputDirectory,
             List<string> runtimeIds,
-            JsonFileHandler jsonFileHandler)
+            JsonFileHandler jsonFileHandler,
+            List<MsrcConfig> msrcConfigs)
             : base(templateDirectory, logFileLocation)
         {
             _coreDirectory = coreDirectory;
             _outputDirectory = outputDirectory;
             _runtimeIds = runtimeIds;
             _jsonFileHandler = jsonFileHandler;
+            _msrcConfigs = msrcConfigs;
         }
 
         public override void UpdateFiles()
@@ -116,8 +118,7 @@ namespace ReleaseNotesUpdater
             // Format the release version and date for the new entry
             string formattedDate = FormatReleaseDate(configData.LatestReleaseDate);
             string releaseVersion = configData.LatestRelease;
-            
-            // Check if there are any CVEs in the latest release
+              // Check if there are any CVEs in the latest release
             var cveItems = new List<string>();
             
             if (configData.Releases != null && configData.Releases.Count > 0)
@@ -131,6 +132,17 @@ namespace ReleaseNotesUpdater
                         string cveEntry = $"  - [{cve.CveUrl}]({cve.CveUrl})";
                         cveItems.Add(cveEntry);
                     }
+                }
+            }
+
+            // Add MSRC information from config if available
+            var msrcConfig = _msrcConfigs.FirstOrDefault(m => m.RuntimeId == runtimeId);
+            if (msrcConfig != null && msrcConfig.Cves != null && msrcConfig.Cves.Count > 0)
+            {
+                foreach (var cve in msrcConfig.Cves)
+                {
+                    string cveEntry = $"  - {cve.CveId}: {cve.CveTitle} - {cve.CveDescription}";
+                    cveItems.Add(cveEntry);
                 }
             }
 

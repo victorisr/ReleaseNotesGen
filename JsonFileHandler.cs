@@ -62,6 +62,32 @@ namespace ReleaseNotesUpdater
         public CoreReleasesConfiguration? DeserializeCoreReleasesConfiguration(string jsonFilePath)
         {
             return DeserializeJsonFile<CoreReleasesConfiguration>(jsonFilePath);
+        }        public List<MsrcConfig> LoadMsrcInformation(string configFilePath)
+        {
+            if (!File.Exists(configFilePath))
+            {
+                Console.WriteLine($"WARNING: Config file not found at: {configFilePath}");
+                return new List<MsrcConfig>();
+            }
+
+            try
+            {
+                string jsonContent = File.ReadAllText(configFilePath);
+                using var document = JsonDocument.Parse(jsonContent);
+                
+                if (document.RootElement.TryGetProperty("MsrcInformation", out var msrcElement))
+                {
+                    var result = JsonSerializer.Deserialize<List<MsrcConfig>>(msrcElement.GetRawText(), _jsonOptions);
+                    return result ?? new List<MsrcConfig>();
+                }
+                
+                return new List<MsrcConfig>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR: Failed to parse MSRC information from config: {ex.Message}");
+                return new List<MsrcConfig>();
+            }
         }
     }
 }

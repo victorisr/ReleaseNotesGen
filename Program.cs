@@ -11,7 +11,7 @@ namespace ReleaseNotesUpdater
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             try
             {
@@ -19,14 +19,13 @@ namespace ReleaseNotesUpdater
                 IConfiguration config = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json", optional: false)
-                    .Build();
-
-                // Get path settings
+                    .Build();                // Get path settings
                 string? templateDirectory = config["Paths:TemplateDirectory"];
                 string? logFileLocation = config["Paths:LogFileLocation"];
                 string? downloadPath = config["Paths:DownloadPath"];
                 string? outputDirectory = config["Paths:OutputDirectory"];
                 string? coreDirectory = config["Paths:CoreDirectory"];
+                string? configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
                 // Get Azure Pipeline details
                 string? organization = config["AzurePipeline:Organization"];
@@ -57,18 +56,18 @@ namespace ReleaseNotesUpdater
                 if (templateDirectory == null || logFileLocation == null || downloadPath == null || outputDirectory == null || coreDirectory == null || organization == null || project == null || personalAccessToken == null || artifactName == null)
                 {
                     throw new Exception("One or more required configuration values are missing in appsettings.json.");
-                }
-
-                // Create an instance of JsonFileHandler
+                }                // Create an instance of JsonFileHandler
                 var jsonFileHandler = new JsonFileHandler(downloadPath);
+                
+                // Load MSRC information from the config file
+                var msrcConfigs = jsonFileHandler.LoadMsrcInformation(configFilePath);
+                Console.WriteLine($"Loaded {msrcConfigs.Count} MSRC configurations from config file.");
 
                 // Process each runtime separately for downloading
                 foreach (var pair in runtimeBuildPairs)
                 {
                     string runtimeId = pair.runtimeId;
-                    int buildId = pair.buildId;
-
-                    // Create an instance of AzurePipelineArtifactsDownloader and download artifacts
+                    int buildId = pair.buildId;                    // Create an instance of AzurePipelineArtifactsDownloader and download artifacts
                
                   //  var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId);
                  //   await artifactsDownloader.DownloadArtifactsAsync();
@@ -81,19 +80,17 @@ namespace ReleaseNotesUpdater
                 var coreDirectoryUpdater = new CoreDirectoryJsonUpdater(coreDirectory, outputDirectory, runtimeIds, downloadPath, logFileLocation,jsonFileHandler);
                 
                 coreDirectoryUpdater.UpdateAllCoreDirectoryJsonFiles();
-                Console.WriteLine("Core directory JSON files generated successfully.");
-
-                // Create instances of the updater classes
+                Console.WriteLine("Core directory JSON files generated successfully.");                // Create instances of the updater classes
                 var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
                 var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
                 var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
                 var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
-                var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
+                var runtimeFileUpdater = new RuntimeFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler, msrcConfigs);
                 var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var versionReadMeUpdater = new VersionReadMeUpdater(templateDirectory, logFileLocation, coreDirectory, outputDirectory, runtimeIds, jsonFileHandler);
-                var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, coreDirectory, outputDirectory, runtimeIds, jsonFileHandler);
+                var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, coreDirectory, outputDirectory, runtimeIds, jsonFileHandler, msrcConfigs);
 
                 // Update the files
                 readMeUpdater.UpdateFiles();
