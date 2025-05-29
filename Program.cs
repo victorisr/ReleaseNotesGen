@@ -8,10 +8,9 @@ using ReleaseNotesUpdater.VersionsMarkdownUpdater;
 using ReleaseNotesUpdater.ReleasesReadMeUpdaters;
 
 namespace ReleaseNotesUpdater
-{
-    class Program
+{    class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
@@ -69,8 +68,8 @@ namespace ReleaseNotesUpdater
                     string runtimeId = pair.runtimeId;
                     int buildId = pair.buildId;                    // Create an instance of AzurePipelineArtifactsDownloader and download artifacts
                
-                  //  var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId);
-                 //   await artifactsDownloader.DownloadArtifactsAsync();
+                    var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId);
+                    await artifactsDownloader.DownloadArtifactsAsync();
             
                 }
 

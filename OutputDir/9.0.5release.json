@@ -7,14 +7,13 @@
   "ReleaseNotes": "https://github.com/dotnet/core/blob/main/release-notes/9.0/9.0.5/9.0.5.md",
   "cve_list": [
     {
-      "cve-id": "CVE-2025-26646",
-      "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-26646"
+      "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name="
     }
   ],
   "runtime": {
     "version": "9.0.5",
     "version-display": "9.0.5",
-    "vs-version": "17.12.8,17.13.7",
+    "vs-version": ", 17.12.8,17.13.7",
     "vs-mac-version": "",
     "files": [
       {

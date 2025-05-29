@@ -4,11 +4,11 @@
 
 |  Version  | Release Date | Release type | Support phase | Latest Patch Version | End of Support |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| [.NET 9.0](release-notes/9.0/README.md) | [November 12, 2024](https://devblogs.microsoft.com/dotnet/announcing-dotnet-9/) | [STS][policies] | Active | [9.0.4][9.0.4] | May 12, 2026 |
-| [.NET 8.0](release-notes/8.0/README.md) | [November 14, 2023](https://devblogs.microsoft.com/dotnet/announcing-dotnet-8/) | [LTS][policies] | Active | [8.0.15][8.0.15] | November 10, 2026 |
+| [.NET 9.0](release-notes/9.0/README.md) | [November 12, 2024](https://devblogs.microsoft.com/dotnet/announcing-dotnet-9/) | [STS][policies] | Active | [9.0.5][9.0.5] | May 12, 2026 |
+| [.NET 8.0](release-notes/8.0/README.md) | [November 14, 2023](https://devblogs.microsoft.com/dotnet/announcing-dotnet-8/) | [LTS][policies] | Active | [8.0.16][8.0.16] | November 10, 2026 |
 
-[9.0.4]: release-notes/9.0/9.0.4.md
-[8.0.15]: release-notes/8.0/8.0.15.md
+[9.0.5]: release-notes/9.0/9.0.5.md
+[8.0.16]: release-notes/8.0/8.0.16.md
 
 [policies]: release-policies.md
 
@@ -30,8 +30,8 @@ Release notes include:
 
 Example markdown files:
 
-* [9.0/9.0.4/9.0.4.md](./9.0/9.0.4/9.0.4.md)
-* [8.0/8.0.15/8.0.15.md](./8.0/8.0.15/8.0.15.md)
+* [9.0/9.0.5/9.0.5.md](./9.0/9.0.5/9.0.5.md)
+* [8.0/8.0.16/8.0.16.md](./8.0/8.0.16/8.0.16.md)
 
 Example JSON files:
 

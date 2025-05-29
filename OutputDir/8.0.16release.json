@@ -7,8 +7,7 @@
   "ReleaseNotes": "https://github.com/dotnet/core/blob/main/release-notes/8.0/8.0.16/8.0.16.md",
   "cve_list": [
     {
-      "cve-id": "CVE-2025-26646",
-      "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2025-26646"
+      "cve-url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name="
     }
   ],
   "runtime": {
