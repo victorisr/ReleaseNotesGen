@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using ReleaseNotesUpdater.CoreDirJsonUpdaters;
 using ReleaseNotesUpdater.InstallersMarkdownUpdaters;
 using ReleaseNotesUpdater.VersionsMarkdownUpdater;
 using ReleaseNotesUpdater.ReleasesReadMeUpdaters;
@@ -77,16 +76,13 @@ namespace ReleaseNotesUpdater
                         Console.WriteLine($"Failed to download artifacts for runtime {runtimeId}: {ex.Message}");
                         // Continue processing other runtimes even if one fails
                         continue;
-                    }
-                }
+                    }                }
 
-                // Update core directory JSON files AFTER downloading artifacts but BEFORE updater classes
-                // Now with outputDirectory parameter to save files to the output directory
-                Console.WriteLine("Generating core directory JSON files...");
-                var coreDirectoryUpdater = new CoreDirectoryJsonUpdater(coreDirectory, outputDirectory, runtimeIds, downloadPath, logFileLocation,jsonFileHandler);
-                
-                coreDirectoryUpdater.UpdateAllCoreDirectoryJsonFiles();
-                Console.WriteLine("Core directory JSON files generated successfully.");                // Create instances of the updater classes
+                // REMOVED: Core directory JSON file generation 
+                // The application now works directly with downloaded artifacts and existing core directory files
+                Console.WriteLine("Starting markdown file generation...");
+
+                // Create instances of the updater classes
                 var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
                 var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
                 var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
@@ -110,7 +106,7 @@ namespace ReleaseNotesUpdater
                 versionReadMeUpdater.UpdateFiles();
                 cveFileUpdater.UpdateFiles();
 
-                Console.WriteLine("All files updated successfully.");
+                Console.WriteLine("All markdown files updated successfully.");
             }
             catch (Exception ex)
             {
