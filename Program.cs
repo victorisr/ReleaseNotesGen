@@ -60,17 +60,24 @@ namespace ReleaseNotesUpdater
                 
                 // Load MSRC information from the config file
                 var msrcConfigs = jsonFileHandler.LoadMsrcInformation(configFilePath);
-                Console.WriteLine($"Loaded {msrcConfigs.Count} MSRC configurations from config file.");
-
-                // Process each runtime separately for downloading
+                Console.WriteLine($"Loaded {msrcConfigs.Count} MSRC configurations from config file.");                // Process each runtime separately for downloading
                 foreach (var pair in runtimeBuildPairs)
                 {
                     string runtimeId = pair.runtimeId;
-                    int buildId = pair.buildId;                    // Create an instance of AzurePipelineArtifactsDownloader and download artifacts
-               
-                    var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId);
-                    await artifactsDownloader.DownloadArtifactsAsync();
-            
+                    int buildId = pair.buildId;
+
+                    try
+                    {
+                        // Create an instance of AzurePipelineArtifactsDownloader and download artifacts
+                        var artifactsDownloader = new AzurePipelineArtifactsDownloader(organization, project, buildId, personalAccessToken, artifactName, downloadPath, runtimeId, logFileLocation);
+                        await artifactsDownloader.DownloadArtifactsAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to download artifacts for runtime {runtimeId}: {ex.Message}");
+                        // Continue processing other runtimes even if one fails
+                        continue;
+                    }
                 }
 
                 // Update core directory JSON files AFTER downloading artifacts but BEFORE updater classes
