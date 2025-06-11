@@ -1,0 +1,12 @@
+{
+  "7.0": "https://devblogs.microsoft.com/dotnet/dotnet-7-end-of-support/",
+  "6.0": "https://devblogs.microsoft.com/dotnet/dotnet-6-end-of-support/",
+  "5.0": "https://devblogs.microsoft.com/dotnet/dotnet-5-end-of-support-update/",
+  "3.1": "https://devblogs.microsoft.com/dotnet/net-core-3-1-will-reach-end-of-support-on-december-13-2022/",
+  "3.0": "https://devblogs.microsoft.com/dotnet/net-core-3-0-end-of-life/",
+  "2.2": "https://devblogs.microsoft.com/dotnet/net-core-2-2-will-reach-end-of-life-on-december-23-2019/",
+  "2.1": "https://devblogs.microsoft.com/dotnet/net-core-2-1-will-reach-end-of-support-on-august-21-2021/",
+  "2.0": "https://devblogs.microsoft.com/dotnet/net-core-2-0-will-reach-end-of-life-on-september-1-2018/",
+  "1.1": "https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/",
+  "1.0": "https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/"
+}

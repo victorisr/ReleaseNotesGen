@@ -89,5 +89,72 @@ namespace ReleaseNotesUpdater
                 return new List<MsrcConfig>();
             }
         }
+
+        /// <summary>
+        /// Load release reference configuration from separate JSON files
+        /// </summary>
+        /// <param name="configDirectory">Directory containing the configuration JSON files</param>
+        /// <returns>ReleaseReferenceConfiguration with loaded data</returns>
+        public ReleaseReferenceConfiguration LoadReleaseReferenceConfiguration(string configDirectory)
+        {
+            var config = new ReleaseReferenceConfiguration();
+
+            try
+            {
+                // Load launch dates
+                string launchDatesPath = Path.Combine(configDirectory, "launch-dates.json");
+                if (File.Exists(launchDatesPath))
+                {
+                    string jsonContent = File.ReadAllText(launchDatesPath);
+                    var launchDates = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent, _jsonOptions);
+                    if (launchDates != null)
+                    {
+                        config.LaunchDates = launchDates;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"WARNING: Launch dates configuration file not found at: {launchDatesPath}");
+                }
+
+                // Load announcement links
+                string announcementLinksPath = Path.Combine(configDirectory, "announcement-links.json");
+                if (File.Exists(announcementLinksPath))
+                {
+                    string jsonContent = File.ReadAllText(announcementLinksPath);
+                    var announcementLinks = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent, _jsonOptions);
+                    if (announcementLinks != null)
+                    {
+                        config.AnnouncementLinks = announcementLinks;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"WARNING: Announcement links configuration file not found at: {announcementLinksPath}");
+                }
+
+                // Load EOL announcement links
+                string eolAnnouncementLinksPath = Path.Combine(configDirectory, "eol-announcement-links.json");
+                if (File.Exists(eolAnnouncementLinksPath))
+                {
+                    string jsonContent = File.ReadAllText(eolAnnouncementLinksPath);
+                    var eolAnnouncementLinks = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent, _jsonOptions);
+                    if (eolAnnouncementLinks != null)
+                    {
+                        config.EolAnnouncementLinks = eolAnnouncementLinks;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"WARNING: EOL announcement links configuration file not found at: {eolAnnouncementLinksPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR: Failed to load release reference configuration: {ex.Message}");
+            }
+
+            return config;
+        }
     }
 }

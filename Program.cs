@@ -24,6 +24,7 @@ namespace ReleaseNotesUpdater
                 string? outputDirectory = config["Paths:OutputDirectory"];
                 string? coreDirectory = config["Paths:CoreDirectory"];
                 string? configFilePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+                string configDirectory = Path.Combine(Directory.GetCurrentDirectory(), "configuration");
 
                 // Get Azure Pipeline details
                 string? organization = config["AzurePipeline:Organization"];
@@ -80,12 +81,10 @@ namespace ReleaseNotesUpdater
 
                 // REMOVED: Core directory JSON file generation 
                 // The application now works directly with downloaded artifacts and existing core directory files
-                Console.WriteLine("Starting markdown file generation...");
-
-                // Create instances of the updater classes
-                var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
-                var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
-                var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler);
+                Console.WriteLine("Starting markdown file generation...");                // Create instances of the updater classes
+                var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler, configDirectory);
+                var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler, configDirectory);
+                var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler, configDirectory);
                 var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var installMacosUpdater = new InstallMacosUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var installWindowsUpdater = new InstallWindowsUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);

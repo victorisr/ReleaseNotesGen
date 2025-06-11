@@ -16,9 +16,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
         private readonly string _coreDirectory;
         private readonly Dictionary<string, string> _launchDates;
         private readonly Dictionary<string, string> _announcementLinks;
-        private readonly JsonFileHandler _jsonFileHandler;
-
-        public RNReadMeUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler)
+        private readonly JsonFileHandler _jsonFileHandler;        public RNReadMeUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler, string configDirectory)
         {
             _templateDirectory = templateDirectory;
             _logFileLocation = logFileLocation;
@@ -26,39 +24,10 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
             _coreDirectory = coreDirectory;
             _jsonFileHandler = jsonFileHandler;
 
-            // Initialize dictionaries
-            _launchDates = new Dictionary<string, string>
-            {
-                { "10.0", "November 11, 2025" },
-                { "9.0", "November 12, 2024" },
-                { "8.0", "November 14, 2023" },
-                { "7.0", "November 8, 2022" },
-                { "6.0", "November 8, 2021" },
-                { "5.0", "November 10, 2020" },
-                { "3.1", "December 3, 2019" },
-                { "3.0", "September 23, 2019" },
-                { "2.2", "December 4th, 2018" },
-                { "2.1", "May 30, 2018" },
-                { "2.0", "August 14th, 2017" },
-                { "1.1", "November 16th, 2016" },
-                { "1.0", "June 27th, 2016" }
-            };
-
-            _announcementLinks = new Dictionary<string, string>
-            {
-                { "9.0", "https://devblogs.microsoft.com/dotnet/announcing-dotnet-9/" },
-                { "8.0", "https://devblogs.microsoft.com/dotnet/announcing-dotnet-8/" },
-                { "7.0", "https://devblogs.microsoft.com/dotnet/announcing-dotnet-7/" },
-                { "6.0", "https://devblogs.microsoft.com/dotnet/announcing-net-6/" },
-                { "5.0", "https://devblogs.microsoft.com/dotnet/announcing-net-5-0/" },
-                { "3.1", "https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/" },
-                { "3.0", "https://devblogs.microsoft.com/dotnet/announcing-net-core-3-0/" },
-                { "2.2", "https://devblogs.microsoft.com/dotnet/announcing-net-core-2-2/" },
-                { "2.1", "https://devblogs.microsoft.com/dotnet/announcing-net-core-2-1/" },
-                { "2.0", "https://devblogs.microsoft.com/dotnet/announcing-net-core-2-0/" },
-                { "1.1", "https://devblogs.microsoft.com/dotnet/announcing-net-core-1-1/" },
-                { "1.0", "https://devblogs.microsoft.com/dotnet/announcing-net-core-1-0/" }
-            };
+            // Load configuration from external JSON files
+            var config = _jsonFileHandler.LoadReleaseReferenceConfiguration(configDirectory);
+            _launchDates = config.LaunchDates;
+            _announcementLinks = config.AnnouncementLinks;
         }
 
         public void UpdateFiles()

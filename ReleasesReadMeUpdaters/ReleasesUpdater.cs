@@ -17,9 +17,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
         private readonly Dictionary<string, string> _launchDates;
         private readonly Dictionary<string, string> _announcementLinks;
         private readonly Dictionary<string, string> _eolAnnouncementLinks;
-        private readonly JsonFileHandler _jsonFileHandler;
-
-        public ReleasesUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler)
+        private readonly JsonFileHandler _jsonFileHandler;        public ReleasesUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler, string configDirectory)
         {
             _templateDirectory = templateDirectory;
             _logFileLocation = logFileLocation;
@@ -27,55 +25,11 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
             _coreDirectory = coreDirectory;
             _jsonFileHandler = jsonFileHandler;
 
-            // Initialize launch dates for channel versions
-            _launchDates = new Dictionary<string, string>
-            {
-                { "10.0", "November 11, 2025" },
-                { "9.0", "November 12, 2024" },
-                { "8.0", "November 14, 2023" },
-                { "7.0", "November 8, 2022" },
-                { "6.0", "November 8, 2021" },
-                { "5.0", "November 10, 2020" },
-                { "3.1", "December 3, 2019" },
-                { "3.0", "September 23, 2019" },
-                { "2.2", "December 4th, 2018" },
-                { "2.1", "May 30, 2018" },
-                { "2.0", "August 14th, 2017" },
-                { "1.1", "November 16th, 2016" },
-                { "1.0", "June 27th, 2016" }
-            };
-
-            // Initialize announcement links for channel versions
-            _announcementLinks = new Dictionary<string, string>
-            {
-                { "9.0", "https://devblogs.microsoft.com/dotnet/announcing-dotnet-9/" },
-                { "8.0", "https://devblogs.microsoft.com/dotnet/announcing-dotnet-8/" },
-                { "7.0", "https://devblogs.microsoft.com/dotnet/announcing-dotnet-7/" },
-                { "6.0", "https://devblogs.microsoft.com/dotnet/announcing-net-6/" },
-                { "5.0", "https://devblogs.microsoft.com/dotnet/announcing-net-5-0/" },
-                { "3.1", "https://devblogs.microsoft.com/dotnet/announcing-net-core-3-1/" },
-                { "3.0", "https://devblogs.microsoft.com/dotnet/announcing-net-core-3-0/" },
-                { "2.2", "https://devblogs.microsoft.com/dotnet/announcing-net-core-2-2/" },
-                { "2.1", "https://devblogs.microsoft.com/dotnet/announcing-net-core-2-1/" },
-                { "2.0", "https://devblogs.microsoft.com/dotnet/announcing-net-core-2-0/" },
-                { "1.1", "https://devblogs.microsoft.com/dotnet/announcing-net-core-1-1/" },
-                { "1.0", "https://devblogs.microsoft.com/dotnet/announcing-net-core-1-0/" }
-            };
-
-            // Initialize EOL announcement links for channel versions
-            _eolAnnouncementLinks = new Dictionary<string, string>
-            {
-                { "7.0", "https://devblogs.microsoft.com/dotnet/dotnet-7-end-of-support/" },
-                { "6.0", "https://devblogs.microsoft.com/dotnet/dotnet-6-end-of-support/" },
-                { "5.0", "https://devblogs.microsoft.com/dotnet/dotnet-5-end-of-support-update/" },
-                { "3.1", "https://devblogs.microsoft.com/dotnet/net-core-3-1-will-reach-end-of-support-on-december-13-2022/" },
-                { "3.0", "https://devblogs.microsoft.com/dotnet/net-core-3-0-end-of-life/" },
-                { "2.2", "https://devblogs.microsoft.com/dotnet/net-core-2-2-will-reach-end-of-life-on-december-23-2019/" },
-                { "2.1", "https://devblogs.microsoft.com/dotnet/net-core-2-1-will-reach-end-of-support-on-august-21-2021/" },
-                { "2.0", "https://devblogs.microsoft.com/dotnet/net-core-2-0-will-reach-end-of-life-on-september-1-2018/" },
-                { "1.1", "https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/" },
-                { "1.0", "https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/" }
-            };
+            // Load configuration from external JSON files
+            var config = _jsonFileHandler.LoadReleaseReferenceConfiguration(configDirectory);
+            _launchDates = config.LaunchDates;
+            _announcementLinks = config.AnnouncementLinks;
+            _eolAnnouncementLinks = config.EolAnnouncementLinks;
         }
 
         public void UpdateFiles()
