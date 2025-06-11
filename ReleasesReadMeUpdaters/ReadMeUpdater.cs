@@ -195,7 +195,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                                 else if (channelVersion.Contains("."))
                                 {
                                     // Handle final releases with no preview
-                                    linkPath = $"release-notes/{channelVersion}/{latestRelease}.md";
+                                    linkPath = $"release-notes/{channelVersion}/{latestRelease}/{latestRelease}.md";
                                 }
                                 else
                                 {

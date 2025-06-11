@@ -81,7 +81,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                 string markdownTable = GenerateMarkdownTable(out string dynamicLinks, out string markdownFilesList);
 
                 // Add the "[policies]" link at the end of the dynamic links
-                dynamicLinks += "\n[policies]: release-policies.md";
+                dynamicLinks += "\n[policies]: ../release-policies.md";
 
                 // Replace the placeholders in the template
                 string updatedContent = templateContent
@@ -182,7 +182,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                                 ? launchDate
                                 : $"[{launchDate}]({announcementLink})";
 
-                            tableBuilder.AppendLine($"| [.NET {channelVersion}](release-notes/{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDate} |");
+                            tableBuilder.AppendLine($"| [.NET {channelVersion}](./{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDate} |");
 
                             if (!string.IsNullOrEmpty(latestRelease))
                             {
@@ -209,12 +209,12 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                                 else if (channelVersion.Contains("."))
                                 {
                                     // Handle final releases with no preview
-                                    linkPath = $"release-notes/{channelVersion}/{latestRelease}.md";
+                                    linkPath = $"./{channelVersion}/{latestRelease}/{latestRelease}.md";
                                 }
                                 else
                                 {
                                     // Handle other versions (default logic)
-                                    linkPath = $"release-notes/{channelVersion}/{latestRelease}/{latestRelease}.md";
+                                    linkPath = $"./{channelVersion}/{latestRelease}/{latestRelease}.md";
                                 }
 
                                 linksBuilder.AppendLine($"[{latestRelease}]: {linkPath}");

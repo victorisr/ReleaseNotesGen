@@ -15,8 +15,8 @@ The following table lists supported releases.
 | [.NET 8.0](release-notes/8.0/README.md) | [November 14, 2023](https://devblogs.microsoft.com/dotnet/announcing-dotnet-8/) | [LTS][policies] | Active | [8.0.17][8.0.17] | November 10, 2026 |
 
 [10.0.0-preview.4]: release-notes/10.0/preview/preview4/10.0.0-preview.4.md
-[9.0.6]: release-notes/9.0/9.0.6.md
-[8.0.17]: release-notes/8.0/8.0.17.md
+[9.0.6]: release-notes/9.0/9.0.6/9.0.6.md
+[8.0.17]: release-notes/8.0/8.0.17/8.0.17.md
 
 ## End-of-life releases
 
@@ -35,15 +35,15 @@ The following table lists end-of-life releases.
 | [.NET Core 1.1](release-notes/1.1/README.md) | [November 16th, 2016](https://devblogs.microsoft.com/dotnet/announcing-net-core-1-1/) | [LTS][policies] | [1.1.13][1.1.13] | [June 27, 2019](https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/) |
 | [.NET Core 1.0](release-notes/1.0/README.md) | [June 27th, 2016](https://devblogs.microsoft.com/dotnet/announcing-net-core-1-0/) | [LTS][policies] | [1.0.16][1.0.16] | [June 27, 2019](https://devblogs.microsoft.com/dotnet/net-core-1-0-and-1-1-will-reach-end-of-life-on-june-27-2019/) |
 
-[7.0.20]: release-notes/7.0/7.0.20.md
-[6.0.36]: release-notes/6.0/6.0.36.md
-[5.0.17]: release-notes/5.0/5.0.17.md
-[3.1.32]: release-notes/3.1/3.1.32.md
-[3.0.3]: release-notes/3.0/3.0.3.md
-[2.2.8]: release-notes/2.2/2.2.8.md
-[2.1.30]: release-notes/2.1/2.1.30.md
-[2.0.9]: release-notes/2.0/2.0.9.md
-[1.1.13]: release-notes/1.1/1.1.13.md
-[1.0.16]: release-notes/1.0/1.0.16.md
+[7.0.20]: release-notes/7.0/7.0.20/7.0.20.md
+[6.0.36]: release-notes/6.0/6.0.36/6.0.36.md
+[5.0.17]: release-notes/5.0/5.0.17/5.0.17.md
+[3.1.32]: release-notes/3.1/3.1.32/3.1.32.md
+[3.0.3]: release-notes/3.0/3.0.3/3.0.3.md
+[2.2.8]: release-notes/2.2/2.2.8/2.2.8.md
+[2.1.30]: release-notes/2.1/2.1.30/2.1.30.md
+[2.0.9]: release-notes/2.0/2.0.9/2.0.9.md
+[1.1.13]: release-notes/1.1/1.1.13/1.1.13.md
+[1.0.16]: release-notes/1.0/1.0.16/1.0.16.md
 
 [policies]: release-policies.md

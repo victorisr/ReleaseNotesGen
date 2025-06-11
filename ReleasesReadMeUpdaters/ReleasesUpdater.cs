@@ -319,7 +319,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
             else if (channelVersion.Contains("."))
             {
                 // Handle final releases with no preview
-                return $"release-notes/{channelVersion}/{latestRelease}.md";
+                return $"release-notes/{channelVersion}/{latestRelease}/{latestRelease}.md";
             }
             else
             {
