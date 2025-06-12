@@ -10,8 +10,8 @@ The following table lists supported releases.
 
 |  Version  | Release Date | Release type | Support phase | Latest Patch Version | End of Support |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| [.NET 9.0](release-notes/9.0/README.md) | [November 12, 2024](https://devblogs.microsoft.com/dotnet/announcing-dotnet-9/) | [STS][policies] | Active | [9.0.6][9.0.6] | TBD |
-| [.NET 8.0](release-notes/8.0/README.md) | [November 14, 2023](https://devblogs.microsoft.com/dotnet/announcing-dotnet-8/) | [LTS][policies] | Active | [8.0.17][8.0.17] | TBD |
+| [.NET 9.0](release-notes/9.0/README.md) | [November 12, 2024](https://devblogs.microsoft.com/dotnet/announcing-dotnet-9/) | [STS][policies] | Active | [9.0.6][9.0.6] | May 12, 2026 |
+| [.NET 8.0](release-notes/8.0/README.md) | [November 14, 2023](https://devblogs.microsoft.com/dotnet/announcing-dotnet-8/) | [LTS][policies] | Active | [8.0.17][8.0.17] | November 10, 2026 |
 
 [9.0.6]: release-notes/9.0/9.0.6/9.0.6.md
 [8.0.17]: release-notes/8.0/8.0.17/8.0.17.md

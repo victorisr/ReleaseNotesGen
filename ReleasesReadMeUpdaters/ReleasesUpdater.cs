@@ -122,7 +122,9 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                     string releaseType = (configData.ReleaseType ?? "TBA").ToUpper();
                     string supportPhase = ToTitleCase(configData.SupportPhase ?? "TBA");
                     string latestRelease = configData.LatestRelease ?? "TBA";
-                    string eolDate = _eolDates.TryGetValue(version, out var eol) ? eol : "TBD";
+                    // Use EOL date from _eolDates, try both version and version + '.0' as keys
+                    string eolDate = _eolDates.TryGetValue(version, out var eol) ? eol :
+                        (_eolDates.TryGetValue(version + ".0", out var eolDot) ? eolDot : "TBD");
                     string launchDate = GetLaunchDate(version);
                     string announcementLink = GetAnnouncementLink(version);
                     string releaseDateColumn = string.IsNullOrEmpty(announcementLink) ? launchDate : $"[{launchDate}]({announcementLink})";
