@@ -2952,3 +2952,23 @@ Created CVE file: OutputDir/9.0-cve.md for version: 9.0
 Timestamp: 6/12/2025 3:47:52 AM
 Created CVE file: OutputDir/8.0-cve.md for version: 8.0
 Timestamp: 6/12/2025 3:47:52 AM
+6/11/2025 8:52:45 PM: Unable to Download Artifacts for 9.0.6, please verify your Personal Azure Token or Build ID is valid. JSON parsing error: '<' is an invalid start of a value. LineNumber: 2 | BytePositionInLine: 0.
+6/11/2025 8:52:45 PM: Unable to Download Artifacts for 8.0.17, please verify your Personal Azure Token or Build ID is valid. JSON parsing error: '<' is an invalid start of a value. LineNumber: 2 | BytePositionInLine: 0.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 6/12/2025 3:52:46 AM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 6/12/2025 3:52:46 AM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 6/12/2025 3:52:46 AM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 6/12/2025 3:52:46 AM
+6/11/2025 8:54:44 PM: Unable to Download Artifacts for 9.0.6, please verify your Personal Azure Token or Build ID is valid. JSON parsing error: '<' is an invalid start of a value. LineNumber: 2 | BytePositionInLine: 0.
+6/11/2025 8:54:44 PM: Unable to Download Artifacts for 8.0.17, please verify your Personal Azure Token or Build ID is valid. JSON parsing error: '<' is an invalid start of a value. LineNumber: 2 | BytePositionInLine: 0.
+Created version README file: OutputDir/9.0-README.md for version: 9.0
+Timestamp: 6/12/2025 3:54:44 AM
+Created version README file: OutputDir/8.0-README.md for version: 8.0
+Timestamp: 6/12/2025 3:54:44 AM
+Created CVE file: OutputDir/9.0-cve.md for version: 9.0
+Timestamp: 6/12/2025 3:54:44 AM
+Created CVE file: OutputDir/8.0-cve.md for version: 8.0
+Timestamp: 6/12/2025 3:54:44 AM

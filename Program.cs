@@ -82,7 +82,7 @@ namespace ReleaseNotesUpdater
                 // REMOVED: Core directory JSON file generation 
                 // The application now works directly with downloaded artifacts and existing core directory files
                 Console.WriteLine("Starting markdown file generation...");                // Create instances of the updater classes
-                var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler, configDirectory);
+                var readMeUpdater = new ReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler, configDirectory, runtimeIds);
                 var releasesUpdater = new ReleasesUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler, configDirectory, runtimeIds);
                 var rnReadMeUpdater = new RNReadMeUpdater(templateDirectory, logFileLocation, outputDirectory, coreDirectory, jsonFileHandler, configDirectory, runtimeIds);
                 var installLinuxUpdater = new InstallLinuxUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
