@@ -16,18 +16,25 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
         private readonly string _coreDirectory;
         private readonly Dictionary<string, string> _launchDates;
         private readonly Dictionary<string, string> _announcementLinks;
-        private readonly JsonFileHandler _jsonFileHandler;        public RNReadMeUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler, string configDirectory)
+        private readonly JsonFileHandler _jsonFileHandler;
+        private readonly List<string> _runtimeIds;
+        private readonly Dictionary<string, string> _eolDates;
+        public RNReadMeUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler, string configDirectory, List<string> runtimeIds)
         {
             _templateDirectory = templateDirectory;
             _logFileLocation = logFileLocation;
             _outputDirectory = outputDirectory;
             _coreDirectory = coreDirectory;
             _jsonFileHandler = jsonFileHandler;
+            _runtimeIds = runtimeIds;
 
             // Load configuration from external JSON files
             var config = _jsonFileHandler.LoadReleaseReferenceConfiguration(configDirectory);
             _launchDates = config.LaunchDates;
             _announcementLinks = config.AnnouncementLinks;
+            // Load EOL dates
+            var eolDatesPath = Path.Combine(configDirectory, "eol-dates.json");
+            _eolDates = _jsonFileHandler.DeserializeJsonFile<Dictionary<string, string>>(eolDatesPath) ?? new();
         }
 
         public void UpdateFiles()
@@ -80,126 +87,113 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
             StringBuilder tableBuilder = new StringBuilder();
             StringBuilder linksBuilder = new StringBuilder();
             StringBuilder markdownFilesBuilder = new StringBuilder();
+            var versionRows = new List<(string Version, string Row, string LinkEntry, string MarkdownFileEntry)>();
 
             tableBuilder.AppendLine("|  Version  | Release Date | Release type | Support phase | Latest Patch Version | End of Support |");
             tableBuilder.AppendLine("| :-- | :-- | :-- | :-- | :-- | :-- |");
 
             try
             {
-                string releaseNotesPath = Path.Combine(_coreDirectory, "core", "release-notes");
-
-                if (!Directory.Exists(releaseNotesPath))
+                foreach (var runtimeId in _runtimeIds)
                 {
-                    throw new DirectoryNotFoundException($"Release Notes folder not found at '{releaseNotesPath}'.");
-                }
-
-                var channelFolders = Directory.GetDirectories(releaseNotesPath);
-
-                // Sort the channel folders in descending order
-                Array.Sort(channelFolders, (x, y) => string.Compare(y, x, StringComparison.OrdinalIgnoreCase));
-
-                foreach (var channelFolder in channelFolders)
-                {
-                    string channelVersion = new DirectoryInfo(channelFolder).Name;
-
-                    // Skip irrelevant folders
-                    if (channelVersion == "download-archives" || channelVersion == "schemas" || channelVersion == "templates")
+                    string? jsonFilePath = _jsonFileHandler.FindJsonFile(runtimeId, $"releases-json-CDN-{runtimeId}.json");
+                    if (jsonFilePath == null)
+                    {
+                        LogError($"CDN JSON not found for runtimeId: {runtimeId}");
+                        continue;
+                    }
+                    var configData = _jsonFileHandler.DeserializeReleasesConfiguration(jsonFilePath);
+                    if (configData == null)
+                    {
+                        LogError($"Could not parse CDN JSON for runtimeId: {runtimeId}");
+                        continue;
+                    }
+                    string version = configData.ChannelVersion ?? runtimeId;
+                    string latestRelease = configData.LatestRelease ?? "TBA";
+                    string supportPhase = ToTitleCase(configData.SupportPhase ?? "TBA");
+                    string releaseType = (configData.ReleaseType ?? "TBA").ToUpper();
+                    // Use EOL date from _eolDates, try both version and version + '.0' as keys
+                    string eolDate = _eolDates.TryGetValue(version, out var eol) ? eol :
+                        (_eolDates.TryGetValue(version + ".0", out var eolDot) ? eolDot : "TBD");
+                    if (supportPhase.Equals("EOL", StringComparison.OrdinalIgnoreCase))
                     {
                         continue;
                     }
-
-                    string releasesFilePath = Path.Combine(channelFolder, "releases.json");
-                    if (File.Exists(releasesFilePath))
+                    if (latestRelease.Contains("preview", StringComparison.OrdinalIgnoreCase))
                     {
-                        // Deserialize safely
-                        CoreReleasesConfiguration? coreReleaseNotes = null;
-                        try
+                        continue;
+                    }
+                    string launchDate = GetLaunchDate(version);
+                    string announcementLink = GetAnnouncementLink(version);
+                    string releaseDateColumn = string.IsNullOrEmpty(announcementLink) ? launchDate : $"[{launchDate}]({announcementLink})";
+                    string versionDisplay = $"[.NET {version}](./{version}/README.md)";
+                    string row = $"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDate} |";
+                    string linkPath;
+                    if (latestRelease.Contains("preview"))
+                    {
+                        string[] previewParts = latestRelease.Split('-');
+                        if (previewParts.Length == 2 && previewParts[1].StartsWith("preview"))
                         {
-                            coreReleaseNotes = _jsonFileHandler.DeserializeCoreReleasesConfiguration(releasesFilePath);
+                            string previewNumber = previewParts[1].Replace("preview.", "preview");
+                            linkPath = $"release-notes/{version}/preview/{previewNumber}/{latestRelease}.md";
                         }
-                        catch (JsonException ex)
+                        else
                         {
-                            LogError($"Failed to parse JSON in '{releasesFilePath}': {ex.Message}");
+                            LogError($"Unexpected preview release format: {latestRelease}");
                             continue;
                         }
-
-                        if (coreReleaseNotes != null)
-                        {
-                            string latestRelease = coreReleaseNotes.LatestRelease ?? "TBA";
-                            string supportPhase = ToTitleCase(coreReleaseNotes.SupportPhase ?? "TBA");
-                            string releaseType = (coreReleaseNotes.ReleaseType ?? "TBA").ToUpper();
-                            string eolDate = FormatDate(coreReleaseNotes.EolDate);
-
-                            // Skip channel versions that are in EOL phase
-                            if (supportPhase.Equals("EOL", StringComparison.OrdinalIgnoreCase))
-                            {
-                                continue;
-                            }
-
-                            // Skip preview versions for markdown file list
-                            if (latestRelease.Contains("preview", StringComparison.OrdinalIgnoreCase))
-                            {
-                                continue;
-                            }
-
-                            // Get the launch date for the channel version
-                            string launchDate = GetLaunchDate(channelVersion);
-
-                            // Generate the release date column with the announcement link if available
-                            string announcementLink = GetAnnouncementLink(channelVersion);
-                            string releaseDateColumn = string.IsNullOrEmpty(announcementLink)
-                                ? launchDate
-                                : $"[{launchDate}]({announcementLink})";
-
-                            tableBuilder.AppendLine($"| [.NET {channelVersion}](./{channelVersion}/README.md) | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDate} |");
-
-                            if (!string.IsNullOrEmpty(latestRelease))
-                            {
-                                // Build the markdown file list
-                                markdownFilesBuilder.AppendLine($"* [{channelVersion}/{latestRelease}/{latestRelease}.md](./{channelVersion}/{latestRelease}/{latestRelease}.md)");
-
-                                // Add the dynamic link for the latest release
-                                string linkPath;
-                                if (latestRelease.Contains("preview"))
-                                {
-                                    // Handle preview releases
-                                    string[] previewParts = latestRelease.Split('-');
-                                    if (previewParts.Length == 2 && previewParts[1].StartsWith("preview"))
-                                    {
-                                        string previewNumber = previewParts[1].Replace("preview.", "preview");
-                                        linkPath = $"release-notes/{channelVersion}/preview/{previewNumber}/{latestRelease}.md";
-                                    }
-                                    else
-                                    {
-                                        LogError($"Unexpected preview release format: {latestRelease}");
-                                        continue;
-                                    }
-                                }
-                                else if (channelVersion.Contains("."))
-                                {
-                                    // Handle final releases with no preview
-                                    linkPath = $"./{channelVersion}/{latestRelease}/{latestRelease}.md";
-                                }
-                                else
-                                {
-                                    // Handle other versions (default logic)
-                                    linkPath = $"./{channelVersion}/{latestRelease}/{latestRelease}.md";
-                                }
-
-                                linksBuilder.AppendLine($"[{latestRelease}]: {linkPath}");
-                            }
-                        }
                     }
+                    else if (version.Contains("."))
+                    {
+                        linkPath = $"./{version}/{latestRelease}/{latestRelease}.md";
+                    }
+                    else
+                    {
+                        linkPath = $"./{version}/{latestRelease}/{latestRelease}.md";
+                    }
+                    string linkEntry = string.IsNullOrEmpty(latestRelease) ? "" : $"[{latestRelease}]: {linkPath}";
+                    string markdownFileEntry = $"* [{version}/{latestRelease}/{latestRelease}.md](./{version}/{latestRelease}/{latestRelease}.md)";
+                    versionRows.Add((version, row, linkEntry, markdownFileEntry));
                 }
             }
             catch (Exception ex)
             {
                 LogError($"An error occurred while generating the markdown table: {ex.Message}");
             }
-
-            markdownFilesList = markdownFilesBuilder.ToString();
+            // Sort versions by numeric value (descending)
+            versionRows = versionRows.OrderByDescending(v => GetVersionSortValue(v.Version)).ToList();
+            foreach (var versionRow in versionRows)
+            {
+                tableBuilder.AppendLine(versionRow.Row);
+            }
+            foreach (var versionRow in versionRows)
+            {
+                if (!string.IsNullOrEmpty(versionRow.LinkEntry))
+                {
+                    linksBuilder.AppendLine(versionRow.LinkEntry);
+                }
+            }
+            foreach (var versionRow in versionRows)
+            {
+                markdownFilesBuilder.AppendLine(versionRow.MarkdownFileEntry);
+            }
             dynamicLinks = linksBuilder.ToString();
+            markdownFilesList = markdownFilesBuilder.ToString();
             return tableBuilder.ToString();
+        }
+        // Helper method to convert version string to a numeric value for sorting
+        private double GetVersionSortValue(string version)
+        {
+            if (double.TryParse(version, out double result))
+            {
+                return result;
+            }
+            var match = System.Text.RegularExpressions.Regex.Match(version, @"(\d+(\.\d+)?)");
+            if (match.Success && double.TryParse(match.Groups[1].Value, out double value))
+            {
+                return value;
+            }
+            return 0;
         }
 
         private string GetLaunchDate(string channelVersion)
