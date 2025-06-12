@@ -1,0 +1,52 @@
+{
+  "7": {
+    "LatestReleaseDate": "November 8, 2022",
+    "LatestRelease": "7.0.20",
+    "ReleaseType": "STS"
+  },
+  "6": {
+    "LatestReleaseDate": "November 8, 2021",
+    "LatestRelease": "6.0.36",
+    "ReleaseType": "LTS"
+  },
+  "5": {
+    "LatestReleaseDate": "November 10, 2020",
+    "LatestRelease": "5.0.17",
+    "ReleaseType": "STS"
+  },
+  "3.1": {
+    "LatestReleaseDate": "December 3, 2019",
+    "LatestRelease": "3.1.32",
+    "ReleaseType": "LTS"
+  },
+  "3.0": {
+    "LatestReleaseDate": "September 23, 2019",
+    "LatestRelease": "3.0.3",
+    "ReleaseType": "STS"
+  },
+  "2.2": {
+    "LatestReleaseDate": "December 4, 2018",
+    "LatestRelease": "2.2.8",
+    "ReleaseType": "STS"
+  },
+  "2.1": {
+    "LatestReleaseDate": "May 30, 2018",
+    "LatestRelease": "2.1.30",
+    "ReleaseType": "LTS"
+  },
+  "2.0": {
+    "LatestReleaseDate": "October 1, 2018",
+    "LatestRelease": "2.0.9",
+    "ReleaseType": "STS"
+  },
+  "1.1": {
+    "LatestReleaseDate": "June 27, 2019",
+    "LatestRelease": "1.1.13",
+    "ReleaseType": "LTS"
+  },
+  "1.0": {
+    "LatestReleaseDate": "June 27, 2019",
+    "LatestRelease": "1.0.16",
+    "ReleaseType": "LTS"
+  }
+}

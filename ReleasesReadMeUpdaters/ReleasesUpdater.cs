@@ -17,19 +17,39 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
         private readonly Dictionary<string, string> _launchDates;
         private readonly Dictionary<string, string> _announcementLinks;
         private readonly Dictionary<string, string> _eolAnnouncementLinks;
-        private readonly JsonFileHandler _jsonFileHandler;        public ReleasesUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler, string configDirectory)
+        private readonly JsonFileHandler _jsonFileHandler;
+        private readonly List<string> _runtimeIds;
+        private readonly Dictionary<string, string> _eolDates;
+        private readonly Dictionary<string, (string LatestRelease, string LatestReleaseDate)> _unsupportedVersions;
+
+        public ReleasesUpdater(string templateDirectory, string logFileLocation, string outputDirectory, string coreDirectory, JsonFileHandler jsonFileHandler, string configDirectory, List<string> runtimeIds)
         {
             _templateDirectory = templateDirectory;
             _logFileLocation = logFileLocation;
             _outputDirectory = outputDirectory;
             _coreDirectory = coreDirectory;
             _jsonFileHandler = jsonFileHandler;
+            _runtimeIds = runtimeIds;
 
             // Load configuration from external JSON files
             var config = _jsonFileHandler.LoadReleaseReferenceConfiguration(configDirectory);
             _launchDates = config.LaunchDates;
             _announcementLinks = config.AnnouncementLinks;
             _eolAnnouncementLinks = config.EolAnnouncementLinks;
+
+            // Load EOL dates
+            var eolDatesPath = Path.Combine(configDirectory, "eol-dates.json");
+            _eolDates = _jsonFileHandler.DeserializeJsonFile<Dictionary<string, string>>(eolDatesPath) ?? new();
+
+            // Load unsupported versions
+            var unsupportedPath = Path.Combine(configDirectory, "unsupported-versions.json");
+            var unsupportedRaw = _jsonFileHandler.DeserializeJsonFile<Dictionary<string, Dictionary<string, string>>>(unsupportedPath) ?? new();
+            _unsupportedVersions = new();
+            foreach (var kvp in unsupportedRaw)
+            {
+                var v = kvp.Value;
+                _unsupportedVersions[kvp.Key] = (v.GetValueOrDefault("LatestRelease", "TBA"), v.GetValueOrDefault("LatestReleaseDate", "TBD"));
+            }
         }
 
         public void UpdateFiles()
@@ -76,155 +96,88 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
 
         private string GenerateMarkdownTable(bool supported, out string dynamicLinks)
         {
-            // Define the table structure
             StringBuilder tableBuilder = new StringBuilder();
             StringBuilder linksBuilder = new StringBuilder();
+            var versionRows = new List<(string Version, string Row, string LinkEntry)>();
 
             if (supported)
             {
                 tableBuilder.AppendLine("|  Version  | Release Date | Release type | Support phase | Latest Patch Version | End of Support |");
                 tableBuilder.AppendLine("| :-- | :-- | :-- | :-- | :-- | :-- |");
+                foreach (var runtimeId in _runtimeIds)
+                {
+                    string? jsonFilePath = _jsonFileHandler.FindJsonFile(runtimeId, $"releases-json-CDN-{runtimeId}.json");
+                    if (jsonFilePath == null)
+                    {
+                        LogError($"CDN JSON not found for runtimeId: {runtimeId}");
+                        continue;
+                    }
+                    var configData = _jsonFileHandler.DeserializeReleasesConfiguration(jsonFilePath);
+                    if (configData == null)
+                    {
+                        LogError($"Could not parse CDN JSON for runtimeId: {runtimeId}");
+                        continue;
+                    }
+                    string version = configData.ChannelVersion ?? runtimeId;
+                    string releaseType = (configData.ReleaseType ?? "TBA").ToUpper();
+                    string supportPhase = ToTitleCase(configData.SupportPhase ?? "TBA");
+                    string latestRelease = configData.LatestRelease ?? "TBA";
+                    string eolDate = _eolDates.TryGetValue(version, out var eol) ? eol : "TBD";
+                    string launchDate = GetLaunchDate(version);
+                    string announcementLink = GetAnnouncementLink(version);
+                    string releaseDateColumn = string.IsNullOrEmpty(announcementLink) ? launchDate : $"[{launchDate}]({announcementLink})";
+                    string eolAnnouncementLink = GetEolAnnouncementLink(version);
+                    string eolDateColumn = string.IsNullOrEmpty(eolAnnouncementLink) ? eolDate : $"[{eolDate}]({eolAnnouncementLink})";
+                    string versionDisplay = $"[.NET {version}](release-notes/{version}/README.md)";
+                    string row = $"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDateColumn} |";
+                    string linkEntry = string.IsNullOrEmpty(latestRelease) ? "" : $"[{latestRelease}]: release-notes/{version}/{latestRelease}/{latestRelease}.md";
+                    versionRows.Add((version, row, linkEntry));
+                }
             }
             else
             {
                 tableBuilder.AppendLine("|  Version  | Release Date | Release type | Latest Patch Version | End of Support |");
                 tableBuilder.AppendLine("| :-- | :-- | :-- | :-- | :-- |");
+                foreach (var kvp in _unsupportedVersions)
+                {
+                    string version = kvp.Key;
+                    var (latestRelease, latestReleaseDate) = kvp.Value;
+                    string eolDate = _eolDates.TryGetValue(version, out var eol) ? eol : "TBD";
+                    // Get release type from unsupported-versions.json if available
+                    string releaseType = "TBA";
+                    if (_unsupportedVersions.TryGetValue(version, out var tuple))
+                    {
+                        // Try to get ReleaseType from the raw JSON (deserialize as Dictionary<string, object> if needed)
+                        var unsupportedRaw = _jsonFileHandler.DeserializeJsonFile<Dictionary<string, Dictionary<string, string>>>(Path.Combine(Directory.GetCurrentDirectory(), "configuration", "unsupported-versions.json"));
+                        if (unsupportedRaw != null && unsupportedRaw.TryGetValue(version, out var dict) && dict.TryGetValue("ReleaseType", out var rtype))
+                        {
+                            releaseType = rtype.ToUpper();
+                        }
+                    }
+                    string versionDisplay = IsLegacyNetCoreVersion(version) ? $"[.NET Core {version}](release-notes/{version}/README.md)" : $"[.NET {version}](release-notes/{version}/README.md)";
+                    string announcementKey = version.Contains(".") ? version : version + ".0";
+                    string announcementLink = GetAnnouncementLink(announcementKey);
+                    string releaseDateColumn = string.IsNullOrEmpty(announcementLink) ? latestReleaseDate : $"[{latestReleaseDate}]({announcementLink})";
+                    string row = $"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | [{latestRelease}][{latestRelease}] | {eolDate} |";
+                    string linkEntry = string.IsNullOrEmpty(latestRelease) ? "" : $"[{latestRelease}]: release-notes/{version}/{latestRelease}/{latestRelease}.md";
+                    versionRows.Add((version, row, linkEntry));
+                }
             }
-
-            try
+            // Sort versions by numeric value (descending)
+            versionRows = versionRows.OrderByDescending(v => GetVersionSortValue(v.Version)).ToList();
+            foreach (var versionRow in versionRows)
             {
-                string releaseNotesPath = Path.Combine(_coreDirectory, "core", "release-notes");
-
-                if (!Directory.Exists(releaseNotesPath))
-                {
-                    throw new DirectoryNotFoundException($"Release Notes folder not found at '{releaseNotesPath}'.");
-                }
-
-                var channelFolders = Directory.GetDirectories(releaseNotesPath);
-
-                // Create a list to collect all rows with their version for sorting
-                var versionRows = new List<(string Version, string Row, string LinkEntry)>();
-
-                // Sort the channel folders in descending order
-                Array.Sort(channelFolders, (x, y) => string.Compare(y, x, StringComparison.OrdinalIgnoreCase));
-
-                foreach (var channelFolder in channelFolders)
-                {
-                    string channelVersion = new DirectoryInfo(channelFolder).Name;
-
-                    // Skip irrelevant folders
-                    if (channelVersion == "download-archives" || channelVersion == "schemas" || channelVersion == "templates")
-                    {
-                        continue;
-                    }
-
-                    string releasesFilePath = Path.Combine(channelFolder, "releases.json");
-                    if (File.Exists(releasesFilePath))
-                    {
-                        CoreReleasesConfiguration? coreReleaseNotes = null;
-
-                        try
-                        {
-                            coreReleaseNotes = _jsonFileHandler.DeserializeCoreReleasesConfiguration(releasesFilePath);
-                        }
-                        catch (JsonException ex)
-                        {
-                            LogError($"Failed to parse JSON in '{releasesFilePath}': {ex.Message}");
-                            continue;
-                        }
-
-                        if (coreReleaseNotes != null)
-                        {
-                            string latestRelease = coreReleaseNotes.LatestRelease ?? "TBA";
-                            string supportPhase = ToTitleCase(coreReleaseNotes.SupportPhase ?? "TBA");
-                            string releaseType = (coreReleaseNotes.ReleaseType ?? "TBA").ToUpper();
-                            string eolDate = FormatDate(coreReleaseNotes.EolDate);
-
-                            // Check support phase against the "supported" parameter
-                            bool isSupported = !supportPhase.Equals("EOL", StringComparison.OrdinalIgnoreCase);
-                            if (supported != isSupported)
-                            {
-                                continue;
-                            }
-
-                            // Get the launch date for the channel version
-                            string launchDate = GetLaunchDate(channelVersion);
-
-                            // Generate the release date column with the announcement link if available
-                            string announcementLink = GetAnnouncementLink(channelVersion);
-                            string releaseDateColumn = string.IsNullOrEmpty(announcementLink)
-                                ? launchDate
-                                : $"[{launchDate}]({announcementLink})";
-
-                            // Generate the EOL date column with the EOL announcement link if available
-                            string eolAnnouncementLink = GetEolAnnouncementLink(channelVersion);
-                            string eolDateColumn = string.IsNullOrEmpty(eolAnnouncementLink)
-                                ? eolDate
-                                : $"[{eolDate}]({eolAnnouncementLink})";
-
-                            // Determine if this is a legacy .NET Core version (1.0-3.1)
-                            bool isLegacyNetCore = IsLegacyNetCoreVersion(channelVersion);
-                            
-                            // Format the version display differently based on supported status and version
-                            string versionDisplay;
-                            if (!supported && isLegacyNetCore)
-                            {
-                                versionDisplay = $"[.NET Core {channelVersion}](release-notes/{channelVersion}/README.md)";
-                            }
-                            else
-                            {
-                                versionDisplay = $"[.NET {channelVersion}](release-notes/{channelVersion}/README.md)";
-                            }
-
-                            string row;
-                            if (supported)
-                            {
-                                row = $"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | {supportPhase} | [{latestRelease}][{latestRelease}] | {eolDateColumn} |";
-                            }
-                            else
-                            {
-                                row = $"| {versionDisplay} | {releaseDateColumn} | [{releaseType}][policies] | [{latestRelease}][{latestRelease}] | {eolDateColumn} |";
-                            }
-
-                            // Add the dynamic link for the latest release
-                            string linkEntry = "";
-                            if (!string.IsNullOrEmpty(latestRelease))
-                            {
-                                string linkPath = GenerateLinkPath(channelVersion, latestRelease);
-                                linkEntry = $"[{latestRelease}]: {linkPath}";
-                            }
-
-                            // Add to collection for sorting
-                            versionRows.Add((channelVersion, row, linkEntry));
-                        }
-                    }
-                }
-
-                // Sort versions by numeric value (descending)
-                versionRows = versionRows.OrderByDescending(v => GetVersionSortValue(v.Version)).ToList();
-
-                // Add rows to table in sorted order
-                foreach (var versionRow in versionRows)
-                {
-                    tableBuilder.AppendLine(versionRow.Row);
-                }
-
-                // Add links in the same order
-                foreach (var versionRow in versionRows)
-                {
-                    if (!string.IsNullOrEmpty(versionRow.LinkEntry))
-                    {
-                        linksBuilder.AppendLine(versionRow.LinkEntry);
-                    }
-                }
+                tableBuilder.AppendLine(versionRow.Row);
             }
-            catch (Exception ex)
+            foreach (var versionRow in versionRows)
             {
-                LogError($"An error occurred while generating the markdown table: {ex.Message}");
+                if (!string.IsNullOrEmpty(versionRow.LinkEntry))
+                {
+                    linksBuilder.AppendLine(versionRow.LinkEntry);
+                }
             }
-
-            dynamicLinks = "\n" + linksBuilder.ToString().TrimEnd(); // Add a single newline after the table and trim trailing empty lines in links
-            return tableBuilder.ToString().TrimEnd(); // Remove trailing empty lines in the table
+            dynamicLinks = "\n" + linksBuilder.ToString().TrimEnd();
+            return tableBuilder.ToString().TrimEnd();
         }
 
         // Helper method to convert version string to a numeric value for sorting
