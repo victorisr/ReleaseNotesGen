@@ -62,10 +62,9 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                                         if (sdkVersion != configData.LatestSdk)
                                         {
                                             string sdkTemplate = Path.Combine(TemplateDirectory, "sdk-template.md");
-                                            string newSdkFile = Path.Combine(outputPath, $"{sdkVersion}.md");
-
-                                            // Ensure the directory for the new file exists
-                                            CreateDirectoryIfNotExists(outputPath);
+                                            string sdkDir = Path.Combine(outputPath, runtimeId);
+                                            CreateDirectoryIfNotExists(sdkDir);
+                                            string newSdkFile = Path.Combine(sdkDir, $"{sdkVersion}.md");
                                             // Modify the template file with data from the configuration and write to the new file
                                             ModifyTemplateFile(sdkTemplate, newSdkFile, sdkVersion, configData, sdk);
                                         }

@@ -60,10 +60,9 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                                 if (release.Runtime.Version == runtimeId)
                                 {
                                     string runtimeTemplate = Path.Combine(TemplateDirectory, "runtime-template.md");
-                                    string newRuntimeFile = Path.Combine(outputPath, $"{runtimeId}.md");
-
-                                    // Ensure the directory for the new file exists
-                                    CreateDirectoryIfNotExists(outputPath);
+                                    string runtimeDir = Path.Combine(outputPath, runtimeId);
+                                    CreateDirectoryIfNotExists(runtimeDir);
+                                    string newRuntimeFile = Path.Combine(runtimeDir, $"{runtimeId}.md");
                                     // Modify the template file with data from the configuration and write to the new file
                                     ModifyTemplateFile(runtimeTemplate, newRuntimeFile, runtimeId, configData, release);
                                 }
