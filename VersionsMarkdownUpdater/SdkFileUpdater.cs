@@ -62,7 +62,8 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                                         if (sdkVersion != configData.LatestSdk)
                                         {
                                             string sdkTemplate = Path.Combine(TemplateDirectory, "sdk-template.md");
-                                            string sdkDir = Path.Combine(outputPath, runtimeId);
+                                            string channelVersion = configData.ChannelVersion ?? "unknown";
+                                            string sdkDir = Path.Combine(outputPath, channelVersion, runtimeId);
                                             CreateDirectoryIfNotExists(sdkDir);
                                             string newSdkFile = Path.Combine(sdkDir, $"{sdkVersion}.md");
                                             // Modify the template file with data from the configuration and write to the new file
