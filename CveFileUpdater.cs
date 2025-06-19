@@ -73,11 +73,12 @@ namespace ReleaseNotesUpdater
                     Console.WriteLine($"Successfully loaded JSON data for runtime ID: {runtimeId}");
 
                     // Create the output directory if it doesn't exist
-                    CreateDirectoryIfNotExists(_outputDirectory);
+                    string channelOutputDir = Path.Combine(_outputDirectory, channelVersion);
+                    CreateDirectoryIfNotExists(channelOutputDir);
 
                     // Define the output path
                     string outputFileName = $"{channelVersion}-cve.md";
-                    string outputFilePath = Path.Combine(_outputDirectory, outputFileName);
+                    string outputFilePath = Path.Combine(channelOutputDir, outputFileName);
 
                     // Read the content of the source cve file
                     string cveContent = File.ReadAllText(sourceCvePath);
