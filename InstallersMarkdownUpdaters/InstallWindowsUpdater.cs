@@ -55,11 +55,13 @@ namespace ReleaseNotesUpdater.InstallersMarkdownUpdaters
                                 // Find the release that matches the current version
                                 if (release.Runtime.Version == runtimeId)
                                 {
+                                    string channelVersion = configData.ChannelVersion ?? "unknown";
                                     string installWindowsTemplate = Path.Combine(TemplateDirectory, "install-windows-template.md");
-                                    string newInstallWindowsFile = Path.Combine(outputPath, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
+                                    string outputDir = Path.Combine(outputPath, channelVersion);
+                                    string newInstallWindowsFile = Path.Combine(outputDir, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
 
                                     // Ensure the directory for the new file exists
-                                    CreateDirectoryIfNotExists(outputPath);
+                                    CreateDirectoryIfNotExists(outputDir);
 
                                     // Check if the file already exists to avoid duplication
                                     if (!File.Exists(newInstallWindowsFile))

@@ -58,8 +58,6 @@ When .NET is installed using the Snap package, the default .NET command is `dotn
 
 **Note:** Some distributions require an additional step to enable access to the SSL certificate. If you experience SSL errors when running `dotnet restore`, see [.NET for Linux Distributions](../../linux.md) for a possible resolution.
 
--->
-
 ## Installing from a binary archive
 
 You can install .NET with a binary archive. This option is required if you want to install .NET for a single user. It is also recommended if you want to install .NET temporarily.

@@ -67,10 +67,12 @@ namespace ReleaseNotesUpdater.InstallersMarkdownUpdaters
                                         installLinuxTemplate = Path.Combine(TemplateDirectory, "install-linux-template.md");
                                     }
 
-                                    string newInstallLinuxFile = Path.Combine(outputPath, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
+                                    // Output to OutputDir/{channelVersion}/
+                                    string outputDir = Path.Combine(outputPath, channelVersion ?? "unknown");
+                                    string newInstallLinuxFile = Path.Combine(outputDir, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
 
                                     // Ensure the directory for the new file exists
-                                    CreateDirectoryIfNotExists(outputPath);
+                                    CreateDirectoryIfNotExists(outputDir);
 
                                     // Check if the file already exists to avoid duplication
                                     if (!File.Exists(newInstallLinuxFile))
