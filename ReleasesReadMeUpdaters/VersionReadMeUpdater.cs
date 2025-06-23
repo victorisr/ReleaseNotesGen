@@ -65,16 +65,15 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                     {
                         Console.WriteLine($"WARNING: Failed to deserialize JSON-CDN file for runtime ID: {runtimeId}");
                         continue;
-                    }
+                    }                    Console.WriteLine($"Successfully loaded JSON data for runtime ID: {runtimeId}");
 
-                    Console.WriteLine($"Successfully loaded JSON data for runtime ID: {runtimeId}");
+                    // Create the channel-specific output directory if it doesn't exist
+                    string channelOutputDirectory = Path.Combine(_outputDirectory, channelVersion);
+                    CreateDirectoryIfNotExists(channelOutputDirectory);
 
-                    // Create the output directory if it doesn't exist
-                    CreateDirectoryIfNotExists(_outputDirectory);
-
-                    // Define the output path
+                    // Define the output path - now using the channel-specific directory
                     string outputFileName = $"{channelVersion}-README.md";
-                    string outputFilePath = Path.Combine(_outputDirectory, outputFileName);
+                    string outputFilePath = Path.Combine(channelOutputDirectory, outputFileName);
 
                     // Read the content of the source README file
                     string readmeContent = File.ReadAllText(sourceReadmePath);
