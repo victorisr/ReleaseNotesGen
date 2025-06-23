@@ -70,10 +70,9 @@ namespace ReleaseNotesUpdater
                         continue;
                     }
 
-                    Console.WriteLine($"Successfully loaded JSON data for runtime ID: {runtimeId}");
-
-                    // Create the output directory if it doesn't exist
-                    string channelOutputDir = Path.Combine(_outputDirectory, channelVersion);
+                    Console.WriteLine($"Successfully loaded JSON data for runtime ID: {runtimeId}");                    // Create the output directory if it doesn't exist - now under release-notes
+                    string releaseNotesDir = Path.Combine(_outputDirectory, "release-notes");
+                    string channelOutputDir = Path.Combine(releaseNotesDir, channelVersion);
                     CreateDirectoryIfNotExists(channelOutputDir);
 
                     // Define the output path

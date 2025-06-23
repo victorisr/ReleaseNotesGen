@@ -56,8 +56,9 @@ namespace ReleaseNotesUpdater.InstallersMarkdownUpdaters
                                 if (release.Runtime.Version == runtimeId)
                                 {
                                     string channelVersion = configData.ChannelVersion ?? "unknown";
-                                    string installWindowsTemplate = Path.Combine(TemplateDirectory, "install-windows-template.md");
-                                    string outputDir = Path.Combine(outputPath, channelVersion);
+                                    string installWindowsTemplate = Path.Combine(TemplateDirectory, "install-windows-template.md");                                    // Output to OutputDir/release-notes/{channelVersion}/
+                                    string releaseNotesDir = Path.Combine(outputPath, "release-notes");
+                                    string outputDir = Path.Combine(releaseNotesDir, channelVersion);
                                     string newInstallWindowsFile = Path.Combine(outputDir, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
 
                                     // Ensure the directory for the new file exists

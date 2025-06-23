@@ -65,10 +65,9 @@ namespace ReleaseNotesUpdater.InstallersMarkdownUpdaters
                                     else
                                     {
                                         installLinuxTemplate = Path.Combine(TemplateDirectory, "install-linux-template.md");
-                                    }
-
-                                    // Output to OutputDir/{channelVersion}/
-                                    string outputDir = Path.Combine(outputPath, channelVersion ?? "unknown");
+                                    }                                    // Output to OutputDir/release-notes/{channelVersion}/
+                                    string releaseNotesDir = Path.Combine(outputPath, "release-notes");
+                                    string outputDir = Path.Combine(releaseNotesDir, channelVersion ?? "unknown");
                                     string newInstallLinuxFile = Path.Combine(outputDir, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
 
                                     // Ensure the directory for the new file exists

@@ -60,10 +60,11 @@ namespace ReleaseNotesUpdater.VersionsMarkdownUpdater
                                     {
                                         string sdkVersion = sdk.Version;
                                         if (sdkVersion != configData.LatestSdk)
-                                        {
-                                            string sdkTemplate = Path.Combine(TemplateDirectory, "sdk-template.md");
+                                        {                                            string sdkTemplate = Path.Combine(TemplateDirectory, "sdk-template.md");
                                             string channelVersion = configData.ChannelVersion ?? "unknown";
-                                            string sdkDir = Path.Combine(outputPath, channelVersion, runtimeId);
+                                            // Create path under release-notes/{channelVersion}/{runtimeId}/
+                                            string releaseNotesDir = Path.Combine(outputPath, "release-notes");
+                                            string sdkDir = Path.Combine(releaseNotesDir, channelVersion, runtimeId);
                                             CreateDirectoryIfNotExists(sdkDir);
                                             string newSdkFile = Path.Combine(sdkDir, $"{sdkVersion}.md");
                                             // Modify the template file with data from the configuration and write to the new file

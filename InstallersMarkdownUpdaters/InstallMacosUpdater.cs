@@ -56,8 +56,9 @@ namespace ReleaseNotesUpdater.InstallersMarkdownUpdaters
                                 if (release.Runtime.Version == runtimeId)
                                 {
                                     string channelVersion = configData.ChannelVersion ?? "unknown";
-                                    string installMacosTemplate = Path.Combine(TemplateDirectory, "install-macos-template.md");
-                                    string outputDir = Path.Combine(outputPath, channelVersion);
+                                    string installMacosTemplate = Path.Combine(TemplateDirectory, "install-macos-template.md");                                    // Output to OutputDir/release-notes/{channelVersion}/
+                                    string releaseNotesDir = Path.Combine(outputPath, "release-notes");
+                                    string outputDir = Path.Combine(releaseNotesDir, channelVersion);
                                     string newInstallMacosFile = Path.Combine(outputDir, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
 
                                     // Ensure the directory for the new file exists

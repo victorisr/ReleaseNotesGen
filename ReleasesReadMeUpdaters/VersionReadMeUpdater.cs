@@ -65,10 +65,9 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                     {
                         Console.WriteLine($"WARNING: Failed to deserialize JSON-CDN file for runtime ID: {runtimeId}");
                         continue;
-                    }                    Console.WriteLine($"Successfully loaded JSON data for runtime ID: {runtimeId}");
-
-                    // Create the channel-specific output directory if it doesn't exist
-                    string channelOutputDirectory = Path.Combine(_outputDirectory, channelVersion);
+                    }                    Console.WriteLine($"Successfully loaded JSON data for runtime ID: {runtimeId}");                    // Create the channel-specific output directory if it doesn't exist - now under release-notes
+                    string releaseNotesDir = Path.Combine(_outputDirectory, "release-notes");
+                    string channelOutputDirectory = Path.Combine(releaseNotesDir, channelVersion);
                     CreateDirectoryIfNotExists(channelOutputDirectory);
 
                     // Define the output path - now using the channel-specific directory
