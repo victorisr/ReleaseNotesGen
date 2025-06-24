@@ -71,7 +71,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                     CreateDirectoryIfNotExists(channelOutputDirectory);
 
                     // Define the output path - now using the channel-specific directory
-                    string outputFileName = $"{channelVersion}-README.md";
+                    string outputFileName = $"README.md";
                     string outputFilePath = Path.Combine(channelOutputDirectory, outputFileName);
 
                     // Read the content of the source README file

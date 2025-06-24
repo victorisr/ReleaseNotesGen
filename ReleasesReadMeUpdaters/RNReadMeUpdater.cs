@@ -64,7 +64,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                     .Replace("SECTION-RELEASE", $"{markdownTable}\n{dynamicLinks}")
                     .Replace("SECTION-MARKDOWNFILES", markdownFilesList);                // Define the output path for the updated file - now in release-notes subdirectory
                 string releaseNotesDir = Path.Combine(_outputDirectory, "release-notes");
-                string outputFilePath = Path.Combine(releaseNotesDir, "2README.md");
+                string outputFilePath = Path.Combine(releaseNotesDir, "README.md");
 
                 // Ensure the release-notes directory exists
                 Directory.CreateDirectory(releaseNotesDir);

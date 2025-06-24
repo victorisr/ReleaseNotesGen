@@ -18,7 +18,7 @@ namespace ReleaseNotesUpdater.InstallersMarkdownUpdaters
         private readonly string outputPath;
 
         // Name of the new file to be created (declared within the class)
-        private readonly string newFileName = "3install-windows";
+        private readonly string newFileName = "install-windows";
 
         // Instance of JsonFileHandler for JSON file handling
         private readonly JsonFileHandler _jsonFileHandler;

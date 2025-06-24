@@ -63,7 +63,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                 string updatedContent = templateContent.Replace("SECTION-RELEASE", $"{markdownTable}\n{dynamicLinks}");
 
                 // Define the output path for the updated file
-                string outputFilePath = Path.Combine(_outputDirectory, "1README.md");
+                string outputFilePath = Path.Combine(_outputDirectory, "README.md");
 
                 // Ensure the output directory exists
                 Directory.CreateDirectory(_outputDirectory);

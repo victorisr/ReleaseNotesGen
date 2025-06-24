@@ -78,7 +78,7 @@ namespace ReleaseNotesUpdater.ReleasesReadMeUpdaters
                     .Replace("SECTION-UNSUPPORTED", unsupportedTable + "\n" + unsupportedLinks);
 
                 // Define the output path for the updated file
-                string outputFilePath = Path.Combine(_outputDirectory, "1releases.md");
+                string outputFilePath = Path.Combine(_outputDirectory, "releases.md");
 
                 // Ensure the output directory exists
                 Directory.CreateDirectory(_outputDirectory);

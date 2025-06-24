@@ -76,7 +76,7 @@ namespace ReleaseNotesUpdater
                     CreateDirectoryIfNotExists(channelOutputDir);
 
                     // Define the output path
-                    string outputFileName = $"{channelVersion}-cve.md";
+                    string outputFileName = $"cve.md";
                     string outputFilePath = Path.Combine(channelOutputDir, outputFileName);
 
                     // Read the content of the source cve file
