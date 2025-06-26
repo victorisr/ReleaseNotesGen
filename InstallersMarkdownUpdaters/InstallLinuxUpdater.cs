@@ -68,7 +68,7 @@ namespace ReleaseNotesUpdater.InstallersMarkdownUpdaters
                                     }                                    // Output to OutputDir/release-notes/{channelVersion}/
                                     string releaseNotesDir = Path.Combine(outputPath, "release-notes");
                                     string outputDir = Path.Combine(releaseNotesDir, channelVersion ?? "unknown");
-                                    string newInstallLinuxFile = Path.Combine(outputDir, $"{newFileName}-{runtimeId.Replace(".", "")}.md");
+                                    string newInstallLinuxFile = Path.Combine(outputDir, $"{newFileName}.md");
 
                                     // Ensure the directory for the new file exists
                                     CreateDirectoryIfNotExists(outputDir);
