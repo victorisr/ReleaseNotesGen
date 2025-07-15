@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using ReleaseNotesUpdater.InstallersMarkdownUpdaters;
@@ -92,6 +93,7 @@ namespace ReleaseNotesUpdater
                 var sdkFileUpdater = new SdkFileUpdater(templateDirectory, logFileLocation, runtimeIds, downloadPath, outputDirectory, jsonFileHandler);
                 var versionReadMeUpdater = new VersionReadMeUpdater(templateDirectory, logFileLocation, coreDirectory, outputDirectory, runtimeIds, jsonFileHandler);
                 var cveFileUpdater = new CveFileUpdater(templateDirectory, logFileLocation, coreDirectory, outputDirectory, runtimeIds, jsonFileHandler, msrcConfigs);
+                var coreDirectorySync = new CoreDirectorySync(templateDirectory, logFileLocation, outputDirectory, coreDirectory, runtimeIds);
 
                 // Update the files
                 readMeUpdater.UpdateFiles();
@@ -104,6 +106,10 @@ namespace ReleaseNotesUpdater
                 sdkFileUpdater.UpdateFiles();
                 versionReadMeUpdater.UpdateFiles();
                 cveFileUpdater.UpdateFiles();
+
+                // Sync files to core directory with backup
+                Console.WriteLine("Starting core directory synchronization...");
+                coreDirectorySync.UpdateFiles();
 
                 Console.WriteLine("All markdown files updated successfully.");
             }

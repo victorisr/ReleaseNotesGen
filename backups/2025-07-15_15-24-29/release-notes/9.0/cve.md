@@ -10,8 +10,6 @@ Your app may be vulnerable to the following published security [CVEs](https://ww
 
 - 9.0.7 (July 2025)
   - [CVE-2025-47992 |  .NET Security Feature Bypass Vulnerability](https://github.com/dotnet/announcements/issues/xxx)
-- 9.0.7 (July 2025)
-  - [CVE-2025-47992 |  .NET Security Feature Bypass Vulnerability](https://github.com/dotnet/announcements/issues/xxx)
 - 9.0.6 (June 2025)
   - [CVE-2025-30399 | .NET Remote Code Execution Vulnerability](https://github.com/dotnet/announcements/issues/362)
 - 9.0.5 (May 2025)
